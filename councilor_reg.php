@@ -1,4 +1,8 @@
 <?php
+
+
+
+
 $title = "Councilor Register";
 $state = "register";
 $banner_title = "Register Now";
@@ -8,6 +12,8 @@ $banner_poster = "./images/banner/banner3.jpg";
 include_once "./layout/head.php";
 $banner = "./layout/banner.php";
 include_once "./layout/navigation_bar.php";
+
+
 ?>
 
 <main class="main">
@@ -121,8 +127,8 @@ include_once "./layout/navigation_bar.php";
                 <div class="col-md-6">
                     <label for="country" class="form-label">Country</label>
                     <select name="country" class="form-select" id="country" required>
-                        <option selected disabled value="">Choose...</option>
-                        <option value="3">Bangladesh</option>
+                        <option disabled value="">Choose...</option>
+
                     </select>
                     <div class="invalid-feedback">
                         Please select country.
@@ -259,7 +265,80 @@ include_once "./layout/navigation_bar.php";
 </main>
 
 
+
+
 <?php
 include_once "./form-validation.php";
 include_once "./layout/footer.php"
 ?>
+
+
+<!-- retrieve data  -->
+<?php
+include "./config/db_connection.php";
+$sql = "SELECT name AS country_name, id  AS country_id, phonecode, nicename FROM country;";
+// $sql = "select * from country";
+if (db_connection()->query($sql)) {
+    $country_data_collection = db_connection()->query($sql);
+    // $country_data_collection = mysqli_fetch_all($country_data_collection_raw, MYSQLI_ASSOC);
+} else {
+    echo "Technical error please email us for your about the problem.";
+}
+?>
+
+
+<script type="text/javascript">
+    let country, countryName, countryId, phoneCode;
+
+    country = document.querySelector("#country");
+
+    // country = country.;
+    phoneCode = document.querySelector('#phone-code');
+
+    let newElement, attribute, content;
+
+
+    let country_data_collection = <?= json_encode(mysqli_fetch_all($country_data_collection, MYSQLI_ASSOC)) ?>;
+    for (let value of country_data_collection) {
+
+        // country data 
+        newElement = document.createElement('option');
+        newElement.textContent = value.country_name;
+        newElement.setAttribute("value", value.country_id);
+        country.append(newElement);
+        // console.log(value);
+
+        // phone code 
+        newElement = document.createElement('option');
+        newElement.textContent = value.phonecode;
+        newElement.setAttribute("value", value.phonecode);
+        phoneCode.append(newElement);
+    }
+
+    country.firstElementChild.setAttribute('selected', '');
+    phoneCode.firstElementChild.setAttribute('selected', '');
+
+
+    // left by here =====================================
+    country.addEventListener('change', (e) => {
+        let selectedCountry = e.target.value;
+
+        for (value of country_data_collection) {
+            if (value.country_id == selectedCountry) {
+                console.log(phoneCode);
+                break;
+            }
+        }
+
+
+    });
+
+
+
+
+
+
+
+    console.log(country);
+    console.log(phoneCode);
+</script>

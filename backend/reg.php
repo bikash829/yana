@@ -15,7 +15,7 @@ $test_POST = array(
     'confirm_pass' => 'fffffffff',
     'country' => 3,
     'phone-code' => '+88',
-    'number' => '10245577',
+    'number' => '010245577',
     'address' => 'mohammadpur',
     'city' => 'Dhaka',
     'zip_code' => '1207',
@@ -60,9 +60,13 @@ if (isset($test['btn-doctor'])) {
 
         //data validation 
         $validation_report = data_validation($test_POST);
-        if (isset($validation_report['status'])) {
+        if (isset($validation_report['status']) && $validation_report['status']) {
             echo "your data has been validated and it's clean now data validation <br>";
-            print_r(data_validation($test_POST));
+            if (save_councilor($validation_report)) {
+                echo "data has been saved successfully";
+            } else {
+                echo "technical problem";
+            }
         } else {
             echo "wrong";
             print_r(data_validation($test_POST));
@@ -118,10 +122,6 @@ if ($validation) {
 }
 
 
-
-
-
-
 function filter_empty_value($data)
 {
 }
@@ -171,15 +171,15 @@ function data_validation($data)
 
     // first name 
 
-    $first_name_validation = alphabetic_velue($data['first_name'],'first name');
-    if ( $first_name_validation == 1) {
+    $first_name_validation = alphabetic_velue($data['first_name'], 'first name');
+    if ($first_name_validation == 1) {
         $data['first_name'] = input_test($data['first_name']);
     } else {
         $validation = false;
         $validation_message['first_name'] =  $first_name_validation;
     }
 
-    $last_name_validation = alphabetic_velue($data['last-name'],'last name');
+    $last_name_validation = alphabetic_velue($data['last-name'], 'last name');
     if ($last_name_validation == 1) {
         $data['last-name'] = input_test($data['last-name']);
     } else {
@@ -210,6 +210,7 @@ function data_validation($data)
         $validation_message['number'] =  numeric_value($data['number']);
     }
 
+
     // address filtering 
     $data['address'] = input_test($data['address']);
 
@@ -225,13 +226,11 @@ function data_validation($data)
     if ($validation) {
         return $data;
     } else {
+        $data = $validation_message;
         $data['status'] = false;
-        return $validation_message;
+        return $data;
     }
 }
-
-
-
 
 // empty data validation  
 function empty_data_validation($data)
@@ -250,7 +249,8 @@ function empty_data_validation($data)
 // querys functions 
 function save_councilor($data)
 {
-    $f_name = $data['first-name'];
+
+    $f_name = $data['first_name'];
     $l_name = $data['last-name'];
     $email = $data['email'];
     $gender = $data['gender'];
