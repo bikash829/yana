@@ -8,6 +8,7 @@ $banner_poster = "./images/banner/banner3.jpg";
 include_once "./layout/head.php";
 $banner = "./layout/banner.php";
 include_once "./layout/navigation_bar.php";
+include "./config/db_connection.php";
 ?>
 
 <main class="main">
@@ -121,7 +122,7 @@ include_once "./layout/navigation_bar.php";
                     <label for="country" class="form-label">Country</label>
                     <select name="country" class="form-select" id="country" required>
                         <option selected disabled value="">Choose...</option>
-                        <option value="counry-name">Bangladesh</option>
+
                     </select>
                     <div class="invalid-feedback">
                         Please select country.
@@ -132,7 +133,7 @@ include_once "./layout/navigation_bar.php";
                     <label for="phone-code" class="form-label">Code</label>
                     <select name="phone-code" class="form-select" id="phone-code" required>
                         <option value="" selected disabled>Choose...</option>
-                        <option value="phone-code">+880</option>
+
                     </select>
                     <div class="invalid-feedback">
                         lease select your valid phone code.
@@ -257,4 +258,5 @@ include_once "./layout/navigation_bar.php";
 <?php
 include_once "./form-validation.php";
 include_once "./layout/footer.php";
+include "./functionalities/country_code_menupulation.php";
 ?>

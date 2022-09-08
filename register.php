@@ -8,6 +8,7 @@ $banner_poster = "./images/banner/banner3.jpg";
 include_once "./layout/head.php";
 $banner = "./layout/banner.php";
 include_once "./layout/navigation_bar.php";
+include "./config/db_connection.php";
 ?>
 
 <main class="main">
@@ -167,5 +168,6 @@ include_once "./layout/navigation_bar.php";
 
 <?php
 include_once "./form-validation.php";
-include_once "./layout/footer.php"
+include_once "./layout/footer.php";
+include "./functionalities/country_code_menupulation.php";
 ?>
