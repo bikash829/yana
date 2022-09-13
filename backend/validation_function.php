@@ -10,7 +10,7 @@ function numeric_value($data)
 }
 
 // numeric validation 
-function alphabetic_velue($data,$name)
+function alphabetic_velue($data, $name)
 {
     // $splt_data = str_split($data);
     // for ($i = 0; $i < count($splt_data); $i++) {
@@ -23,7 +23,7 @@ function alphabetic_velue($data,$name)
     // }
     $pattern = "/[^a-z\s_]/i";
     $result = preg_match($pattern, $data);
-   
+
 
     if ($result) {
         return "The $name should be alphabetical only.";
@@ -47,21 +47,26 @@ function alphabetic_velue($data,$name)
 
 function min_len($data, $len)
 {
-    if (strlen($data) <= $len) {
-        return "The given value's characther minimum length must be $len charecter long.";
-    } else {
+    if (strlen($data) >= $len) {
         return 1;
+    } else {
+
+        return "The given value's characther minimum length must be $len charecter long.";
     }
+
+    print_r($data);
+    exit();
 }
 
 
 // max length
 function max_len($data, $len)
 {
-    if (strlen($data) > $len) {
-        return "The given value's characther maximum length could be $len charecter long.";
-    } else {
+    if (strlen($data) < $len) {
         return 1;
+    } else {
+
+        return "The given value's characther maximum length could be $len charecter long.";
     }
 }
 
@@ -77,8 +82,8 @@ function input_test_primary($data)
 }
 
 
-function contact_no_validation($data){
-
+function contact_no_validation($data)
+{
 }
 
 

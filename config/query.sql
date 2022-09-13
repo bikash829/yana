@@ -26,6 +26,7 @@ CREATE TABLE users(
 -- user additional info 
 CREATE TABLE additional_info(
     id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user_id INT(11) NOT NULL,
     education TEXT,
     working_info TEXT,
     document_name VARCHAR(256),
@@ -45,11 +46,11 @@ CREATE TABLE social_user_link(
     medium_id INT(10) NOT NULL
 );
 -- user additional info link table 
-CREATE TABLE additional_info_link(
-    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    user_id INT(10) NOT NULL,
-    info_id INT(10) NOT NULL
-);
+-- CREATE TABLE additional_info_link(
+--     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+--     user_id INT(10) NOT NULL,
+--     info_id INT(10) NOT NULL
+-- );
 -- create appoINTment table 
 CREATE TABLE appointment(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -109,13 +110,21 @@ CREATE TABLE react(
     react varchar(20) NOT NULL
 );
 -- react link 
-CREATE TABLE user_react(
+CREATE TABLE comment_react(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     react_id INT(2) NOT NULL,
-    post_id int(20),
     comment_id int(20),
     user_id INT(10) NOT NULL
 );
+
+-- post_react 
+CREATE TABLE post_react(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    react_id INT(2) NOT NULL,
+    post_id int(20),
+    user_id INT(10) NOT NULL
+);
+
 -- contact us table  
 CREATE TABLE contact_us(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -134,6 +143,9 @@ ALTER TABLE users
 ADD FOREIGN KEY (role_id) REFERENCES user_role(id);
 
 -- |-- table additional_info
+ALTER TABLE additional_info
+ADD FOREIGN KEY (user_id) REFERENCES users(id);
+
 -- |-- table social_medium 
 
 -- |-- table social_user_link 
@@ -145,11 +157,11 @@ ALTER TABLE social_user_link
 ADD FOREIGN KEY (medium_id) REFERENCES social_medium(id);
 -- |-- table additional_info_link
 -- users id
-ALTER TABLE additional_info_link
-ADD FOREIGN KEY (user_id) REFERENCES users(id);
+-- ALTER TABLE additional_info_link
+-- ADD FOREIGN KEY (user_id) REFERENCES users(id);
 -- info id
-ALTER TABLE additional_info_link
-ADD FOREIGN KEY (info_id) REFERENCES additional_info(id);
+-- ALTER TABLE additional_info_link
+-- ADD FOREIGN KEY (info_id) REFERENCES additional_info(id);
 
 
 -- |-- table appointment
@@ -180,22 +192,31 @@ ADD FOREIGN KEY (user_id) REFERENCES users(id);
 
 -- |-- table react 
 
--- |-- table user_react 
+-- |-- table comment_react 
 -- user id
-ALTER TABLE user_react
+ALTER TABLE comment_react
 ADD FOREIGN KEY (user_id) REFERENCES users(id);
 
 -- react id
-ALTER TABLE user_react
+ALTER TABLE comment_react
 ADD FOREIGN KEY (react_id) REFERENCES react(id);
+-- comment_id
+ALTER TABLE comment_react
+ADD FOREIGN KEY (comment_id) REFERENCES comments(id);
 
--- forum id
-ALTER TABLE user_react
+-- | -- table post_react 
+-- user id
+ALTER TABLE post_react
+ADD FOREIGN KEY (user_id) REFERENCES users(id);
+
+-- react id
+ALTER TABLE post_react
+ADD FOREIGN KEY (react_id) REFERENCES react(id);
+-- comment_id
+ALTER TABLE post_react
 ADD FOREIGN KEY (post_id) REFERENCES forum(id);
 
--- comment id
-ALTER TABLE user_react
-ADD FOREIGN KEY (comment_id) REFERENCES comments(id);
+
 
 -- |-- table contact_us 
 

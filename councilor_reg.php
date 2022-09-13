@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 $title = "Councilor Register";
 $state = "register";
 $banner_title = "Register Now";
@@ -30,18 +27,18 @@ include "./config/db_connection.php";
             <h2 class="reg-form__title">Councilor Registration Form</h2>
 
 
-            <form name="frm_councilor" action="./backend/reg.php" method="POST" class="row g-3 needs-validation register" novalidate>
+            <form name="frm_councilor" action="./backend/reg.php" method="POST" enctype="multipart/form-data" class="row g-3 needs-validation register" novalidate>
                 <!-- name  -->
                 <div class="col-md-6">
                     <label for="first_name" class="form-label">First Name</label>
-                    <input name="first-name" type="text" class="form-control" id="first_name" placeholder="First Name" required>
+                    <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name" required>
                     <div class="invalid-feedback">
                         Please enter your first name.
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="last_name" class="form-label">Last name</label>
-                    <input name="last-name" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
+                    <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
                     <div class="invalid-feedback">
                         Please enter your last name.
                     </div>
@@ -163,12 +160,9 @@ include "./config/db_connection.php";
                 </div>
                 <div class="col-md-3">
                     <label for="city_" class="form-label">City</label>
-                    <select name="city" class="form-select " id="city_" aria-describedby="validationServer04Feedback" required>
-                        <option selected disabled value="">Choose...</option>
-                        <option value="city_name">...</option>
-                    </select>
-                    <div id="validationServer04Feedback" class="invalid-feedback">
-                        Please select your city.
+                    <input name="city" type="text" class="form-control" id="city_" required>
+                    <div id="validationServer05Feedback" class="invalid-feedback">
+                        Please enter your city name.
                     </div>
                 </div>
                 <div class="col-md-3">

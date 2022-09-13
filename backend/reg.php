@@ -5,101 +5,88 @@ include "./essential_function.php";
 
 
 // ==============================testing field=============================
-$test_POST = array(
-    'first_name' => 'Mayesha',
-    'last-name' => 'Fahmida',
-    'email' => 'mayeshafahmida90@gmail.com',
-    'gender' => 'male',
-    'date-of-birth' => '2022-08-02',
-    'password' => 'fffffffff',
-    'confirm_pass' => 'fffffffff',
-    'country' => 3,
-    'phone-code' => '+88',
-    'number' => '010245577',
-    'address' => 'mohammadpur',
-    'city' => 'Dhaka',
-    'zip_code' => '1207',
-    'education_info' => '[ed somewhere] [ed someplace] [ed some destination]',
-    'working_info' => '[somewhere] [someplace] [some destination]',
-    'xp_info_doc' => 'Screenshot (1).png',
-    'pp' => 'Screenshot (1).png',
-    'user_role' => 2,
-    'btn-councilor' => 'frm-councilor'
-);
+// if(isset($_POST)){
+//     print_r($_POST);
 
+// }
 
+// exit();
 
-
+// $_POST = array(
+//     'first_name' => 'Mayesha',
+//     'last-name' => 'Fahmida',
+//     'email' => 'mayeshafahmida90@gmail.com',
+//     'gender' => 'male',
+//     'date-of-birth' => '2022-08-02',
+//     'password' => 'fffffffff',
+//     'confirm_pass' => 'fffffffff',
+//     'country' => 3,
+//     'phone-code' => '+88',
+//     'number' => '010245577',
+//     'address' => 'mohammadpur',
+//     'city' => 'Dhaka',
+//     'zip_code' => '1207',
+//     'education_info' => '[ed somewhere] [ed someplace] [ed some destination]',
+//     'working_info' => '[somewhere] [someplace] [some destination]',
+//     'xp_info_doc' => 'Screenshot (1).png',
+//     'pp' => 'Screenshot (1).png',
+//     'user_role' => 2,
+//     'btn-councilor' => 'frm-councilor'
+// );
 
 // ================================end testing field =========================
-
+//validation report flag
 $validation = true;
 $validation_message = [];
 
-// print_r($test_POST);
-// exit();
 
-if (isset($test['btn-doctor'])) {
+
+
+
+if (isset($test['btn-doctor'])) { // Doctor validation
     echo "Hello  doctor";
-    print_r($test_POST);
-} elseif (isset($test_POST['btn-councilor'])) {
+    print_r($_POST);
+} elseif (isset($_POST['btn-councilor'])) { // councilor validation
 
     // optional data 
-    $pp = $test_POST['pp'];
-    unset($test_POST['pp']);
-    $working_info  = $test_POST['working_info'];
-    unset($test_POST['working_info']);
+    $pp = $_POST['pp'];
+    unset($_POST['pp']);
+    $working_info  = $_POST['working_info'];
+    unset($_POST['working_info']);
 
-    // $test_POST['first-name'] = "";
-
-
-    if (empty_data_validation($test_POST)) {
+    // data filtering 
+    if (empty_data_validation($_POST)) { //empty value guard
         // re-set optional data 
-        $test_POST['pp'] = $pp;
-        $test_POST['working_info'] = $working_info;
+        $_POST['pp'] = $pp;
+        $_POST['working_info'] = $working_info;
 
         //data validation 
-        $validation_report = data_validation($test_POST);
+        $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
-            echo "your data has been validated and it's clean now data validation <br>";
             if (save_councilor($validation_report)) {
-                echo "data has been saved successfully";
+                $validation_message['success'] = "Your account has been created successfully.";
             } else {
-                echo "technical problem";
+                $validation_message['technical_error'] = "technical problem";
+                $validation = false;
             }
         } else {
-            echo "wrong";
-            print_r(data_validation($test_POST));
+            echo "Data validation : *************";
+            $validation = false;
+            $validation_message = data_validation($_POST);
         }
     } else {
-        echo "You must give every required information";
+        $validation_message['empty_checker'] = "You must give every required information";
+        $validation  = false;
         exit();
     }
-
-
-    // empty data validaiton 
-    //  $result = empty_data_validation($test_POST);
-
-    //  print_r($result);
-    //  var_dump($result);
-    //  exit();
-
-
-
-
-
-
-    // $result = save_councilor($test_POST);
-    // print_r($result);
-
-} elseif (isset($test_POST['btn-patient'])) {
+} elseif (isset($_POST['btn-patient'])) {
     /*
-    unset($test_POST['pp']);
-    unset($test_POST['xp_info_doc']);
-    unset($test_POST['working_info']);
+    unset($_POST['pp']);
+    unset($_POST['xp_info_doc']);
+    unset($_POST['working_info']);
     */
     echo "Hello patient";
-    print_r($test_POST);
+    print_r($_POST);
 } else {
     $validation = false;
     $validation_message['wrong_form'] = "The form request is invalid";
@@ -116,58 +103,20 @@ if (isset($test['btn-doctor'])) {
 
 // validation checkup 
 if ($validation) {
-    echo "Hei  everthing is super  clean";
+    print_r($validation_message);
 } else {
     print_r($validation_message);
 }
 
 
-function filter_empty_value($data)
-{
-}
 
-function councilorReg($data)
-{
-}
-
-function patientReg($data)
-{
-}
-
-
-// form validation 
+// =================form validation 
 function data_validation($data)
 {
-    // $f_name = $data['first-name'];
-    // $l_name = $data['last-name'];
-    // $email = $data['email'];
-    // $gender = $data['gender'];
-    // $date_of_birth = $data['date-of-birth'];
-    // $pass = $data['password'];
-    // $confirm_pass = $data['confirm_pass'];
-    // $country_id = $data['country'];
-    // $phone_code = $data['phone-code'];
-    // $phone_number = $data['number'];
-    // $addr = $data['address'];
-    // $city = $data['city'];
-    // $zip_code = $data['zip_code'];
-
-    // $profile_photo = $data['pp'];
-
-    // $profile_location = "storage/pp/";
-    // $user_role = $data['user_role'];
-
-    // // ===============additional info 
-    // $education = $data['education_info'];
-    // $working_info = $data['working_info'];
-    // $document_name = $data['xp_info_doc'];
-    // $document_location = "storage/document/";
-
     // checker 
     $validation = true;
     $validation_message = [];
     $data['status'] = true;
-
 
     // first name 
 
@@ -179,18 +128,30 @@ function data_validation($data)
         $validation_message['first_name'] =  $first_name_validation;
     }
 
-    $last_name_validation = alphabetic_velue($data['last-name'], 'last name');
+    $last_name_validation = alphabetic_velue($data['last_name'], 'last name');
     if ($last_name_validation == 1) {
-        $data['last-name'] = input_test($data['last-name']);
+        $data['last_name'] = input_test($data['last_name']);
     } else {
         $validation = false;
-        $validation_message['last-name'] =  $last_name_validation;
+        $validation_message['last_name'] =  $last_name_validation;
     }
 
-    input_test($data['email']);
+
+    // email validation 
+    $email_valid = $data['email'];
+    $sql = "SELECT * FROM users WHERE `email` = '$email_valid'";
+    if (db_connection()->query($sql)->num_rows < 1) {
+        input_test($data['email']);
+    } else {
+        $validation = false;
+        $validation_message['duplicate_email'] =  'The email has already been registered please try with new email';
+    }
+
+
 
     // password validation
     if (min_len($data['password'], 8) == 1) {
+
         if ($data['password'] == $data['confirm_pass']) {
             $data['password'] = md5($data['password']);
         } else {
@@ -232,7 +193,7 @@ function data_validation($data)
     }
 }
 
-// empty data validation  
+// ===========================empty data validation  
 function empty_data_validation($data)
 {
     foreach ($data as $key => $value) {
@@ -246,12 +207,12 @@ function empty_data_validation($data)
 
 
 
-// querys functions 
+// ================querys functions 
 function save_councilor($data)
 {
 
     $f_name = $data['first_name'];
-    $l_name = $data['last-name'];
+    $l_name = $data['last_name'];
     $email = $data['email'];
     $gender = $data['gender'];
     $date_of_birth = $data['date-of-birth'];
@@ -284,40 +245,29 @@ function save_councilor($data)
         '$f_name', '$l_name', '$email', '$gender', '$date_of_birth', '$pass', '$country_id', '$phone_code', '$phone_number', '$addr', '$city', '$zip_code', '$profile_photo', '$profile_location',$user_role 
     );";
 
-    // query for additional info 
-    $sql .= "INSERT INTO additional_info(
-        education, workiing_place, document_name, document_location
-    )
-    VALUES(
-        '$education', '$working_info', '$document_name', '$document_location'
-    );";
+    if (db_connection()->query($sql)) {
 
+        $sql = "SELECT id FROM users WHERE `email` = '$email' AND `pass` = '$pass'";
+        if (db_connection()->query($sql)) {
+            $u_id  = (db_connection()->query($sql))->fetch_assoc()['id'];
 
-    // echo $sql;
-    // exit();
+            // query for additional info 
+            $sql = "INSERT INTO additional_info(
+                education, user_id, working_info , document_name, document_location
+            )
+            VALUES(
+                '$education',  $u_id , '$working_info', '$document_name', '$document_location'
+            );";
 
-
-    // query for link user info 
-    // $sql .= "INSERT INTO additional_info_link(
-    //     `user_id`, `info_id`
-    // )
-    // VALUES(
-    //     $user_id, $info_id
-    // );";
-
-
-    if (db_connection()->multi_query($sql) === TRUE) {
-        return "Your data has been inserted successfully";
+            if (db_connection()->query($sql)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     } else {
-        return "Insert councilor  query error check it properly";
+        return false;
     }
 }
-
-
-
-
-
-
-
-
-// print_r($validation_message);
