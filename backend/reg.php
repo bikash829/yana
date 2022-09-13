@@ -35,13 +35,15 @@ include "./essential_function.php";
 // );
 
 // ================================end testing field =========================
-//validation report flag
+
+
+//++++++++++++++++++++++validation report flag
 $validation = true;
 $validation_message = [];
 
 
 
-
+// =====================================empty registration session =================
 
 if (isset($test['btn-doctor'])) { // Doctor validation
     echo "Hello  doctor";
@@ -49,20 +51,18 @@ if (isset($test['btn-doctor'])) { // Doctor validation
 } elseif (isset($_POST['btn-councilor'])) { // councilor validation
 
     // optional data 
-    $pp = $_POST['pp'];
-    unset($_POST['pp']);
     $working_info  = $_POST['working_info'];
     unset($_POST['working_info']);
 
     // data filtering 
     if (empty_data_validation($_POST)) { //empty value guard
         // re-set optional data 
-        $_POST['pp'] = $pp;
         $_POST['working_info'] = $working_info;
 
         //data validation 
         $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
+            
             if (save_councilor($validation_report)) {
                 $validation_message['success'] = "Your account has been created successfully.";
             } else {
@@ -92,13 +92,7 @@ if (isset($test['btn-doctor'])) { // Doctor validation
     $validation_message['wrong_form'] = "The form request is invalid";
 }
 
-// =====================================empty session =================
-
-
-
-
-
-
+// =====================================empty registration session =================
 
 
 // validation checkup 
@@ -184,6 +178,70 @@ function data_validation($data)
 
     $data['working_info'] = input_test_primary($data['working_info']);
 
+
+    // files attatchment 
+    if (isset($_FILES['pp'])) {
+        $profile_photo = $_FILES['pp'];
+        $pp_name = $profile_photo['name'];
+        $pp_explotion = explode('.', $profile_photo['name']);
+        $pp_type = strtolower(end($pp_explotion));
+        $pp_error = $profile_photo['error'];
+        $pp_size_kb = $profile_photo['size'] / 1024;
+        $pp_temp_location = $profile_photo['tmp_name'];
+
+        $allowed_pp_Ext = array('png', 'jpg', 'jpeg', 'gif');
+        if ($pp_error == 0) {
+            if (in_array($pp_type, $allowed_pp_Ext)) {
+                // new directory and name 
+                $pp_dir = '../uploads/profile_photo/';
+                $pp_new_name = "pp" . time() . mt_rand() . ".$pp_type";
+                $data['profile_photo'] = array(
+                    'pp' => $pp_new_name,
+                    'pp_location' => $pp_dir,
+                    'pp_temp_location' => $pp_temp_location
+                );
+            } else {
+                $validation = false;
+                $validation_message['pp_error'] =  "The profile picture type is not valid. Please Select an image file.";
+            }
+        } else {
+            $validation = false;
+            $validation_message['pp_error'] =  "There is an error by uploading your profile picture.";
+        }
+    }
+
+    if (isset($_FILES['xp_info_doc'])) {
+        $edu_attachment = $_FILES['xp_info_doc'];
+
+        $edu_name = $edu_attachment['name'];
+        $edu_explotion = explode('.', $edu_attachment['name']);
+        $edu_type = strtolower(end($edu_explotion));
+        $edu_error = $edu_attachment['error'];
+        $edu_size_kb = $edu_attachment['size'] / 1024;
+        $edu_temp_location = $edu_attachment['tmp_name'];
+
+
+
+
+
+        if ($edu_error == 0) {
+            // new directory and name 
+            $edu_dir = '../uploads/educatoinal_doc/';
+            $edu_new_name = "edu" . time() . mt_rand() . ".$edu_type";
+
+            $data['edu_doc'] = array(
+                'edu_doc_name' => $edu_new_name,
+                'edu_location' => $edu_dir,
+                'edu_temp_location' => $edu_temp_location
+            );
+        } else {
+            $validation = false;
+            $validation_message['edu_error'] =  "There is an error by uploading educational documents please try again.";
+        }
+    }
+
+
+    // validation status 
     if ($validation) {
         return $data;
     } else {
@@ -207,7 +265,7 @@ function empty_data_validation($data)
 
 
 
-// ================querys functions 
+// ============================ querys functions 
 function save_councilor($data)
 {
 
@@ -217,24 +275,25 @@ function save_councilor($data)
     $gender = $data['gender'];
     $date_of_birth = $data['date-of-birth'];
     $pass = $data['password'];
-    $confirm_pass = $data['confirm_pass'];
     $country_id = $data['country'];
     $phone_code = $data['phone-code'];
     $phone_number = $data['number'];
     $addr = $data['address'];
     $city = $data['city'];
     $zip_code = $data['zip_code'];
-
-    $profile_photo = $data['pp'];
-
-    $profile_location = "storage/pp/";
+    // profile photo 
+    $profile_photo = $data['profile_photo']['pp'];
+    $profile_location = $data['profile_photo']['pp_location'];
+    
     $user_role = $data['user_role'];
 
     // additional info 
     $education = $data['education_info'];
     $working_info = $data['working_info'];
-    $document_name = $data['xp_info_doc'];
-    $document_location = "storage/document/";
+
+
+    $document_name = $data['edu_doc']['edu_doc_name'];
+    $document_location = $data['edu_doc']['edu_location'];
 
 
     // query for users data 
@@ -246,9 +305,11 @@ function save_councilor($data)
     );";
 
     if (db_connection()->query($sql)) {
-
+        //query for user table data 
         $sql = "SELECT id FROM users WHERE `email` = '$email' AND `pass` = '$pass'";
         if (db_connection()->query($sql)) {
+            move_uploaded_file($data['profile_photo']['pp_temp_location'],$profile_location . $profile_photo);
+
             $u_id  = (db_connection()->query($sql))->fetch_assoc()['id'];
 
             // query for additional info 
@@ -260,6 +321,7 @@ function save_councilor($data)
             );";
 
             if (db_connection()->query($sql)) {
+                move_uploaded_file($data['edu_doc']['edu_temp_location'],  $document_location . $document_name);
                 return true;
             } else {
                 return false;
