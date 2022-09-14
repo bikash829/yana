@@ -90,7 +90,7 @@ include "./config/db_connection.php";
                 <!-- date of birth  -->
                 <div class="col-md-6">
                     <label for="dob" class="form-label">Date Of Birth</label>
-                    <input name="date-of-birth" type="date" class="form-control" id="dob" required>
+                    <input name="date-of-birth" type="date"  class="form-control" id="dob" required>
                     <div class="invalid-feedback">
                         Please provide a valid date of birth.
                     </div>
@@ -264,3 +264,7 @@ include_once "./form-validation.php";
 include_once "./layout/footer.php";
 include "./functionalities/country_code_menupulation.php";
 ?>
+
+<script>
+    document.getElementById('dob').max = "2015-05-05";
+</script>

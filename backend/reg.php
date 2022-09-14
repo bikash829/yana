@@ -4,38 +4,6 @@ include "./validation_function.php";
 include "./essential_function.php";
 
 
-// ==============================testing field=============================
-// if(isset($_POST)){
-//     print_r($_POST);
-
-// }
-
-// exit();
-
-// $_POST = array(
-//     'first_name' => 'Mayesha',
-//     'last-name' => 'Fahmida',
-//     'email' => 'mayeshafahmida90@gmail.com',
-//     'gender' => 'male',
-//     'date-of-birth' => '2022-08-02',
-//     'password' => 'fffffffff',
-//     'confirm_pass' => 'fffffffff',
-//     'country' => 3,
-//     'phone-code' => '+88',
-//     'number' => '010245577',
-//     'address' => 'mohammadpur',
-//     'city' => 'Dhaka',
-//     'zip_code' => '1207',
-//     'education_info' => '[ed somewhere] [ed someplace] [ed some destination]',
-//     'working_info' => '[somewhere] [someplace] [some destination]',
-//     'xp_info_doc' => 'Screenshot (1).png',
-//     'pp' => 'Screenshot (1).png',
-//     'user_role' => 2,
-//     'btn-councilor' => 'frm-councilor'
-// );
-
-// ================================end testing field =========================
-
 
 //++++++++++++++++++++++validation report flag
 $validation = true;
@@ -62,7 +30,7 @@ if (isset($test['btn-doctor'])) { // Doctor validation
         //data validation 
         $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
-            
+
             if (save_councilor($validation_report)) {
                 $validation_message['success'] = "Your account has been created successfully.";
             } else {
@@ -194,7 +162,7 @@ function data_validation($data)
             if (in_array($pp_type, $allowed_pp_Ext)) {
                 // new directory and name 
                 $pp_dir = '../uploads/profile_photo/';
-                $pp_new_name = "pp" . time() . mt_rand() . ".$pp_type";
+                $pp_new_name = $data['first_name'] . "_pp" . time() . mt_rand() . ".$pp_type";
                 $data['profile_photo'] = array(
                     'pp' => $pp_new_name,
                     'pp_location' => $pp_dir,
@@ -225,15 +193,21 @@ function data_validation($data)
 
 
         if ($edu_error == 0) {
-            // new directory and name 
-            $edu_dir = '../uploads/educatoinal_doc/';
-            $edu_new_name = "edu" . time() . mt_rand() . ".$edu_type";
+            $allowed_edu_doc = array('docx', 'doc', 'pdf');
+            if (in_array($edu_type, $allowed_edu_doc)) {
+                // new directory and name 
+                $edu_dir = '../uploads/educatoinal_doc/';
+                $edu_new_name = $data['first_name'] . "_edu" . time() . mt_rand() . ".$edu_type";
 
-            $data['edu_doc'] = array(
-                'edu_doc_name' => $edu_new_name,
-                'edu_location' => $edu_dir,
-                'edu_temp_location' => $edu_temp_location
-            );
+                $data['edu_doc'] = array(
+                    'edu_doc_name' => $edu_new_name,
+                    'edu_location' => $edu_dir,
+                    'edu_temp_location' => $edu_temp_location
+                );
+            } else {
+                $validation = false;
+                $validation_message['edu_error'] =  "The file should be an pdf or word doccument.";
+            }
         } else {
             $validation = false;
             $validation_message['edu_error'] =  "There is an error by uploading educational documents please try again.";
@@ -284,7 +258,7 @@ function save_councilor($data)
     // profile photo 
     $profile_photo = $data['profile_photo']['pp'];
     $profile_location = $data['profile_photo']['pp_location'];
-    
+
     $user_role = $data['user_role'];
 
     // additional info 
@@ -308,7 +282,7 @@ function save_councilor($data)
         //query for user table data 
         $sql = "SELECT id FROM users WHERE `email` = '$email' AND `pass` = '$pass'";
         if (db_connection()->query($sql)) {
-            move_uploaded_file($data['profile_photo']['pp_temp_location'],$profile_location . $profile_photo);
+            move_uploaded_file($data['profile_photo']['pp_temp_location'], $profile_location . $profile_photo);
 
             $u_id  = (db_connection()->query($sql))->fetch_assoc()['id'];
 
