@@ -16,11 +16,11 @@ include "./config/db_connection.php";
         <div class="reg-form-container">
             <h2 class="reg-form__title">Registration Form</h2>
 
-            <form name="frm_patient" action="./backend/reg.php" class="row g-3 needs-validation register" novalidate>
+            <form name="frm_patient" action="./backend/reg.php" method="POST" enctype="multipart/form-data" class="row g-3 needs-validation register" novalidate>
                 <!-- name      -->
                 <div class="col-md-6">
                     <label for="first_name" class="form-label">First Name</label>
-                    <input name="first-name" type="text" class="form-control" id="first_name" placeholder="First Name" required>
+                    <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name" required>
                     <div class="invalid-feedback">
                         Please enter your first name.
                     </div>
@@ -29,7 +29,7 @@ include "./config/db_connection.php";
 
                 <div class="col-md-6">
                     <label for="last_name" class="form-label">Last name</label>
-                    <input name="last-name" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
+                    <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
                     <div class="invalid-feedback">
                         Please enter your last name.
                     </div>
@@ -71,7 +71,6 @@ include "./config/db_connection.php";
                                 </label>
                             </div>
                         </div>
-                        <input name="gender" value="other" type="hidden" class="form-check-input" id="test">
 
                         <div id="gender-validation" class="invalid-feedback">
                             Please select your gender.
@@ -83,8 +82,8 @@ include "./config/db_connection.php";
 
                 <!-- date of birth  -->
                 <div class="col-md-6">
-                    <label for="dob" class="form-label">Date Of Birth</label>
-                    <input name="date-of-birth" type="date" class="form-control" id="dob" required>
+                    <label for="user_dob" class="form-label">Date Of Birth</label>
+                    <input name="date-of-birth" type="date" class="form-control" id="user_dob" required>
                     <div class="invalid-feedback">
                         Please provide a valid date of birth.
                     </div>
@@ -115,7 +114,7 @@ include "./config/db_connection.php";
                 <!-- Contact and country  -->
                 <div class="col-md-6">
                     <label for="country" class="form-label">Country</label>
-                    <select name="country" class="form-select" id="country">
+                    <select name="country" class="form-select" id="country" required>
                         <option value="" selected disabled>Choose...</option>
                         <option value="country-name">Bangladesh</option>
                     </select>
@@ -128,7 +127,6 @@ include "./config/db_connection.php";
                     <label for="phone-code" class="form-label">Code</label>
                     <select name="phone-code" class="form-select" id="phone-code">
                         <option value="" selected disabled>Choose...</option>
-                        <option value="phone-code">+880</option>
                     </select>
                     <div class="invalid-feedback">
                         lease select your valid phone code.
@@ -143,6 +141,34 @@ include "./config/db_connection.php";
                     </div>
                 </div>
 
+                <!-- address info  -->
+                <div class="col-md-6">
+                    <label for="address_" class="form-label">Address</label>
+                    <input name="address" type="text" class="form-control" id="address_" aria-describedby="validationServer03Feedback">
+                    <div id="validationServer03Feedback" class="invalid-feedback">
+                        Please provide a valid address.
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="city_" class="form-label">City</label>
+                    <input name="city" type="text" class="form-control" id="city_">
+                    <div id="validationServer05Feedback" class="invalid-feedback">
+                        Please enter your city name.
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="zip_" class="form-label">Zip</label>
+                    <input name="zip_code" type="text" class="form-control" id="zip_">
+                    <div id="validationServer05Feedback" class="invalid-feedback">
+                        Please enter your zip-code.
+                    </div>
+                </div>
+
+
+                <input type="hidden" name="user_role" value="4">
+
+
+
 
                 <div class="col-12">
                     <div class="form-check m-auto">
@@ -156,7 +182,7 @@ include "./config/db_connection.php";
                     </div>
                 </div>
                 <div class="col-12 d-grid">
-                    <button name="btn_patient" type="submit" class="btn btn-primary">Register Now</button>
+                    <button name="btn_patient" value="reg_patient" type="submit" class="btn btn-primary">Register Now</button>
                 </div>
             </form>
 
@@ -165,9 +191,23 @@ include "./config/db_connection.php";
     </section>
 </main>
 
+<script>
+    let ageGuard = document.getElementById('user_dob');
+    let currentDate = new Date();
+    
+    let currentDay, currentMonth, currentYear;
+    currentDay = currentDate.getDay() < 10 ? `0${currentDate.getDay()}` : currentDate.getDay();
+    currentMonth = currentDate.getMonth() < 10 ? `0${currentDate.getMonth()}` : currentDate.getMonth();
+    currentYear = currentDate.getFullYear();
 
+    let minYear = `${currentYear-10}-${currentMonth}-${currentDay}`;
+
+    ageGuard.max = minYear;
+    
+</script>
 <?php
 include_once "./form-validation.php";
 include_once "./layout/footer.php";
+
 include "./functionalities/country_code_menupulation.php";
 ?>

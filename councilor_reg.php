@@ -266,5 +266,5 @@ include "./functionalities/country_code_menupulation.php";
 ?>
 
 <script>
-    document.getElementById('dob').max = "2015-05-05";
+    document.getElementById('dob').max = "2015-12-05";
 </script>

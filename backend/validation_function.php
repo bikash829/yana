@@ -95,3 +95,13 @@ function input_test($data)
 
     return $data;
 }
+
+
+function empty_value($data){
+    if(isset($data)){
+        return $data;
+    }else{
+        return null;
+    }
+
+}

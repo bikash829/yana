@@ -23,19 +23,19 @@ include "./config/db_connection.php";
     <section class="segment-margin register-container">
         <div class="reg-form-container">
             <h2 class="reg-form__title">Doctor Registration Form</h2>
-            <form name="frm_doc" action="./backend/reg.php" method="POST" class="row g-3 needs-validation register" novalidate>
+            <form name="frm_doc" action="./backend/reg.php" method="POST" enctype="multipart/form-data"  class="row g-3 needs-validation register" novalidate>
 
                 <!-- name  -->
                 <div class="col-md-6">
                     <label for="first_name" class="form-label">First Name</label>
-                    <input name="first-name" type="text" class="form-control" id="first_name" placeholder="First Name" required>
+                    <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name" required>
                     <div class="invalid-feedback">
                         Please enter your first name.
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="last_name" class="form-label">Last name</label>
-                    <input name="last-name" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
+                    <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
                     <div class="invalid-feedback">
                         Please enter your last name.
                     </div>
@@ -87,7 +87,7 @@ include "./config/db_connection.php";
                 <!-- date of birth  -->
                 <div class="col-md-6">
                     <label for="dob" class="form-label">Date Of Birth</label>
-                    <input name="date-of-birth" type="date" class="form-control" id="dob" required>
+                    <input name="date-of-birth" max="2014-12-31" type="date" class="form-control" id="dob" required>
                     <div class="invalid-feedback">
                         Please provide a valid date of birth.
                     </div>
@@ -159,12 +159,9 @@ include "./config/db_connection.php";
                 </div>
                 <div class="col-md-3">
                     <label for="city_" class="form-label">City</label>
-                    <select name="city" class="form-select " id="city_" aria-describedby="validationServer04Feedback" required>
-                        <option selected disabled value="">Choose...</option>
-                        <option value="city_name">...</option>
-                    </select>
-                    <div id="validationServer04Feedback" class="invalid-feedback">
-                        Please select your city.
+                    <input name="city" type="text" class="form-control" id="city_" required>
+                    <div id="validationServer05Feedback" class="invalid-feedback">
+                        Please enter your city name.
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -232,6 +229,9 @@ include "./config/db_connection.php";
                         Provide a photo for patients
                     </div>
                 </div>
+                <!--================user role==================-->
+                <input type="hidden" name="user_role" value="3">
+
 
 
                 <div class="col-12">

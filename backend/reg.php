@@ -13,9 +13,33 @@ $validation_message = [];
 
 // =====================================empty registration session =================
 
-if (isset($test['btn-doctor'])) { // Doctor validation
-    echo "Hello  doctor";
-    print_r($_POST);
+if (isset($_POST['btn-doctor'])) { // Doctor validation
+    // data filtering 
+    if (empty_data_validation($_POST)) { //empty value guard
+
+        //data validation 
+        $validation_report = data_validation($_POST);
+        if (isset($validation_report['status']) && $validation_report['status']) {
+
+            if (save_councilor($validation_report)) {
+                $validation_message['success'] = "Doc Your account has been created successfully.";
+            } else {
+                $validation_message['technical_error'] = "technical problem";
+                $validation = false;
+            }
+        } else {
+            echo "Data validation : *************";
+            $validation = false;
+            $validation_message = data_validation($_POST);
+        }
+    } else {
+        $validation_message['empty_checker'] = "You must give every required information";
+        $validation  = false;
+        exit();
+    }
+
+
+    // =======end doctor registration 
 } elseif (isset($_POST['btn-councilor'])) { // councilor validation
 
     // optional data 
@@ -38,7 +62,7 @@ if (isset($test['btn-doctor'])) { // Doctor validation
                 $validation = false;
             }
         } else {
-            echo "Data validation : *************";
+           
             $validation = false;
             $validation_message = data_validation($_POST);
         }
@@ -47,14 +71,60 @@ if (isset($test['btn-doctor'])) { // Doctor validation
         $validation  = false;
         exit();
     }
-} elseif (isset($_POST['btn-patient'])) {
+} elseif (isset($_POST['btn_patient'])) { // =======strat patient registration 
+    
+    // optional data 
+    $contact_no = $_POST['number'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $zip_code = $_POST['zip_code'];
+
+
+    unset($_POST['number']);
+    unset($_POST['address']);
+    unset($_POST['city']);
+    unset($_POST['zip_code']);
+
+    
+    // data filtering 
+    if (empty_data_validation($_POST)) { //empty value guard
+        // re-set optional data 
+
+        $_POST['number'] = $contact_no;
+        $_POST['address'] = $address;
+        $_POST['city'] = $city;
+        $_POST['zip_code'] = $zip_code;
+
+        //data validation 
+        $validation_report = data_validation($_POST);
+        if (isset($validation_report['status']) && $validation_report['status']) {
+
+            if (save_councilor($validation_report)) {
+                $validation_message['success'] = "Your account has been created successfully.";
+            } else {
+                $validation_message['technical_error'] = "technical problem";
+                $validation = false;
+            }
+        } else {
+            $validation = false;
+            $validation_message = data_validation($_POST);
+  
+        }
+    } else {
+        $validation_message['empty_checker'] = "You must give every required information";
+        $validation  = false;
+    }
+
+
+
     /*
     unset($_POST['pp']);
     unset($_POST['xp_info_doc']);
     unset($_POST['working_info']);
     */
-    echo "Hello patient";
-    print_r($_POST);
+
+
+    // ==================================end doctor registration 
 } else {
     $validation = false;
     $validation_message['wrong_form'] = "The form request is invalid";
@@ -126,12 +196,15 @@ function data_validation($data)
     }
 
     // number validaiton 
-    if (numeric_value($data['number']) == 1) {
-        $data['number'] = $data['number'];
-    } else {
-        $validation = false;
-        $validation_message['number'] =  numeric_value($data['number']);
+    if (!empty($data['number'])) {
+        if (numeric_value($data['number']) == 1) {
+            $data['number'] = $data['number'];
+        } else {
+            $validation = false;
+            $validation_message['number'] =  numeric_value($data['number']);
+        }
     }
+
 
 
     // address filtering 
@@ -142,9 +215,23 @@ function data_validation($data)
     $data['zip_code'] = input_test($data['zip_code']);
 
     // educaton info spliting data 
-    $data['education_info'] = input_test_primary($data['education_info']);
+    if (isset($data['education_info'])) {
+        $data['education_info'] = input_test_primary($data['education_info']);
+    }
 
-    $data['working_info'] = input_test_primary($data['working_info']);
+    if (isset($data['working_info'])) {
+        $data['working_info'] = input_test_primary($data['working_info']);
+    }
+
+    // if(isset()){
+
+    // }
+
+    // if(isset()){
+
+    // }
+
+
 
 
     // files attatchment 
@@ -225,6 +312,8 @@ function data_validation($data)
     }
 }
 
+// ==================optional data validation
+
 // ===========================empty data validation  
 function empty_data_validation($data)
 {
@@ -249,26 +338,64 @@ function save_councilor($data)
     $gender = $data['gender'];
     $date_of_birth = $data['date-of-birth'];
     $pass = $data['password'];
-    $country_id = $data['country'];
-    $phone_code = $data['phone-code'];
+
+    // $country_id =empty_value($data['country']);
+    if (isset($data['country'])) {
+        $country_id = empty_value($data['country']);
+    } else {
+        $country_id = '';
+    }
+
+    if (isset($data['phone-code'])) {
+        $phone_code = $data['phone-code'];
+    } else {
+        $phone_code = '';
+    }
     $phone_number = $data['number'];
     $addr = $data['address'];
     $city = $data['city'];
     $zip_code = $data['zip_code'];
     // profile photo 
-    $profile_photo = $data['profile_photo']['pp'];
-    $profile_location = $data['profile_photo']['pp_location'];
+    if (isset($data['profile_photo']['pp'])) {
+        $profile_photo = $data['profile_photo']['pp'];
+    } else {
+        $profile_photo = '';
+    }
+
+    if (isset($data['profile_photo']['pp_location'])) {
+        $profile_location = $data['profile_photo']['pp_location'];
+    } else {
+        $profile_location = '';
+    }
+
+
 
     $user_role = $data['user_role'];
 
     // additional info 
-    $education = $data['education_info'];
-    $working_info = $data['working_info'];
+    if (isset($data['education_info'])) {
+        $education = $data['education_info'];
+    } else {
+        $education = '';
+    }
+    if (isset($data['working_info'])) {
+        $working_info = $data['working_info'];
+    } else {
+        $working_info = '';
+    }
 
 
-    $document_name = $data['edu_doc']['edu_doc_name'];
-    $document_location = $data['edu_doc']['edu_location'];
 
+    if (isset($data['edu_doc']['edu_doc_name'])) {
+        $document_name = $data['edu_doc']['edu_doc_name'];
+    } else {
+        $document_name = '';
+    }
+    if (isset($data['edu_doc']['edu_location'])) {
+        $document_location = $data['edu_doc']['edu_location'];
+    } else {
+        $document_location = '';
+    }
 
     // query for users data 
     $sql = "INSERT INTO users(
@@ -278,11 +405,16 @@ function save_councilor($data)
         '$f_name', '$l_name', '$email', '$gender', '$date_of_birth', '$pass', '$country_id', '$phone_code', '$phone_number', '$addr', '$city', '$zip_code', '$profile_photo', '$profile_location',$user_role 
     );";
 
+    // echo $sql;
+    // exit();
+
     if (db_connection()->query($sql)) {
         //query for user table data 
         $sql = "SELECT id FROM users WHERE `email` = '$email' AND `pass` = '$pass'";
         if (db_connection()->query($sql)) {
-            move_uploaded_file($data['profile_photo']['pp_temp_location'], $profile_location . $profile_photo);
+            if (!empty($data['profile_photo']['pp_temp_location'])) {
+                move_uploaded_file($data['profile_photo']['pp_temp_location'], $profile_location . $profile_photo);
+            }
 
             $u_id  = (db_connection()->query($sql))->fetch_assoc()['id'];
 
@@ -295,7 +427,9 @@ function save_councilor($data)
             );";
 
             if (db_connection()->query($sql)) {
-                move_uploaded_file($data['edu_doc']['edu_temp_location'],  $document_location . $document_name);
+                if (!empty($data['edu_doc']['edu_temp_location'])) {
+                    move_uploaded_file($data['edu_doc']['edu_temp_location'],  $document_location . $document_name);
+                }
                 return true;
             } else {
                 return false;
