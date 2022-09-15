@@ -27,14 +27,14 @@ include "./config/db_connection.php";
 
                 <!-- name  -->
                 <div class="col-md-6">
-                    <label for="first_name" class="form-label">First Name</label>
+                    <label for="first_name" class="form-label">First Name<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span><span class="mendatory">*</span></label>
                     <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name" required>
                     <div class="invalid-feedback">
                         Please enter your first name.
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label for="last_name" class="form-label">Last name</label>
+                    <label for="last_name" class="form-label">Last name<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
                     <div class="invalid-feedback">
                         Please enter your last name.
@@ -43,7 +43,7 @@ include "./config/db_connection.php";
 
                 <!-- email -->
                 <div class="col-md-12">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label">Email<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <input name="email" type="email" class="form-control" id="email" placeholder="jhondoy@gmail.com" required>
                     <div class="invalid-feedback">
                         Please provide your valid email id.
@@ -54,7 +54,7 @@ include "./config/db_connection.php";
                 <!-- gender  -->
                 <div class="col-md-6">
                     <div class="gender-container">
-                        <label for="gender" class="form-label">Gender</label>
+                        <label for="gender" class="form-label">Gender<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                         <div class="row ms-0" id="gender-validation-message">
                             <div class="form-check col-4">
                                 <input name="gender" value="male" type="radio" aria-describedby="genderFeedback" class="form-check-input" id="male" required>
@@ -86,8 +86,8 @@ include "./config/db_connection.php";
 
                 <!-- date of birth  -->
                 <div class="col-md-6">
-                    <label for="dob" class="form-label">Date Of Birth</label>
-                    <input name="date-of-birth" max="2014-12-31" type="date" class="form-control" id="dob" required>
+                    <label for="doc_dob" class="form-label">Date Of Birth<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
+                    <input name="date-of-birth" max="2014-12-31" type="date" class="form-control" id="doc_dob" required>
                     <div class="invalid-feedback">
                         Please provide a valid date of birth.
                     </div>
@@ -96,7 +96,7 @@ include "./config/db_connection.php";
                 <!-- password section  -->
 
                 <div class="col-md-6">
-                    <label for="password" class="form-label">Password</label>
+                    <label for="password" class="form-label">Password<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <div class="input-group has-validation">
                         <input name="password" type="password" class="form-control" id="password" minlength="8" placeholder="Password" required>
                         <div class="invalid-feedback">
@@ -106,7 +106,7 @@ include "./config/db_connection.php";
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label for="confirm_pass" class="form-label">Confirm Password</label>
+                    <label for="confirm_pass" class="form-label">Confirm Password<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <div class="input-group has-validation">
                         <input name="confirm_pass" type="password" class="form-control" id="confirm_pass" placeholder="Confirm Password" required>
                         <div class="invalid-feedback">
@@ -119,7 +119,7 @@ include "./config/db_connection.php";
 
                 <!-- Contact and country  -->
                 <div class="col-md-6">
-                    <label for="country" class="form-label">Country</label>
+                    <label for="country" class="form-label">Country<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <select name="country" class="form-select" id="country" required>
                         <option selected disabled value="">Choose...</option>
 
@@ -130,7 +130,7 @@ include "./config/db_connection.php";
                 </div>
 
                 <div class="col-md-2">
-                    <label for="phone-code" class="form-label">Code</label>
+                    <label for="phone-code" class="form-label">Code<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <select name="phone-code" class="form-select" id="phone-code" required>
                         <option value="" selected disabled>Choose...</option>
 
@@ -141,7 +141,7 @@ include "./config/db_connection.php";
                 </div>
 
                 <div class="col-md-4">
-                    <label for="phone" class="form-label">Phone</label>
+                    <label for="phone" class="form-label">Phone<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <input name="number" type="number" class="form-control" id="phone" placeholder="Optional" required>
                     <div class="invalid-feedback">
                         Please provide valid phone number.
@@ -151,21 +151,21 @@ include "./config/db_connection.php";
 
                 <!-- address info  -->
                 <div class="col-md-6">
-                    <label for="address_" class="form-label">Address</label>
+                    <label for="address_" class="form-label">Address<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <input name="address" type="text" class="form-control" id="address_" aria-describedby="validationServer03Feedback" required>
                     <div id="validationServer03Feedback" class="invalid-feedback">
                         Please provide a valid address.
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <label for="city_" class="form-label">City</label>
+                    <label for="city_" class="form-label">City<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <input name="city" type="text" class="form-control" id="city_" required>
                     <div id="validationServer05Feedback" class="invalid-feedback">
                         Please enter your city name.
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <label for="zip_" class="form-label">Zip</label>
+                    <label for="zip_" class="form-label">Zip<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <input name="zip_code" type="text" class="form-control" id="zip_" required>
                     <div id="validationServer05Feedback" class="invalid-feedback">
                         Please enter your zip-code.
@@ -215,7 +215,7 @@ include "./config/db_connection.php";
                 </div>
 
                 <div class="col-md-6">
-                    <label for="documents" class="form-label">Cerificates and others</label>
+                    <label for="documents" class="form-label">Cerificates and others<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <input name="xp_info_doc" type="file" class="form-control" id="documents" placeholder="upload pdf file only" required>
                     <div class="invalid-feedback">
                         Please provide your valid educational and other working doccuments in a single pdf.
@@ -230,7 +230,7 @@ include "./config/db_connection.php";
                     </div>
                 </div>
                 <!--================user role==================-->
-                <input type="hidden" name="user_role" value="3">
+                <!-- <input type="hidden" name="user_role" value="3"> -->
 
 
 
@@ -260,3 +260,17 @@ include_once "./form-validation.php";
 include_once "./layout/footer.php";
 include "./functionalities/country_code_menupulation.php";
 ?>
+
+<script>
+    let ageGuard = document.getElementById('doc_dob');
+    let currentDate = new Date();
+
+    let currentDay, currentMonth, currentYear;
+    currentDay = currentDate.getDay() < 10 ? `0${currentDate.getDay()}` : currentDate.getDay();
+    currentMonth = currentDate.getMonth() < 10 ? `0${currentDate.getMonth()}` : currentDate.getMonth();
+    currentYear = currentDate.getFullYear();
+
+    let minYear = `${currentYear-30}-${currentMonth}-${currentDay}`;
+
+    ageGuard.max = minYear;
+</script>

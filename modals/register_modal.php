@@ -14,7 +14,7 @@
                     <a href="<?=$doc_reg?>" class="btn btn-lg btn-warning">Doctor</a>
                 </div>
                 <div class="no-account text-center pt-3">
-                    <a href="#">Already Have an account</a>
+                    <a href="./modals/login.php">Already Have an account</a>
                 </div>
             </div>
 

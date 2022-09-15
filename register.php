@@ -19,7 +19,7 @@ include "./config/db_connection.php";
             <form name="frm_patient" action="./backend/reg.php" method="POST" enctype="multipart/form-data" class="row g-3 needs-validation register" novalidate>
                 <!-- name      -->
                 <div class="col-md-6">
-                    <label for="first_name" class="form-label">First Name</label>
+                    <label for="first_name" class="form-label">First Name<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span> </label>
                     <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name" required>
                     <div class="invalid-feedback">
                         Please enter your first name.
@@ -28,7 +28,7 @@ include "./config/db_connection.php";
 
 
                 <div class="col-md-6">
-                    <label for="last_name" class="form-label">Last name</label>
+                    <label for="last_name" class="form-label">Last name<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
                     <div class="invalid-feedback">
                         Please enter your last name.
@@ -37,7 +37,7 @@ include "./config/db_connection.php";
 
                 <!-- email -->
                 <div class="col-md-12">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label">Email<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <input name="email" type="email" class="form-control" id="email" placeholder="jhondoy@gmail.com" required>
                     <div class="invalid-feedback">
                         Please provide your valid email id.
@@ -49,7 +49,7 @@ include "./config/db_connection.php";
                 <!-- gender  -->
                 <div class="col-md-6">
                     <div class="gender-container">
-                        <label for="gender" class="form-label">Gender</label>
+                        <label for="gender" class="form-label">Gender<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                         <div class="row ms-0" id="gender-validation-message">
                             <div class="form-check col-4">
                                 <input name="gender" value="male" type="radio" class="form-check-input" id="male" required>
@@ -82,7 +82,7 @@ include "./config/db_connection.php";
 
                 <!-- date of birth  -->
                 <div class="col-md-6">
-                    <label for="user_dob" class="form-label">Date Of Birth</label>
+                    <label for="user_dob" class="form-label">Date Of Birth<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <input name="date-of-birth" type="date" class="form-control" id="user_dob" required>
                     <div class="invalid-feedback">
                         Please provide a valid date of birth.
@@ -92,7 +92,7 @@ include "./config/db_connection.php";
 
                 <!-- password section  -->
                 <div class="col-md-6">
-                    <label for="password" class="form-label">Password</label>
+                    <label for="password" class="form-label">Password<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <div class="input-group has-validation">
                         <input name="password" type="password" class="form-control" id="password" minlength="8" placeholder="Password" required>
                         <div class="invalid-feedback">
@@ -102,7 +102,7 @@ include "./config/db_connection.php";
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label for="confirm_pass" class="form-label">Confirm Password</label>
+                    <label for="confirm_pass" class="form-label">Confirm Password<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <div class="input-group has-validation">
                         <input name="confirm_pass" type="password" class="form-control" id="confirm_pass" placeholder="Confirm Password" required>
                         <div class="invalid-feedback">
@@ -113,7 +113,7 @@ include "./config/db_connection.php";
 
                 <!-- Contact and country  -->
                 <div class="col-md-6">
-                    <label for="country" class="form-label">Country</label>
+                    <label for="country" class="form-label">Country<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                     <select name="country" class="form-select" id="country" required>
                         <option value="" selected disabled>Choose...</option>
                         <option value="country-name">Bangladesh</option>
@@ -144,28 +144,28 @@ include "./config/db_connection.php";
                 <!-- address info  -->
                 <div class="col-md-6">
                     <label for="address_" class="form-label">Address</label>
-                    <input name="address" type="text" class="form-control" id="address_" aria-describedby="validationServer03Feedback">
+                    <input name="address" type="text" class="form-control" id="address_" placeholder="Optional" aria-describedby="validationServer03Feedback">
                     <div id="validationServer03Feedback" class="invalid-feedback">
                         Please provide a valid address.
                     </div>
                 </div>
                 <div class="col-md-3">
                     <label for="city_" class="form-label">City</label>
-                    <input name="city" type="text" class="form-control" id="city_">
+                    <input name="city" type="text" class="form-control" placeholder="Optional" id="city_">
                     <div id="validationServer05Feedback" class="invalid-feedback">
                         Please enter your city name.
                     </div>
                 </div>
                 <div class="col-md-3">
                     <label for="zip_" class="form-label">Zip</label>
-                    <input name="zip_code" type="text" class="form-control" id="zip_">
+                    <input name="zip_code" type="text" class="form-control" placeholder="Optional" id="zip_">
                     <div id="validationServer05Feedback" class="invalid-feedback">
                         Please enter your zip-code.
                     </div>
                 </div>
 
 
-                <input type="hidden" name="user_role" value="4">
+                <!-- <input type="hidden" name="user_role" value="4"> -->
 
 
 

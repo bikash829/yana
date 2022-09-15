@@ -15,11 +15,13 @@ $validation_message = [];
 
 if (isset($_POST['btn-doctor'])) { // Doctor validation
     // data filtering 
+
     if (empty_data_validation($_POST)) { //empty value guard
 
         //data validation 
         $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
+            $validation_report['role'] = 3;
 
             if (save_councilor($validation_report)) {
                 $validation_message['success'] = "Doc Your account has been created successfully.";
@@ -41,7 +43,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
 
     // =======end doctor registration 
 } elseif (isset($_POST['btn-councilor'])) { // councilor validation
-
+   
     // optional data 
     $working_info  = $_POST['working_info'];
     unset($_POST['working_info']);
@@ -54,6 +56,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
         //data validation 
         $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
+            $validation_report['role'] = 2;
 
             if (save_councilor($validation_report)) {
                 $validation_message['success'] = "Your account has been created successfully.";
@@ -62,7 +65,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
                 $validation = false;
             }
         } else {
-           
+
             $validation = false;
             $validation_message = data_validation($_POST);
         }
@@ -72,7 +75,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
         exit();
     }
 } elseif (isset($_POST['btn_patient'])) { // =======strat patient registration 
-    
+
     // optional data 
     $contact_no = $_POST['number'];
     $address = $_POST['address'];
@@ -85,7 +88,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
     unset($_POST['city']);
     unset($_POST['zip_code']);
 
-    
+
     // data filtering 
     if (empty_data_validation($_POST)) { //empty value guard
         // re-set optional data 
@@ -98,6 +101,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
         //data validation 
         $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
+            $validation_report['role'] = 4;
 
             if (save_councilor($validation_report)) {
                 $validation_message['success'] = "Your account has been created successfully.";
@@ -108,7 +112,6 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
         } else {
             $validation = false;
             $validation_message = data_validation($_POST);
-  
         }
     } else {
         $validation_message['empty_checker'] = "You must give every required information";
@@ -116,12 +119,6 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
     }
 
 
-
-    /*
-    unset($_POST['pp']);
-    unset($_POST['xp_info_doc']);
-    unset($_POST['working_info']);
-    */
 
 
     // ==================================end doctor registration 
@@ -248,7 +245,7 @@ function data_validation($data)
         if ($pp_error == 0) {
             if (in_array($pp_type, $allowed_pp_Ext)) {
                 // new directory and name 
-                $pp_dir = '../uploads/profile_photo/';
+                $pp_dir = './uploads/profile_photo/';
                 $pp_new_name = $data['first_name'] . "_pp" . time() . mt_rand() . ".$pp_type";
                 $data['profile_photo'] = array(
                     'pp' => $pp_new_name,
@@ -283,7 +280,7 @@ function data_validation($data)
             $allowed_edu_doc = array('docx', 'doc', 'pdf');
             if (in_array($edu_type, $allowed_edu_doc)) {
                 // new directory and name 
-                $edu_dir = '../uploads/educatoinal_doc/';
+                $edu_dir = './uploads/educatoinal_doc/';
                 $edu_new_name = $data['first_name'] . "_edu" . time() . mt_rand() . ".$edu_type";
 
                 $data['edu_doc'] = array(
@@ -370,7 +367,7 @@ function save_councilor($data)
 
 
 
-    $user_role = $data['user_role'];
+    $user_role = $data['role'];
 
     // additional info 
     if (isset($data['education_info'])) {
@@ -405,14 +402,14 @@ function save_councilor($data)
         '$f_name', '$l_name', '$email', '$gender', '$date_of_birth', '$pass', '$country_id', '$phone_code', '$phone_number', '$addr', '$city', '$zip_code', '$profile_photo', '$profile_location',$user_role 
     );";
 
-    // echo $sql;
-    // exit();
-
+    
     if (db_connection()->query($sql)) {
         //query for user table data 
         $sql = "SELECT id FROM users WHERE `email` = '$email' AND `pass` = '$pass'";
         if (db_connection()->query($sql)) {
             if (!empty($data['profile_photo']['pp_temp_location'])) {
+
+                $profile_location = '.' . $profile_location;
                 move_uploaded_file($data['profile_photo']['pp_temp_location'], $profile_location . $profile_photo);
             }
 
@@ -428,6 +425,7 @@ function save_councilor($data)
 
             if (db_connection()->query($sql)) {
                 if (!empty($data['edu_doc']['edu_temp_location'])) {
+                    $document_location = '.' . $document_location;
                     move_uploaded_file($data['edu_doc']['edu_temp_location'],  $document_location . $document_name);
                 }
                 return true;
