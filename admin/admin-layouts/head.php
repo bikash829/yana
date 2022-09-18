@@ -28,6 +28,4 @@
     <?php
     $dashboard = "./index.php";
 
-
-
     ?>

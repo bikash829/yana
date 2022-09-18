@@ -6,6 +6,13 @@ $banner_poster = "./images/banner/banner3.jpg";
 
 
 include_once "./layout/head.php";
+// login check 
+if (isset($_SESSION['user'])) {
+    header("Location: ./view_profile.php");
+}
+
+
+
 $banner = "./layout/banner.php";
 include_once "./layout/navigation_bar.php";
 include "./config/db_connection.php";
@@ -194,7 +201,7 @@ include "./config/db_connection.php";
 <script>
     let ageGuard = document.getElementById('user_dob');
     let currentDate = new Date();
-    
+
     let currentDay, currentMonth, currentYear;
     currentDay = currentDate.getDay() < 10 ? `0${currentDate.getDay()}` : currentDate.getDay();
     currentMonth = currentDate.getMonth() < 10 ? `0${currentDate.getMonth()}` : currentDate.getMonth();
@@ -203,10 +210,9 @@ include "./config/db_connection.php";
     let minYear = `${currentYear-10}-${currentMonth}-${currentDay}`;
 
     ageGuard.max = minYear;
-    
 </script>
 <?php
-include_once "./form-validation.php";
+include_once "./functionalities/form-validation.php";
 include_once "./layout/footer.php";
 
 include "./functionalities/country_code_menupulation.php";

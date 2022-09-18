@@ -1005,7 +1005,7 @@
 .help_input {
   font-size: .8rem;
   color: red;
-  display: none;
+  /* display: none; */
 }
 
 .helpInsVisible {

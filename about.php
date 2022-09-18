@@ -1,4 +1,5 @@
 <?php
+
 $title = "About";
 $state = "about";
 $banner_title = "who we are?";

@@ -58,7 +58,7 @@ $councilor_reg = "./councilor_reg.php";
                         </li>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="./view_profile.php">View Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="./edit_user.php">Edit Profile</a></li>
                             <li><a class="dropdown-item" href="#">Somethinge</a></li>
                             <li>
                                 <hr class="dropdown-divider">

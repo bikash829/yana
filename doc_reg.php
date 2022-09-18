@@ -6,6 +6,12 @@ $banner_poster = "./images/banner/banner3.jpg";
 
 
 include_once "./layout/head.php";
+// login check 
+if(isset($_SESSION['user'])){
+    header("Location: ./view_profile.php");
+
+}
+
 $banner = "./layout/banner.php";
 include_once "./layout/navigation_bar.php";
 include "./config/db_connection.php";
@@ -230,7 +236,7 @@ include "./config/db_connection.php";
                     </div>
                 </div>
                 <!--================user role==================-->
-                <!-- <input type="hidden" name="user_role" value="3"> -->
+                <!-- <input type="hidden" name="user_role" value="3">c -->
 
 
 
@@ -256,7 +262,7 @@ include "./config/db_connection.php";
 </main>
 
 <?php
-include_once "./form-validation.php";
+include_once "./functionalities/form-validation.php";
 include_once "./layout/footer.php";
 include "./functionalities/country_code_menupulation.php";
 ?>

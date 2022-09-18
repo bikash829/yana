@@ -7,6 +7,11 @@ $banner_poster = "./images/banner/banner3.jpg";
 
 
 include_once "./layout/head.php";
+if(isset($_SESSION['user'])){
+    header("Location: ./view_profile.php");
+
+}
+
 $banner = "./layout/banner.php";
 include_once "./layout/navigation_bar.php";
 include "./config/db_connection.php";
@@ -260,7 +265,7 @@ include "./config/db_connection.php";
 
 
 <?php
-include_once "./form-validation.php";
+include_once "./functionalities/form-validation.php";
 include_once "./layout/footer.php";
 include "./functionalities/country_code_menupulation.php";
 ?>
