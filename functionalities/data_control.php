@@ -7,6 +7,9 @@ function data_validation($data)
     $validation_message = [];
     $data['status'] = true;
 
+
+    // print_r($data);
+    // // exit();
     // first name 
 
     $first_name_validation = alphabetic_velue($data['first_name'], 'first name');
@@ -27,29 +30,40 @@ function data_validation($data)
 
 
     // email validation 
-    $email_valid = $data['email'];
-    $sql = "SELECT * FROM users WHERE `email` = '$email_valid'";
-    if (db_connection()->query($sql)->num_rows < 1) {
-        input_test($data['email']);
-    } else {
-        $validation = false;
-        $validation_message['duplicate_email'] =  'The email has already been registered please try with new email';
+    if (isset($data['email'])) {
+        $email_valid = $data['email'];
+
+
+        $sql = "SELECT * FROM users WHERE `email` = '$email_valid'";
+
+        if (db_connection()->query($sql)->num_rows < 1) {
+            input_test($data['email']);
+        } else {
+            $validation = false;
+            $validation_message['duplicate_email'] =  'The email has already been registered please try with new email';
+        }
     }
 
 
 
-    // password validation
-    if (min_len($data['password'], 8) == 1) {
 
-        if ($data['password'] == $data['confirm_pass']) {
-            $data['password'] = md5($data['password']);
+
+
+
+    // password validation
+    if (isset($data['password'])) {
+        if (min_len($data['password'], 8) == 1) {
+
+            if ($data['password'] == $data['confirm_pass']) {
+                $data['password'] = md5($data['password']);
+            } else {
+                $validation = false;
+                $validation_message['password'] =  "Password didn't match";
+            }
         } else {
             $validation = false;
-            $validation_message['password'] =  "Password didn't match";
+            $validation_message['password'] =  min_len($data['password'], 8);
         }
-    } else {
-        $validation = false;
-        $validation_message['password'] =  min_len($data['password'], 8);
     }
 
     // number validaiton 
@@ -291,6 +305,92 @@ function save_councilor($data)
         } else {
             return false;
         }
+    } else {
+        return false;
+    }
+}
+
+
+// update user 
+function update_user($data)
+{
+    $f_name = $data['first_name'];
+    $l_name = $data['last_name'];
+    // $email = $data['email'];
+    $gender = $data['gender'];
+    $date_of_birth = $data['date-of-birth'];
+
+    // $country_id =empty_value($data['country']);
+    if (isset($data['country'])) {
+        $country_id = empty_value($data['country']);
+    }
+
+    if (isset($data['phone-code'])) {
+        $phone_code = $data['phone-code'];
+    } else {
+        $phone_code = '';
+    }
+    $phone_number = $data['number'];
+    $addr = $data['address'];
+    $city = $data['city'];
+    $zip_code = $data['zip_code'];
+
+
+
+    // additional info 
+    if (isset($data['education_info'])) {
+        $education = $data['education_info'];
+    } else {
+        $education = '';
+    }
+    if (isset($data['working_info'])) {
+        $working_info = $data['working_info'];
+    } else {
+        $working_info = '';
+    }
+    $user_id = $data['id'];
+
+    $sql = "START TRANSACTION;
+    UPDATE `users` 
+    SET `f_name`='$f_name', `l_name` = '$l_name', `gender`='$gender', `date_of_birth`='$date_of_birth',`country_id` = '$country_id', `phone_code` = '$phone_code', `phone_number` = '$phone_number', `addr`='$addr',`city`='$city', `zip_code` = '$zip_code' 
+    WHERE `id`=$user_id;
+
+    UPDATE `additional_info` 
+    SET `education` = '$education', `working_info` = '$working_info'
+    WHERE `user_id` = '$user_id';
+
+    SELECT `country`.`name` AS `country_name` FROM `country` WHERE `country`.`id` = $country_id;
+    
+    SELECT `country`.`phonecode` AS `phone_code` FROM `country` WHERE `country`.`id` = $phone_code;
+
+    COMMIT;";
+
+
+    if (db_connection()->multi_query($sql)) {
+
+        // retriving country information 
+        // $sql = "SELECT `id` AS `country_id`,`name` AS country_name,(SELECT `id` AS `phone_code_id`,`phonecode` FROM `country` WHERE `id` = $phone_code) AS `phone_code` FROM `country` 
+        // WHERE `id` = $country_id;";
+
+        $sql = "SELECT `id` AS `country_id`,`name` AS country_name,(SELECT `id` FROM `country` WHERE `id` = $phone_code) AS `phone_code_id`,(SELECT `phonecode` FROM `country` WHERE `id` = $phone_code) AS `phone_code` FROM `country` 
+        WHERE `id` = $country_id;"; 
+
+      
+        if ($result = db_connection()->query($sql)) {
+            $row = $result->fetch_assoc();
+
+
+            $data['phone_code'] = $row['phone_code'];
+            $data['country_name'] = $row['country_name'];
+            $data['phone_code_id'] = $row['phone_code_id'];
+            $data['country_id'] = $row['country_id'];
+            $data['full_name'] = $f_name . ' ' . $l_name;
+
+            return $data;
+        }
+
+
+       return true;
     } else {
         return false;
     }

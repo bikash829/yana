@@ -14,8 +14,6 @@ if(isset($_SESSION['user'])){
 
 }
 
-
-
 $banner = "./layout/banner.php";
 include_once "./layout/navigation_bar.php";
 
@@ -38,14 +36,14 @@ include_once "./config/db_connection.php";
                         <!-- name  -->
                         <div class="col-md-6">
                             <label for="first_name" class="form-label">First Name</label>
-                            <input name="first-name" value="<?= $_SESSION['user']['f_name'] ?>" type="text" class="form-control" id="first_name" placeholder="First Name" required>
+                            <input name="first_name" value="<?= $_SESSION['user']['f_name'] ?>" type="text" class="form-control" id="first_name" placeholder="First Name" required>
                             <div class="invalid-feedback">
                                 Please enter your first name.
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label for="last_name" class="form-label">Last name</label>
-                            <input name="last-name" value="<?= $_SESSION['user']['l_name'] ?>" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
+                            <input name="last_name" value="<?= $_SESSION['user']['l_name'] ?>" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
                             <div class="invalid-feedback">
                                 Please enter your last name.
                             </div>
@@ -248,4 +246,12 @@ include "./functionalities/country_code_menupulation.php";
         }
         
     }
+
+
+    // date of birth validation 
+
+    // user data restriction 
+    // patients
+    // councilor 
+    // doctor 
 </script>
