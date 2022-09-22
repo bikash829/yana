@@ -5,11 +5,13 @@ include "../functionalities/data_control.php";
 include "../config/db_connection.php";
 
 
+$user_id = $_SESSION['user']['id'];
+$validaiton = true;
+$validation_message = [];
+
+
 if (isset($_POST['btn-edit_user'])) {
 
-    $validaiton = true;
-    $validation_message = [];
-    $user_id = $_SESSION['user']['id'];
 
     unset($_POST['btn-edit_user']);
 
@@ -64,6 +66,153 @@ if (isset($_POST['btn-edit_user'])) {
     } else {
         print_r($validation_message);
     }
+} elseif (isset($_POST['btn_change_pass'])) { //password changing 
+    if ($_POST['password'] == $_POST['confirm_pass']) {
+        $current_pass = md5($_POST['current_pass']);
+        $pass = md5($_POST['password']);
+
+        if ($_SESSION['user']['pass'] == $current_pass) {
+            if ($current_pass != $pass) {
+                $sql = "UPDATE `users` SET `pass` = '$pass' WHERE `id` = '$user_id'";
+
+                if (db_connection()->query($sql)) {
+                    $validation_message['success_pass'] = "Your passwrod has been changed successfully";
+                    $_SESSION['user']['pass'] = $pass;
+                } else {
+                    $validaiton = false;
+                    $validation_message['technical_error_change_pass'] = "Technical error";
+                }
+            } else {
+                $validation = false;
+                $validation_message['same_pass'] = "You are using same password please try with new password";
+            }
+        } else {
+            $validaiton = false;
+            $validation_message['wrong_pass'] = "Please insert your valid current password";
+        }
+    } else {
+        $validaiton = false;
+        $validation_message['unmatch_pass'] = "Password didn't match try again.";
+    }
+
+
+    // final result 
+    if ($validaiton) {
+        print_r($validation_message);
+        exit();
+    } else {
+        print_r($validation_message);
+        exit();
+    }
+} elseif (isset($_POST['btn_change_email'])) {  //email change 
+
+
+    $email = $_POST['email'];
+    $pass = md5($_POST['password']);
+
+    $sql = "SELECT * FROM `users` WHERE `email`='$email'";
+
+
+    if ((db_connection()->query($sql))->num_rows < 1) {
+        if ($_SESSION['user']['pass'] == $pass) {
+            $sql = "UPDATE `users` SET `email` = '$email' WHERE `id` = $user_id";
+            if (db_connection()->query($sql)) {
+                $_SESSION['user']['email'] = $email;
+                $validation_message = "Your email has been updated";
+            } else {
+                $validation = false;
+                $validation_message['email_change_technical_error'] = "Technical error";
+            }
+        } else {
+            $validaiton = false;
+            $validation_message['wrong_pass'] = "Please insert your valid current password";
+        }
+    } else {
+        $validaiton = false;
+        $validation_message['duplicate_email'] = "you are using existed email id please use different email id";
+    }
+
+
+    // final result 
+    if ($validaiton) {
+        print_r($validation_message);
+        exit();
+    } else {
+        print_r($validation_message);
+        exit();
+    }
+} elseif (isset($_POST['btn_change_doc'])) {
+} elseif (isset($_POST['btn_change_pp'])) { //change profile picture
+
+
+    if (isset($_FILES['new_pp'])) {
+        $profile_photo = $_FILES['new_pp'];
+        $pp_name = $profile_photo['name'];
+        $pp_explotion = explode('.', $profile_photo['name']);
+        $pp_type = strtolower(end($pp_explotion));
+        $pp_error = $profile_photo['error'];
+        $pp_size_kb = $profile_photo['size'] / 1024;
+        $pp_temp_location = $profile_photo['tmp_name'];
+
+        $allowed_pp_Ext = array('png', 'jpg', 'jpeg', 'gif');
+
+
+
+        if (!($pp_size_kb < 1)) {
+            if ($pp_error == 0) {
+                if (in_array($pp_type, $allowed_pp_Ext)) {
+                    // new directory and name 
+                    $pp_dir = './uploads/profile_photo/';
+                    $pp_new_name = $_SESSION['user']['f_name'] . "_pp" . time() . mt_rand() . ".$pp_type";
+
+
+                    // database query 
+                    $sql = "UPDATE `users` SET `users`.`profile_location` = '$pp_dir', `users`.`profile_photo` = '$pp_new_name' WHERE `users`.`id` = $user_id";
+
+                    if (db_connection()->query($sql)) {
+                        move_uploaded_file($pp_temp_location, '.' . $pp_dir . $pp_new_name);
+                        $validation_message['chaged_pp'] = "Your profile photo has been changed successfully";
+                        $_SESSION['user']['profile_location'] = $pp_dir;
+                        $_SESSION['user']['profile_photo'] = $pp_new_name;
+                    } else {
+                        $validation = false;
+                        $validation_message['pp_technical_error'] = "Technical error";
+                    }
+                } else {
+                    $validation = false;
+                    $validation_message['pp_error'] =  "The profile picture type is not valid. Please Select an image file.";
+                }
+            } else {
+                $validation = false;
+                $validation_message['pp_error'] =  "There is an error by uploading your profile picture.";
+            }
+        }
+
+        if ($validaiton) {
+            true;
+        } else {
+            print_r($validation_message);
+            exit();
+        }
+    } else {
+        $validaiton = false;
+        $validation_message['empty_file'] = "There is no file has been selected yet";
+    }
+
+
+    // final result 
+    if ($validaiton) {
+        print_r($validation_message);
+        exit();
+    } else {
+        print_r($validation_message);
+        exit();
+    }
+} else {
+    header('Location: ../error.php');
+    exit();
 }
+
+
 
 include "../functionalities/form-validation.php";

@@ -229,8 +229,8 @@ include "./config/db_connection.php";
                 </div>
 
                 <div class="col-md-6">
-                    <label for="documents" class="form-label">Profile Photo</label>
-                    <input name="pp" type="file" class="form-control" id="documents" placeholder="Upload your photo">
+                    <label for="profile_pp" class="form-label">Profile Photo</label>
+                    <input name="pp" type="file" class="form-control" id="profile_pp" placeholder="Upload your photo">
                     <div class="invalid-feedback">
                         Provide a photo for patients
                     </div>
