@@ -203,7 +203,7 @@ include "./config/db_connection.php";
     let currentDate = new Date();
 
     let currentDay, currentMonth, currentYear;
-    currentDay = currentDate.getDay() < 10 ? `0${currentDate.getDay()}` : currentDate.getDay();
+    currentDay = currentDate.getDate() < 10 ? `0${currentDate.getDate()}` : currentDate.getDate();
     currentMonth = currentDate.getMonth() < 10 ? `0${currentDate.getMonth()}` : currentDate.getMonth();
     currentYear = currentDate.getFullYear();
 

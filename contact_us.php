@@ -42,20 +42,20 @@ include_once "./layout/navigation_bar.php";
 
         </div>
         <div class="contact-form ">
-            <form action="#" method="GET">
+            <form action="./backend/contact_us.php" method="POST">
                 <div class="contact-form__block c-block">
-                    <input class="input c-block__name" type="text" placeholder="First Name" name="fName">
-                    <input class="input c-block__name" type="text" placeholder="Last Name" name="lName">
+                    <input class="input c-block__name" type="text" placeholder="First Name" name="first_name" required>
+                    <input class="input c-block__name" type="text" placeholder="Last Name" name="last_name" required>
                 </div>
                 <div class="contact-form__block c-block">
-                    <input class="input c-block__email" type="email" placeholder="Email" name="email">
+                    <input class="input c-block__email" type="email" placeholder="Email" name="contact_email" required>
                 </div>
                 <div class="contact-form__block c-block">
-                    <textarea class="input c-block__comment" name="comment" placeholder="Leave Your Comments"></textarea>
+                    <textarea class="input c-block__comment" name="comment" required placeholder="Leave Your Comments"></textarea>
                 </div>
 
                 <div class="contact-form__block c-block">
-                    <input type="submit" class="button c-block__button" value="Send">
+                    <input name="btn-contact" type="submit" class="button c-block__button" value="Send">
                 </div>
 
 
@@ -74,3 +74,34 @@ include_once "./layout/navigation_bar.php";
 <?php
 include_once "./layout/footer.php"
 ?>
+<?=$_SESSION['user']['f_name']?>
+
+<script>
+    let fristName, lastName, emailId;
+    let elementNodes = document.querySelectorAll("input");
+    // lastName = document.querySelector("name='l_name'");
+    for (let value of elementNodes) {
+        // if (value.name == 'first_name') {
+        //     console.log(value);
+
+        // }
+        switch (value.name) {
+            case 'first_name':
+                // console.log(value);
+                value.setAttribute("value","<?= $_SESSION['user']['f_name'] ?>");
+                // value.setAttribute("disabled","");
+                break;
+            case 'last_name':
+                value.setAttribute("value","<?= $_SESSION['user']['l_name'] ?>");
+                break;
+            case 'contact_email':
+                value.setAttribute("value","<?= $_SESSION['user']['email'] ?>");
+            default:
+                break;
+        }
+        // console.log(value);
+    }
+
+    // console.log(fristName);
+    // console.log(lastName);
+</script>

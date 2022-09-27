@@ -262,24 +262,25 @@ include "./config/db_connection.php";
 </main>
 
 
-
-
-<?php
-include_once "./functionalities/form-validation.php";
-include_once "./layout/footer.php";
-include "./functionalities/country_code_menupulation.php";
-?>
-
 <script>
     let ageGuard = document.getElementById('councilor_dob');
     let currentDate = new Date();
 
     let currentDay, currentMonth, currentYear;
-    currentDay = currentDate.getDay() < 10 ? `0${currentDate.getDay()}` : currentDate.getDay();
+    currentDay = currentDate.getDate() < 10 ? `0${currentDate.getDate()}` : currentDate.getDate();
     currentMonth = currentDate.getMonth() < 10 ? `0${currentDate.getMonth()}` : currentDate.getMonth();
     currentYear = currentDate.getFullYear();
 
     let minYear = `${currentYear-18}-${currentMonth}-${currentDay}`;
-
     ageGuard.max = minYear;
+   
 </script>
+
+<?php
+
+include "./functionalities/country_code_menupulation.php";
+include_once "./functionalities/form-validation.php";
+
+include_once "./layout/footer.php";
+?>
+
