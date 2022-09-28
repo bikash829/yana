@@ -12,15 +12,45 @@ $validation_message = [];
 
 // =====================================empty registration session =================
 
+if (isset($_POST['btn-create-user'])) {
+    unset($_POST['btn-create-user']);
+    $role = $_POST['role'];
+
+    switch ($role) {
+        case 'doctor':
+            $_POST['btn-doctor'] = true;
+            break;
+        case 'councilor':
+            $_POST['btn-councilor'] = true;
+            break;
+        case 'patient':
+            $_POST['btn_patient'] = true;
+            break;
+        default:
+            break;
+    }
+}
+
+
 if (isset($_POST['btn-doctor'])) { // Doctor validation
     // data filtering 
+    // $profile_picture = $_POST['pp'];
+    unset($_POST['btn-doctor']);
+    unset($_POST['pp']);
+
+
+
 
     if (empty_data_validation($_POST)) { //empty value guard
 
         //data validation 
+
         $validation_report = data_validation($_POST);
+
+
         if (isset($validation_report['status']) && $validation_report['status']) {
             $validation_report['role'] = 3;
+
 
             if (save_councilor($validation_report)) {
                 $validation_message['success'] = "Doc Your account has been created successfully.";
@@ -34,18 +64,19 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
             $validation_message = data_validation($_POST);
         }
     } else {
+
         $validation_message['empty_checker'] = "You must give every required information";
         $validation  = false;
-        exit();
     }
 
 
     // =======end doctor registration 
 } elseif (isset($_POST['btn-councilor'])) { // councilor validation
-   
+    unset($_POST['btn-councilor']);
     // optional data 
     $working_info  = $_POST['working_info'];
     unset($_POST['working_info']);
+    unset($_POST['pp']);
 
     // data filtering 
     if (empty_data_validation($_POST)) { //empty value guard
@@ -71,10 +102,10 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
     } else {
         $validation_message['empty_checker'] = "You must give every required information";
         $validation  = false;
-        exit();
+       
     }
 } elseif (isset($_POST['btn_patient'])) { // =======strat patient registration 
-
+    unset($_POST['btn_patient']);
     // optional data 
     $contact_no = $_POST['number'];
     $address = $_POST['address'];
@@ -135,5 +166,3 @@ if ($validation) {
 } else {
     print_r($validation_message);
 }
-
-

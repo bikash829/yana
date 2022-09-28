@@ -5,6 +5,8 @@
 <script src="assets/demo/chart-bar-demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
+
+<!-- <script defer type="text/javascript" src="../vendor/bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script> -->
 </body>
 
 </html>

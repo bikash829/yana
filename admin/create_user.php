@@ -20,19 +20,19 @@ include_once "./admin-layouts/nav.php";
                             <section class="segment-margin register-container">
                                 <div class="reg-form-container">
                                     <h2 class="reg-form__title card-header">User Form</h2>
-                                    <form name="frm_doc" action="#" method="POST" class="row g-3 needs-validation register card-body" novalidate>
+                                    <form name="frm_doc" action="../backend/reg.php" method="POST" enctype="multipart/form-data" class="row g-3 needs-validation register card-body" novalidate>
 
                                         <!-- name  -->
                                         <div class="col-md-6">
                                             <label for="first_name" class="form-label">First Name</label>
-                                            <input name="first-name" type="text" class="form-control" id="first_name" placeholder="First Name" required>
+                                            <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name" required>
                                             <div class="invalid-feedback">
                                                 Please enter your first name.
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="last_name" class="form-label">Last name</label>
-                                            <input name="last-name" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
+                                            <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
                                             <div class="invalid-feedback">
                                                 Please enter your last name.
                                             </div>
@@ -170,12 +170,9 @@ include_once "./admin-layouts/nav.php";
                                         </div>
                                         <div class="col-md-3">
                                             <label for="city_" class="form-label">City</label>
-                                            <select name="city" class="form-select " id="city_" aria-describedby="validationServer04Feedback" required>
-                                                <option selected disabled value="">Choose...</option>
-                                                <option value="city_name">...</option>
-                                            </select>
-                                            <div id="validationServer04Feedback" class="invalid-feedback">
-                                                Please select your city.
+                                            <input name="city" type="text" class="form-control" id="city_" required>
+                                            <div id="validationServer05Feedback" class="invalid-feedback">
+                                                Please enter your city name.
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -259,7 +256,7 @@ include_once "./admin-layouts/nav.php";
 
 
                                         <div class="col-12 d-grid">
-                                            <button name="btn-doctor" class="btn btn-primary" type="submit">Register Now</button>
+                                            <button name="btn-create-user" class="btn btn-primary" type="submit">Create User</button>
                                         </div>
                                     </form>
 

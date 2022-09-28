@@ -13,7 +13,7 @@ CREATE TABLE users(
     gender VARCHAR(10),
     date_of_birth DATE,
     pass VARCHAR(256) NOT NULL,
-    country_id INT(10) NOT NULL,
+    country_id INT(10),
     phone_code VARCHAR(5),
     phone_number VARCHAR(20),
     addr TEXT,
@@ -223,6 +223,12 @@ ADD FOREIGN KEY (post_id) REFERENCES forum(id);
 -- |================ foreign key section End =================|
 
 -- |================ Dumb Data =====================|
+-- |-- Dumbing data for admin --| 
+
+INSERT INTO users(`email`,`pass`,`role_id`)
+VALUES
+('admin@email.com','59235f35e4763abb0b547bd093562f6e',1);
+
 
 -- |-- Dumbing data for user role --| 
 INSERT INTO user_role(role)
