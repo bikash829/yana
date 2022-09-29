@@ -3,6 +3,9 @@
 include_once "./admin-layouts/head.php";
 include_once "./admin-layouts/nav.php";
 
+
+
+
 ?>
 <div id="layoutSidenav">
     <!-- aside  -->
@@ -50,12 +53,18 @@ include_once "./admin-layouts/nav.php";
                                 </tr>
                             </tfoot>
                             <tbody>
+                            <?php
+                                foreach($_SESSION['user_list'] AS $value){
+                                    if($value['role_id'] == 4){
+
+                                ?>
                                 <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
+                                    <td><?= $value['id'] ?></td>
+                                    <td><?= $value['f_name'] . ' ' . $value['l_name'] ?></td>
+                                    <td><?= $value['date_of_birth'] ?></td>
+                                    <td><?= $value['date_of_birth'] ?></td>
+                                    <td><?= $value['phone_code']. $value['phone_number'] ?></td>
+
                                     <td>
                                         <div class="dropdown  overflow-visible">
                                             <div class="action">
@@ -73,6 +82,11 @@ include_once "./admin-layouts/nav.php";
                                         </div>
                                     </td>
                                 </tr>
+
+                                <?php 
+                                }
+                            }
+                                ?>
 
                             </tbody>
                         </table>

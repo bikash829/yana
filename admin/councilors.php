@@ -3,6 +3,12 @@
 include_once "./admin-layouts/head.php";
 include_once "./admin-layouts/nav.php";
 
+
+
+
+
+// db connection 
+
 ?>
 <div id="layoutSidenav">
     <!-- aside  -->
@@ -54,32 +60,45 @@ include_once "./admin-layouts/nav.php";
                                 </tr>
                             </tfoot>
                             <tbody>
+                            <?php
+                                foreach($_SESSION['user_list'] AS $value){
+                                    // print_r($value);
+                                    if($value['role_id'] == 2){
+
+                                        
+                                        ?>
                                 <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                    <td>2011/04/25</td>
-                                    <td>2011/04/25</td>
+                                    <td><?= $value['id'] ?></td>
+                                    <td><?= $value['f_name'] . ' ' . $value['l_name'] ?></td>
+                                    <td><?= $value['gender'] ?></td>
+                                    <td><?= $value['education_info'] ?></td>
+                                    <td><?= $value['date_of_birth'] ?></td>
+                                    <td><?= $value['working_info'] ?></td>
+                                    <td><?= $value['phone_code']. $value['phone_number'] ?></td>
+
                                     <td>
                                         <div class="dropdown  overflow-visible">
                                             <div class="action">
                                                 <div class="btn-group">
                                                     <button class="action dropdown-toggle action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye text-success"></i> view</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user-lock text-primary"></i> block</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
-                                                    </ul>
+                                                        
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye text-success"></i> view</a></li>
+                                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user-lock text-primary"></i> block</a></li>
+                                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-
-                                </tr>
+                                        </td>
+                                        
+                                    </tr>
+                                    <?php
+                                }
+                            
+                                }
+                                ?>
 
                             </tbody>
                         </table>

@@ -1,9 +1,9 @@
-DROP DATABASE yana;
+-- DROP DATABASE yana;
 -- database 
-CREATE DATABASE yana;
+-- CREATE DATABASE yana;
 
 
-USE yana;
+-- USE yana;
 -- user table 
 CREATE TABLE users(
     id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -223,12 +223,6 @@ ADD FOREIGN KEY (post_id) REFERENCES forum(id);
 -- |================ foreign key section End =================|
 
 -- |================ Dumb Data =====================|
--- |-- Dumbing data for admin --| 
-
-INSERT INTO users(`email`,`pass`,`role_id`)
-VALUES
-('admin@email.com','59235f35e4763abb0b547bd093562f6e',1);
-
 
 -- |-- Dumbing data for user role --| 
 INSERT INTO user_role(role)
@@ -506,6 +500,14 @@ INSERT INTO `country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`, `phon
 (237, 'YE', 'YEMEN', 'Yemen', 'YEM', 887, 967),
 (238, 'ZM', 'ZAMBIA', 'Zambia', 'ZMB', 894, 260),
 (239, 'ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716, 263);
+
+
+-- |-- Dumbing data for admin --| 
+
+INSERT INTO users(`email`,`pass`,`role_id`)
+VALUES
+('admin@email.com','59235f35e4763abb0b547bd093562f6e',1);
+
 
 
 -- |-------------suggestion-----------------|-- 

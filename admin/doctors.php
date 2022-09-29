@@ -82,7 +82,10 @@ if ($validation) {
                                 <?php
                                 foreach($_SESSION['user_list'] AS $value){
                                     // print_r($value);
-                                ?>
+
+                                    if($value['role_id']  == 3){
+
+                                        ?>
                                 
                                 <tr>
                                     <td><?= $value['id'] ?></td>
@@ -92,7 +95,7 @@ if ($validation) {
                                     <td><?= $value['date_of_birth'] ?></td>
                                     <td><?= $value['working_info'] ?></td>
                                     <td><?= $value['phone_code']. $value['phone_number'] ?></td>
-
+                                    
                                     <td>
                                         <div class="dropdown  overflow-visible">
                                             <div class="action">
@@ -111,6 +114,7 @@ if ($validation) {
                                     </td>
                                 </tr>
                                 <?php 
+                            }
                                 }
                                 ?>
                             </tbody>
