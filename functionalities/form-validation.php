@@ -72,7 +72,7 @@
     let patientOptional, councilorOptional;
     patientOptional = document.querySelectorAll("[name='address'],[name='city'],[name='zip_code']");
     councilorOptional = document.querySelector("[name='working_info']");
-    
+
     let patientEx, role, currentRole;
     role = document.getElementById('role');
     patientEx = document.querySelectorAll('.switch-patient');
@@ -102,7 +102,6 @@
                 break;
             default:
                 value.style.display = "none";
-                councilorOptional.setAttribute("required", "");
                 for (item of patientOptional) {
                     item.removeAttribute("required");
                 }
@@ -112,6 +111,14 @@
     }
 
     // role event 
+    let edu_qualification, work_info, certificates_doc;
+
+    edu_qualification = document.getElementById('edu-qualification');
+    work_info = document.getElementById('work_info');
+    certificates_doc = document.getElementById('documents');
+
+
+
     role.addEventListener('change', (e) => {
         let selectRoleElement = e.target;
         let selectedRole = selectRoleElement.value;
@@ -120,29 +127,44 @@
         for (value of patientEx) {
             switch (selectedRole) {
                 case "doctor":
+                    edu_qualification.setAttribute("required", "");
+                    // work_info.setAttribute("required", "");
+                    certificates_doc.setAttribute("required", "");
+
 
                     value.style.display = "block";
                     councilorOptional.setAttribute("required", "");
                     councilorOptional.labels[0].textContent = "Important";
                     patientOptional.forEach((item) => {
-                        item.setAttribute('required','');
+                        item.setAttribute('required', '');
                     });
                     break;
                 case "councilor":
+                    edu_qualification.setAttribute("required", "");
+                    // work_info.setAttribute("required", "");
+                    certificates_doc.setAttribute("required", "");
+
+
                     value.style.display = "block";
                     councilorOptional.removeAttribute("required");
                     councilorOptional.labels[0].textContent = "Optional";
                     patientOptional.forEach((item) => {
-                        item.setAttribute('required','');
+                        item.setAttribute('required', '');
                     });
 
                     break;
                 default:
+                    edu_qualification.removeAttribute("required");
+                    // work_info.removeAttribute("required");
+                    certificates_doc.removeAttribute("required");
+
                     value.style.display = "none";
-                    councilorOptional.setAttribute("required", "");
+                    councilorOptional.removeAttribute("required");
                     patientOptional.forEach((item) => {
                         item.removeAttribute('required');
                     });
+
+                    console.log(value);
 
                     break;
             }

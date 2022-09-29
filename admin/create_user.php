@@ -241,22 +241,10 @@ include_once "./admin-layouts/nav.php";
                                             </div>
                                         </div>
 
-                                        <!-- 
-                                        <div class="col-12">
-                                            <div class="form-check m-auto">
-                                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                                                <label class="form-check-label" for="invalidCheck">
-                                                    Agree to terms and conditions
-                                                </label>
-                                                <div class="invalid-feedback">
-                                                    You must agree before submitting.
-                                                </div>
-                                            </div>
-                                        </div> -->
-
 
                                         <div class="col-12 d-grid">
                                             <button name="btn-create-user" class="btn btn-primary" type="submit">Create User</button>
+                                            <!-- <input class="btn btn-primary" type="submit" value="Create User" name="btn-create-user"> -->
                                         </div>
                                     </form>
 

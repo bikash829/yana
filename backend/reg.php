@@ -102,7 +102,6 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
     } else {
         $validation_message['empty_checker'] = "You must give every required information";
         $validation  = false;
-       
     }
 } elseif (isset($_POST['btn_patient'])) { // =======strat patient registration 
     unset($_POST['btn_patient']);
@@ -117,6 +116,18 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
     unset($_POST['address']);
     unset($_POST['city']);
     unset($_POST['zip_code']);
+    if (isset($_POST['working_info'])) {
+        unset($_POST['working_info']);
+    }
+
+    if (isset($_POST['education_info'])) {
+        unset($_POST['education_info']);
+    }
+
+    if(isset($_FILES['xp_info_doc'])){
+        unset($_FILES['xp_info_doc']);
+    }
+
 
 
     // data filtering 
