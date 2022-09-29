@@ -5,6 +5,32 @@ include_once "./admin-layouts/nav.php";
 
 
 
+// db connection 
+
+include "../config/db_connection.php";
+$validation = true;
+$validation_message = [];
+
+$sql = "SELECT `users`.*,`users`.phone_code AS `phone_code_id`, `additional_info`.`working_info`,`additional_info`.`education` AS `education_info`, `additional_info`.`document_name` AS `education_proof`,`additional_info`.`document_location` AS `education_proof_location`, `country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code` FROM `users` 
+        INNER JOIN `additional_info` ON `users`.`id` = `additional_info`.`user_id`
+        INNER JOIN `country` ON `users`.`country_id` = `country`.`id`;";
+
+if ($dataList =  db_connection()->query($sql)) {
+    $user_stack = $dataList->fetch_all(MYSQLI_ASSOC);
+} else {
+    $validation = false;
+    $validation_message['error_tech'] = "Technical error try again";
+}
+
+
+// validation checker
+if ($validation) {
+    true;
+} else {
+    header("Location: ../error.php");
+}
+
+
 
 ?>
 <div id="layoutSidenav">
@@ -54,9 +80,11 @@ include_once "./admin-layouts/nav.php";
                             </tfoot>
                             <tbody>
                             <?php
-                                foreach($_SESSION['user_list'] AS $value){
+                                foreach($user_stack AS $value){
+                                    print_r($value['role_id']);
                                     if($value['role_id'] == 4){
 
+                                        
                                 ?>
                                 <tr>
                                     <td><?= $value['id'] ?></td>

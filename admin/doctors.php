@@ -14,7 +14,7 @@ $sql = "SELECT `users`.*,`users`.phone_code AS `phone_code_id`, `additional_info
         INNER JOIN `country` ON `users`.`country_id` = `country`.`id`;";
 
 if ($dataList =  db_connection()->query($sql)) {
-    $_SESSION['user_list'] = $dataList->fetch_all(MYSQLI_ASSOC);
+    $user_stack = $dataList->fetch_all(MYSQLI_ASSOC);
 } else {
     $validation = false;
     $validation_message['error_tech'] = "Technical error try again";
@@ -80,7 +80,7 @@ if ($validation) {
                             </tfoot>
                             <tbody>
                                 <?php
-                                foreach($_SESSION['user_list'] AS $value){
+                                foreach($user_stack AS $value){
                                     // print_r($value);
 
                                     if($value['role_id']  == 3){

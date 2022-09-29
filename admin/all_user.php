@@ -3,8 +3,6 @@
 include_once "./admin-layouts/head.php";
 include_once "./admin-layouts/nav.php";
 
-
-
 // db connection 
 
 include "../config/db_connection.php";
@@ -30,9 +28,6 @@ if ($validation) {
     header("Location: ../error.php");
 }
 
-
-// db connection 
-
 ?>
 <div id="layoutSidenav">
     <!-- aside  -->
@@ -40,7 +35,7 @@ if ($validation) {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">All Councilor</h1>
+                <h1 class="mt-4">All user</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?= $dashboard ?>">Dashboard</a></li>
                     <li class="breadcrumb-item active">Tables</li>
@@ -55,7 +50,7 @@ if ($validation) {
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Councilor List
+                        User List
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
@@ -64,16 +59,17 @@ if ($validation) {
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Gender</th>
-                                    <th>Qualifications</th>
+                                    <th>Efficiency</th>
                                     <th>Age</th>
                                     <th>Experience</th>
                                     <th>Contact</th>
+                                    <th>Role</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>ID</th>
                                     <th>Name</th>
                                     <th>Gender</th>
                                     <th>Efficiency</th>
@@ -84,13 +80,34 @@ if ($validation) {
                                 </tr>
                             </tfoot>
                             <tbody>
-                            <?php
+                                <?php
                                 foreach($user_stack AS $value){
                                     // print_r($value);
-                                    if($value['role_id'] == 2){
 
+                                    switch ($value['role_id']) {
+                                        case 1 :
+                                            # code...
+                                            break;
                                         
+                                        case 2 :
+                                                # code...
+                                            break;
+                                        case 3 :
+                                                    # code...
+                                            break;
+                                        case 4:
+                                                        # code...
+                                            break;    
+                                        default:
+                                            # code...
+                                            break;
+                                    }
+
+
+                               
+
                                         ?>
+                                
                                 <tr>
                                     <td><?= $value['id'] ?></td>
                                     <td><?= $value['f_name'] . ' ' . $value['l_name'] ?></td>
@@ -99,31 +116,29 @@ if ($validation) {
                                     <td><?= $value['date_of_birth'] ?></td>
                                     <td><?= $value['working_info'] ?></td>
                                     <td><?= $value['phone_code']. $value['phone_number'] ?></td>
-
+                                    <td><?= $value['phone_code']?></td>
+                                    
                                     <td>
                                         <div class="dropdown  overflow-visible">
                                             <div class="action">
                                                 <div class="btn-group">
                                                     <button class="action dropdown-toggle action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye text-success"></i> view</a></li>
-                                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user-lock text-primary"></i> block</a></li>
-                                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
-                                                        </ul>
-                                                    </div>
+
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye text-success"></i> view</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user-lock text-primary"></i> block</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
+                                                    </ul>
                                                 </div>
                                             </div>
-                                        </td>
-                                        
-                                    </tr>
-                                    <?php
-                                }
-                            
-                                }
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php 
+                            }
+                                
                                 ?>
-
                             </tbody>
                         </table>
                     </div>
