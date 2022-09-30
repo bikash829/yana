@@ -3,15 +3,14 @@
 include_once "./admin-layouts/head.php";
 include_once "./admin-layouts/nav.php";
 
-
-
+// db connection 
+include "../config/db_connection.php";
 
 $validation = true;
 $validation_message = [];
 
 //query 
-$status = 1;
-include "./users_query.php";
+$sql = "SELECT * FROM `users` WHERE `status` IS NULL";
 
 if ($dataList =  db_connection()->query($sql)) {
     $user_stack = $dataList->fetch_all(MYSQLI_ASSOC);
@@ -28,8 +27,6 @@ if ($validation) {
     header("Location: ../error.php");
 }
 
-
-
 ?>
 <div id="layoutSidenav">
     <!-- aside  -->
@@ -37,7 +34,7 @@ if ($validation) {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">All Patients</h1>
+                <h1 class="mt-4">All user</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?= $dashboard ?>">Dashboard</a></li>
                     <li class="breadcrumb-item active">Tables</li>
@@ -52,17 +49,20 @@ if ($validation) {
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Patient List
+                        User List
                     </div>
-                    <div class="card-body">
+                    <div class="card-body ">
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Occupation</th>
+                                    <th>Gender</th>
+                                    <th>Efficiency</th>
                                     <th>Age</th>
-                                    <th>Contact No</th>
+                                    <th>Experience</th>
+                                    <th>Contact</th>
+                                    <th>Role</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -70,27 +70,49 @@ if ($validation) {
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Occupation</th>
+                                    <th>Gender</th>
+                                    <th>Efficiency</th>
                                     <th>Age</th>
-                                    <th>Contact No</th>
+                                    <th>Experience</th>
+                                    <th>Contact</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                            <?php
+                                <?php
                                 foreach($user_stack AS $value){
-                                    
-                                    if($value['role_id'] == 4){
+                                    // print_r($value);
 
+                                    switch ($value['role_id']) {
+                                        case 1 :
+                                            $value['role'] = 'admin';
+                                            break;
                                         
-                                ?>
+                                        case 2 :
+                                            $value['role'] = 'councilor';
+                                            break;
+                                        case 3 :
+                                            $value['role'] = 'doctor';
+                                            break;
+                                        case 4:
+                                            $value['role'] = 'patient';
+                                            break;    
+                                        default:
+                                            $value['role'] = 'other';
+                                            break;
+                                    }
+                                        ?>
+                                
                                 <tr>
                                     <td><?= $value['id'] ?></td>
                                     <td><?= $value['f_name'] . ' ' . $value['l_name'] ?></td>
-                                    <td><?= $value['date_of_birth'] ?></td>
+                                    <td><?= $value['gender'] ?></td>
+                                    <td><?= $value['education_info'] ?></td>
                                     <td><?= date('Y') - date('Y', strtotime($value['date_of_birth'])) ?></td>
+                                    <td><?= $value['working_info'] ?></td>
                                     <td><?= $value['phone_code']. $value['phone_number'] ?></td>
-
+                                    <td><?=ucwords($value['role'])?></td>
+                                    
                                     <td>
                                         <div class="dropdown  overflow-visible">
                                             <div class="action">
@@ -108,12 +130,10 @@ if ($validation) {
                                         </div>
                                     </td>
                                 </tr>
-
                                 <?php 
-                                }
                             }
+                                
                                 ?>
-
                             </tbody>
                         </table>
                     </div>
@@ -128,6 +148,10 @@ if ($validation) {
 <script src="js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
+<script>
+    let dataTableContainer =   document.querySelector('.dataTable-container');
+    console.log(dataTableContainer);
+</script>
 </body>
 
 </html>

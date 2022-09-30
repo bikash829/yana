@@ -4,6 +4,7 @@ $patient = "./patients.php";
 $doctor = "./doctors.php";
 $councilor = "./councilors.php";
 $all_user = "./all_user.php";
+$pending_user = "./pending_user.php";
 
 
 ?>
@@ -26,7 +27,8 @@ $all_user = "./all_user.php";
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="<?=$create_user?>"><i class="fa-solid fa-person-circle-plus"></i>&nbsp;  Add User</a>
-                        <a class="nav-link" href="<?=$all_user?>"><i class="fa-solid fa-bed"></i>&nbsp;  All Users</a>
+                        <a class="nav-link" href="<?=$pending_user?>"><i class="fa-solid fa-hourglass-start"></i>&nbsp;  Pending User</a>
+                        <a class="nav-link" href="<?=$all_user?>"><i class="fa-solid fa-user"></i>&nbsp;  All Users</a>
                         <a class="nav-link" href="<?=$doctor?>"><i class="fa-solid fa-user-doctor"></i> &nbsp; Doctors</a>
                         <a class="nav-link" href="<?=$councilor?>"><i class="fa-brands fa-teamspeak"></i>&nbsp;  Councilors</a>
                         <a class="nav-link" href="<?=$patient?>"><i class="fa-solid fa-bed"></i>&nbsp;  Patients</a>

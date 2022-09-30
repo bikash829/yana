@@ -5,13 +5,13 @@ include_once "./admin-layouts/nav.php";
 
 // db connection 
 
-include "../config/db_connection.php";
+
 $validation = true;
 $validation_message = [];
 
-$sql = "SELECT `users`.*,`users`.phone_code AS `phone_code_id`, `additional_info`.`working_info`,`additional_info`.`education` AS `education_info`, `additional_info`.`document_name` AS `education_proof`,`additional_info`.`document_location` AS `education_proof_location`, `country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code` FROM `users` 
-        INNER JOIN `additional_info` ON `users`.`id` = `additional_info`.`user_id`
-        INNER JOIN `country` ON `users`.`country_id` = `country`.`id`;";
+//query 
+$status = 1;
+include "./users_query.php";
 
 if ($dataList =  db_connection()->query($sql)) {
     $user_stack = $dataList->fetch_all(MYSQLI_ASSOC);
@@ -86,26 +86,22 @@ if ($validation) {
 
                                     switch ($value['role_id']) {
                                         case 1 :
-                                            # code...
+                                            $value['role'] = 'admin';
                                             break;
                                         
                                         case 2 :
-                                                # code...
+                                            $value['role'] = 'councilor';
                                             break;
                                         case 3 :
-                                                    # code...
+                                            $value['role'] = 'doctor';
                                             break;
                                         case 4:
-                                                        # code...
+                                            $value['role'] = 'patient';
                                             break;    
                                         default:
-                                            # code...
+                                            $value['role'] = 'other';
                                             break;
                                     }
-
-
-                               
-
                                         ?>
                                 
                                 <tr>
@@ -113,10 +109,10 @@ if ($validation) {
                                     <td><?= $value['f_name'] . ' ' . $value['l_name'] ?></td>
                                     <td><?= $value['gender'] ?></td>
                                     <td><?= $value['education_info'] ?></td>
-                                    <td><?= $value['date_of_birth'] ?></td>
+                                    <td><?= date('Y') - date('Y', strtotime($value['date_of_birth'])) ?></td>
                                     <td><?= $value['working_info'] ?></td>
                                     <td><?= $value['phone_code']. $value['phone_number'] ?></td>
-                                    <td><?= $value['phone_code']?></td>
+                                    <td><?=ucwords($value['role'])?></td>
                                     
                                     <td>
                                         <div class="dropdown  overflow-visible">

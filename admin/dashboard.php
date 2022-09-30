@@ -1,6 +1,52 @@
 <?php
 include_once "./admin-layouts/head.php";
 include_once "./admin-layouts/nav.php";
+include "../config/db_connection.php";
+
+
+$sql = "SELECT * FROM `users` WHERE `status` = 1";
+
+if($user_stack = db_connection()->query($sql)){
+    $active_user_list = $user_stack->fetch_all(MYSQLI_ASSOC);
+    
+    $total_doc = 0;
+    $total_patient = 0;
+    $total_councilor = 0;
+    
+    foreach($active_user_list AS $row){
+        switch ($row['role_id']) {
+            case '2':
+               
+                $total_councilor++;
+                break;
+            case '3':
+                $total_doc++;
+                break;
+            case '4':
+                $total_patient++;
+                break;
+            default:
+                # code...
+                break;
+        }
+
+    }
+}
+
+$sql_inactive = "SELECT * FROM `users` WHERE `status` IS NULL";
+if($data = db_connection()->query($sql_inactive)){
+    $user_request = $data->fetch_all(MYSQLI_ASSOC);
+    $total_request = 0;
+    foreach($user_request AS $row){
+        $total_request++;
+    }
+}
+
+
+
+
+
+
 ?>
 <div id="layoutSidenav">
     <!-- aside  -->
@@ -17,10 +63,10 @@ include_once "./admin-layouts/nav.php";
                         <div class="card bg-primary text-white mb-4">
                             <h4 class="card-header">Total Doctors</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2">5</p>
+                                <p class="text-center fs-2"><?=$total_doc?></p>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="#">View Details</a>
+                                <a class="small text-white stretched-link" href="./doctors.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -29,10 +75,10 @@ include_once "./admin-layouts/nav.php";
                         <div class="card bg-warning text-white mb-4">
                             <h4 class="card-header">Total Councilors</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2">5</p>
+                                <p class="text-center fs-2"><?=$total_councilor?></p>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="#">View Details</a>
+                                <a class="small text-white stretched-link" href="./councilors.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -41,23 +87,23 @@ include_once "./admin-layouts/nav.php";
                         <div class="card bg-success text-white mb-4">
                             <h4 class="card-header">Total Patients</h4>
                                 <div class="card-body">
-                                    <p class="text-center fs-2">5</p>
+                                    <p class="text-center fs-2"><?=$total_patient?></p>
                                 </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
+                                    <a class="small text-white stretched-link" href="./patients.php">View Details</a>
                                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                 </div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-danger text-white mb-4">
-                            <h4 class="card-header">Pending User Request</h4>
+                            <h4 class="card-header">Pending Request</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2">5</p>
+                                <p class="text-center fs-2"><?=$total_request?></p>
                             </div>
 
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="#">View Details</a>
+                                <a class="small text-white stretched-link" href="./pending_user.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
