@@ -205,6 +205,11 @@ function save_councilor($data)
     $gender = $data['gender'];
     $date_of_birth = $data['date-of-birth'];
     $pass = $data['password'];
+    if(isset($data['patient_status'])){
+        $patient_status = $data['patient_status'];
+    }else{
+        $patient_status = 'NULL';
+    }
 
     // $country_id =empty_value($data['country']);
     if (isset($data['country'])) {
@@ -266,11 +271,12 @@ function save_councilor($data)
 
     // query for users data 
     $sql = "INSERT INTO users(
-        f_name, l_name, email, gender, date_of_birth,pass, country_id, phone_code, phone_number, addr, city, zip_code, profile_photo, profile_location, role_id
+        f_name, l_name, email, gender, date_of_birth,pass, country_id, phone_code, phone_number, addr, city, zip_code, profile_photo, profile_location, role_id,`status`
     )
     VALUES(
-        '$f_name', '$l_name', '$email', '$gender', '$date_of_birth', '$pass', '$country_id', '$phone_code', '$phone_number', '$addr', '$city', '$zip_code', '$profile_photo', '$profile_location',$user_role 
+        '$f_name', '$l_name', '$email', '$gender', '$date_of_birth', '$pass', '$country_id', '$phone_code', '$phone_number', '$addr', '$city', '$zip_code', '$profile_photo', '$profile_location',$user_role,$patient_status 
     );";
+
 
 
     if (db_connection()->query($sql)) {

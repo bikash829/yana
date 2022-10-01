@@ -143,6 +143,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
         $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
             $validation_report['role'] = 4;
+            $validation_report['patient_status'] = 1;
 
             if (save_councilor($validation_report)) {
                 $validation_message['success'] = "Your account has been created successfully.";
