@@ -99,9 +99,9 @@ if ($validation) {
 
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye text-success"></i> view</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user-lock text-primary"></i> block</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
+                                                        <li><a class="dropdown-item" href="./view_user.php?view_user=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-eye text-success"></i> view</a></li>
+                                                        <!-- <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user-lock text-primary"></i> block</a></li> -->
+                                                        <li><a class="dropdown-item" href="../backend/manage_user.php?del_user=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
                                                     </ul>
                                                 </div>
                                             </div>

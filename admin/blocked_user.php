@@ -4,14 +4,13 @@ include_once "./admin-layouts/head.php";
 include_once "./admin-layouts/nav.php";
 
 // db connection 
-
+include "../config/db_connection.php";
 
 $validation = true;
 $validation_message = [];
 
 //query 
-$status = 1;
-include "./users_query.php";
+$sql = "SELECT * FROM `users` WHERE `status` = 2";
 
 if ($dataList =  db_connection()->query($sql)) {
     $user_stack = $dataList->fetch_all(MYSQLI_ASSOC);
@@ -35,7 +34,7 @@ if ($validation) {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">All user</h1>
+                <h1 class="mt-4">Pending user</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?= $dashboard ?>">Dashboard</a></li>
                     <li class="breadcrumb-item active">Tables</li>
@@ -52,7 +51,7 @@ if ($validation) {
                         <i class="fas fa-table me-1"></i>
                         User List
                     </div>
-                    <div class="card-body">
+                    <div class="card-body ">
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
@@ -76,6 +75,8 @@ if ($validation) {
                                     <th>Age</th>
                                     <th>Experience</th>
                                     <th>Contact</th>
+                                    <th>Status</th>
+
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
@@ -112,6 +113,13 @@ if ($validation) {
                                     <td><?= date('Y') - date('Y', strtotime($value['date_of_birth'])) ?></td>
                                     <td><?= $value['working_info'] ?></td>
                                     <td><?= $value['phone_code']. $value['phone_number'] ?></td>
+
+                                    <?php 
+                                    $req_info = array('type'=>'req','uid'=>$value['id']);
+                                    
+                                    
+                                    ?>
+                                    <!-- <td><a href="../backend/manage_user.php?req=true&user_id=<?=$value['id']?>" class="btn btn-sm btn-primary">Accept</a></td> -->
                                     <td><?=ucwords($value['role'])?></td>
                                     
                                     <td>
@@ -123,9 +131,7 @@ if ($validation) {
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                         <li><a class="dropdown-item" href="./view_user.php?view_user=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-eye text-success"></i> view</a></li>
-                                                        <?php if($value['role_id'] == 2 || $value['role_id'] == 3){ ?>
-                                                        <li><a class="dropdown-item" href="../backend/manage_user.php?block=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-user-lock text-primary"></i> block</a></li>
-                                                        <?php }?>
+                                                        <li><a class="dropdown-item" href="../backend/manage_user.php?req=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-lock-open text-primary"></i> Unblock</a></li>
                                                         <li><a class="dropdown-item" href="../backend/manage_user.php?del_user=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
                                                     </ul>
                                                 </div>
@@ -151,6 +157,7 @@ if ($validation) {
 <script src="js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
+
 </body>
 
 </html>
