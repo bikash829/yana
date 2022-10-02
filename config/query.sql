@@ -21,7 +21,8 @@ CREATE TABLE users(
     zip_code VARCHAR(20),
     profile_photo VARCHAR(256),
     profile_location VARCHAR(256),
-    role_id INT(2) NOT NULL
+    role_id INT(2) NOT NULL,
+    `status` INT(2) 
 );
 -- user additional info 
 CREATE TABLE additional_info(
@@ -94,15 +95,17 @@ CREATE TABLE report(
 CREATE TABLE forum(
     id INT(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id INT(10) NOT NULL,
+    post_title VARCHAR(256),
     post_description TEXT,
     post_date DATE
 );
 -- user comment forum 
 CREATE TABLE comments(
-    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    user_id INT(10) NOT NULL,
-    forum_id INT(10) NOT NULL,
-    comment TEXT
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `user_id` INT(10) NOT NULL,
+    `forum_id` INT(10) NOT NULL,
+    `comment` TEXT,
+    `comment_date` date
 );
 -- react table 
 CREATE TABLE react(

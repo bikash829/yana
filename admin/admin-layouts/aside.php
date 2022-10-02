@@ -77,7 +77,7 @@ $blocked_user = "./blocked_user.php";
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
                     Create Post
                 </a>
-                <a class="nav-link" href="tables.php">
+                <a class="nav-link" href="contact_message.php">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope"></i></div>
                     Contact Us Message
                 </a>
