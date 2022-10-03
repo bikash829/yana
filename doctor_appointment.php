@@ -25,6 +25,8 @@ if($special_user_set = db_connection()->query($sql)){
     $validation = "Technical Error";
 }
 
+// social links 
+
 
 ?>
 
@@ -55,6 +57,22 @@ if($special_user_set = db_connection()->query($sql)){
                             <?php foreach($special_user AS $row){ 
                                 if($row['role_id'] == 2 && $row['status'] == 1){
 
+                                    $user_id = $row['id'];
+                                    $sql = "SELECT  `social_medium`.`id` AS `medium_id`, `social_medium`.`medium`,`social_user_link`.`link` AS `social_link` 
+                                            FROM `users`
+                                            INNER JOIN `social_user_link` ON `social_user_link`.`user_id` = `users`.`id`
+                                            INNER JOIN  `social_medium` ON `social_medium`.`id`  = `social_user_link`.`medium_id`
+                                            WHERE `users`.`id` = $user_id;";
+                                    
+
+                                    if($social_info_set = db_connection()->query($sql)){
+                                        $social_info = $social_info_set->fetch_all(MYSQLI_ASSOC);
+                                       
+                                        
+                                    }else{
+                                        $validation  = "Technical error contact with developer";
+                                    }
+
                             ?>
                             <div class="specialist__card">
                                 <div class="specialist__img-con">
@@ -71,10 +89,44 @@ if($special_user_set = db_connection()->query($sql)){
                                     </p>
 
                                     <div class="specialist__links">
-                                        <a href="#" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
-                                        <a href="#" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
-                                        <a href="#" title="click to visit web site" class="specialist__icon"><i class="fa-solid fa-globe"></i></a>
-                                        <a href="#" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                                        <?php 
+                                         if(!empty($social_info)){
+                                            
+                                        
+                                        foreach($social_info AS $social_row){
+                                        $fb_count = 0;
+                                        if($social_row['medium_id'] == 1 && $fb_count < 1){ 
+                                            $fb_count++;
+                                        ?>
+                                            <a href="<?=$social_row['social_link']?>" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
+                                        <?php 
+                                        } 
+                                        $tw_count = 0;
+                                        if($social_row['medium_id'] == 6 && $tw_count < 1){
+                                            $tw_count++;
+                                        ?>
+                                            <a href="<?=$social_row['social_link']?>" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
+                                        
+                                        <?php 
+                                        }
+                                        $web_count = 0;
+                                        if($social_row['medium_id'] == 3 && $web_count < 1){
+                                            $web_count++;
+                                        ?>
+                                            <a href="<?=$social_row['social_link']?>" title="click to visit web site" class="specialist__icon"><i class="fa-solid fa-globe"></i></a>
+                                        <?php 
+                                        }
+                                        $lnkdn_count = 0;
+                                        if($social_row['medium_id'] == 4  && $lnkdn_count < 1){
+                                            $lnkdn_count++;
+                                        ?>
+                                        <a href="<?=$social_row['social_link']?>" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
+
+                                        <?php 
+                                        }
+                                        }
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +156,22 @@ if($special_user_set = db_connection()->query($sql)){
                         <?php foreach($special_user AS $row){ 
                                 // print_r($row);
                                 if($row['role_id'] == 3 && $row['status'] == 1){
-                                    // print_r($row);?>
+                                    $user_id = $row['id'];
+                                    $sql = "SELECT  `social_medium`.`id` AS `medium_id`, `social_medium`.`medium`,`social_user_link`.`link` AS `social_link` 
+                                            FROM `users`
+                                            INNER JOIN `social_user_link` ON `social_user_link`.`user_id` = `users`.`id`
+                                            INNER JOIN  `social_medium` ON `social_medium`.`id`  = `social_user_link`.`medium_id`
+                                            WHERE `users`.`id` = $user_id;";
+                                    
+
+                                    if($social_info_set = db_connection()->query($sql)){
+                                        $social_info = $social_info_set->fetch_all(MYSQLI_ASSOC);
+                                       
+                                        
+                                    }else{
+                                        $validation  = "Technical error contact with developer";
+                                    }
+                            ?>
                             <div class="specialist__card">
                                 <div class="specialist__img-con">
                                     <img class="specialist__img" src="./images/specialist/sp_1.jpg" alt="">
@@ -120,10 +187,48 @@ if($special_user_set = db_connection()->query($sql)){
                                     </p>
 
                                     <div class="specialist__links">
-                                        <a href="#" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
-                                        <a href="#" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
-                                        <a href="#" title="click to visit web site" class="specialist__icon"><i class="fa-solid fa-globe"></i></a>
-                                        <a href="#" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                                        <?php 
+                                         if(!empty($social_info)){
+                                            
+                                        
+                                        foreach($social_info AS $social_row){
+                                       
+                                        
+
+                                        $fb_count = 0;
+                                        if($social_row['medium_id'] == 1 && $fb_count < 1){ 
+                                            $fb_count++;
+                                        ?>
+                                            <a href="<?=$social_row['social_link']?>" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
+                                        <?php 
+                                        } 
+                                        $tw_count = 0;
+                                        if($social_row['medium_id'] == 6 && $tw_count < 1){
+                                            $tw_count++;
+                                        ?>
+                                            <a href="<?=$social_row['social_link']?>" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
+                                        
+                                        <?php 
+                                        }
+                                        $web_count = 0;
+                                        if($social_row['medium_id'] == 3 && $web_count < 1){
+                                            $web_count++;
+                                        ?>
+                                            <a href="<?=$social_row['social_link']?>" title="click to visit web site" class="specialist__icon"><i class="fa-solid fa-globe"></i></a>
+                                        <?php 
+                                        }
+                                        $lnkdn_count = 0;
+                                        if($social_row['medium_id'] == 4  && $lnkdn_count < 1){
+                                            $lnkdn_count++;
+
+                                        ?>
+                                        <a href="<?=$social_row['social_link']?>" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
+
+                                        <?php 
+                                        }
+                                        }
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>

@@ -2176,7 +2176,7 @@ progress {
 
 .table-responsive,
 .dataTable-wrapper .dataTable-container {
-  overflow-x: auto;
+  overflow-x: visible;
   -webkit-overflow-scrolling: touch;
 }
 
