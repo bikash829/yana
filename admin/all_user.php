@@ -58,10 +58,11 @@ if ($validation) {
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <th>Email</th>
                                     <th>Gender</th>
                                     <th>Efficiency</th>
                                     <th>Age</th>
-                                    <th>Experience</th>
+                                    <!-- <th>Experience</th> -->
                                     <th>Contact</th>
                                     <th>Role</th>
                                     <th>Action</th>
@@ -71,10 +72,11 @@ if ($validation) {
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <th>Email</th>
                                     <th>Gender</th>
                                     <th>Efficiency</th>
                                     <th>Age</th>
-                                    <th>Experience</th>
+                                    <!-- <th>Experience</th> -->
                                     <th>Contact</th>
                                     <th>Action</th>
                                 </tr>
@@ -107,10 +109,11 @@ if ($validation) {
                                 <tr>
                                     <td><?= $value['id'] ?></td>
                                     <td><?= $value['f_name'] . ' ' . $value['l_name'] ?></td>
+                                    <td><?= $value['email'] ?></td>
                                     <td><?= $value['gender'] ?></td>
                                     <td><?= $value['education_info'] ?></td>
                                     <td><?= date('Y') - date('Y', strtotime($value['date_of_birth'])) ?></td>
-                                    <td><?= $value['working_info'] ?></td>
+                                    <!-- <td><?= $value['working_info'] ?></td> -->
                                     <td><?= $value['phone_code']. $value['phone_number'] ?></td>
                                     <td><?=ucwords($value['role'])?></td>
                                     

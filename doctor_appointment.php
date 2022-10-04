@@ -85,7 +85,7 @@ if($special_user_set = db_connection()->query($sql)){
                                         <h3 class="person__occu">Proffesion Skills</h3>
                                     </div>
                                     <p class="person__description">
-                                        If you are looking at blank cassettes on the web, you may be very confused at the.
+                                        <?=$row['bio']?>
                                     </p>
 
                                     <div class="specialist__links">
@@ -98,14 +98,14 @@ if($special_user_set = db_connection()->query($sql)){
                                         if($social_row['medium_id'] == 1 && $fb_count < 1){ 
                                             $fb_count++;
                                         ?>
-                                            <a href="<?=$social_row['social_link']?>" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
+                                            <a href="<?=$social_row['social_link']?>" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook"></i></a>
                                         <?php 
                                         } 
                                         $tw_count = 0;
                                         if($social_row['medium_id'] == 6 && $tw_count < 1){
                                             $tw_count++;
                                         ?>
-                                            <a href="<?=$social_row['social_link']?>" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
+                                            <a href="<?=$social_row['social_link']?>" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-square-twitter"></i></a>
                                         
                                         <?php 
                                         }
@@ -120,7 +120,7 @@ if($special_user_set = db_connection()->query($sql)){
                                         if($social_row['medium_id'] == 4  && $lnkdn_count < 1){
                                             $lnkdn_count++;
                                         ?>
-                                        <a href="<?=$social_row['social_link']?>" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                                        <a href="<?=$social_row['social_link']?>" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin"></i></a>
 
                                         <?php 
                                         }
@@ -183,7 +183,7 @@ if($special_user_set = db_connection()->query($sql)){
                                         <h3 class="person__occu">Proffesion Skills</h3>
                                     </div>
                                     <p class="person__description">
-                                        If you are looking at blank cassettes on the web, you may be very confused at the.
+                                    <?=$row['bio']?>
                                     </p>
 
                                     <div class="specialist__links">
@@ -199,14 +199,14 @@ if($special_user_set = db_connection()->query($sql)){
                                         if($social_row['medium_id'] == 1 && $fb_count < 1){ 
                                             $fb_count++;
                                         ?>
-                                            <a href="<?=$social_row['social_link']?>" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
+                                            <a href="<?=$social_row['social_link']?>" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook"></i></a>
                                         <?php 
                                         } 
                                         $tw_count = 0;
                                         if($social_row['medium_id'] == 6 && $tw_count < 1){
                                             $tw_count++;
                                         ?>
-                                            <a href="<?=$social_row['social_link']?>" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
+                                            <a href="<?=$social_row['social_link']?>" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-square-twitter"></i></a>
                                         
                                         <?php 
                                         }
@@ -222,7 +222,7 @@ if($special_user_set = db_connection()->query($sql)){
                                             $lnkdn_count++;
 
                                         ?>
-                                        <a href="<?=$social_row['social_link']?>" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                                        <a href="<?=$social_row['social_link']?>" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin"></i></a>
 
                                         <?php 
                                         }

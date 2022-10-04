@@ -1,7 +1,6 @@
 <?php session_start(); 
 
-
-if(!(isset($_SESSION['admin']) || isset($_SESSION['councilor']) || isset($_SESSION['doctor']))){
+if(!isset($_SESSION['admin'])){
     header("Location: ./index.php");
 }
 
