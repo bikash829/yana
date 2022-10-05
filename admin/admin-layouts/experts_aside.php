@@ -1,6 +1,6 @@
 <?php
 $create_appointment  = "./ex_create_appointment.php";
-$next_appointment = "./next_appointment.php";
+$next_appointment = "./appointment_history.php";
 // $doctor = "./doctors.php";
 // $councilor = "./councilors.php";
 // $all_user = "./all_user.php";
@@ -20,6 +20,12 @@ $next_appointment = "./next_appointment.php";
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
+
+                <!-- apointment section  -->
+                <?php 
+                if(isset($_SESSION['doctor'])){
+
+                ?>
                 <div class="sb-sidenav-menu-heading">User</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i> </div>
@@ -29,14 +35,14 @@ $next_appointment = "./next_appointment.php";
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="<?= $create_appointment ?>"><i class="fa-solid fa-person-circle-plus"></i>&nbsp; Create Appoint</a>
-                        <a class="nav-link" href="<?= $next_appointment ?>"><i class="fa-solid fa-hourglass-start"></i>&nbsp; Next Appointment</a>
-                        <!-- <a class="nav-link" href="<?= $blocked_user ?>"><i class="fa-solid fa-ban"></i>&nbsp;  Blocked User</a>
-                        <a class="nav-link" href="<?= $doctor ?>"><i class="fa-solid fa-user-doctor"></i> &nbsp; Doctors</a>
-                        <a class="nav-link" href="<?= $councilor ?>"><i class="fa-brands fa-teamspeak"></i>&nbsp;  Councilors</a>
-                        <a class="nav-link" href="<?= $patient ?>"><i class="fa-solid fa-bed"></i>&nbsp;  Patients</a>
-                        <a class="nav-link" href="<?= $all_user ?>"><i class="fa-solid fa-user"></i>&nbsp;  All Users</a> -->
+                        <a class="nav-link" href="<?= $next_appointment ?>"><i class="fa-solid fa-hourglass-start"></i>&nbsp; History</a>
+                      
                     </nav>
                 </div>
+                <?php 
+                }
+                ?>
+
                 <div class="sb-sidenav-menu-heading"> Interface</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>

@@ -13,9 +13,9 @@ include_once "./layout/navigation_bar.php";
 
 include "./config/db_connection.php";
 
-$sql = "SELECT `forum`.*, `users`.`f_name`, `users`.`l_name` FROM `forum` 
-        INNER JOIN `users` 
-        ON `forum`.`user_id` = `users`.`id`;";
+$sql = "SELECT `forum`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `forum` 
+        INNER JOIN `users` ON `forum`.`user_id` = `users`.`id`
+        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id` ;";
 
 if($forum_set = db_connection()->query($sql)){
     $all_forum = $forum_set->fetch_all(MYSQLI_ASSOC);
@@ -27,10 +27,12 @@ if($forum_set = db_connection()->query($sql)){
 
 function comments(){
 
-    $sql = "SELECT `comments`.*, `users`.`f_name`, `users`.`l_name` FROM `comments` 
-        INNER JOIN `users` 
-        ON `comments`.`user_id` = `users`.`id`;";
+    $sql = "SELECT `comments`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `comments` 
+        INNER JOIN `users` ON `comments`.`user_id` = `users`.`id`
+        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id` 
+        ;";
 
+     
     if($comment_set = db_connection()->query($sql)){
         $comments = $comment_set->fetch_all(MYSQLI_ASSOC);
         return $comments;
@@ -47,6 +49,7 @@ function comments(){
 
             
         <!-- creating new post section  -->
+
             <div class="post__card">
                 <div class="post__title">
                     <h3 class="post__author">Create a new post</h3>
@@ -87,7 +90,8 @@ function comments(){
             <div class="post__card">
                 <div class="post__title">
                     <h3 class="post__author"><?=$row['f_name'].' '. $row['l_name']?></h3>
-                    <h4 class="post__upload-info"><?=$row['post_date']?></h4>
+                    <h4 class="post__upload-info"><?= ucwords($row['role']).' | '. $row['post_date']  ?> </h4>
+                    <!-- <h5 class="post__upload-info"><?=$row['post_date']?> </h5> -->
                 </div>
                 <div class="p-des">
                     <h5><?=$row['post_title']?></h5>
@@ -95,6 +99,7 @@ function comments(){
                         <?=$row['post_description']?>
                     </p>
                     <div class="p-des__react-info" id="blah">
+                        
                         <div class="p-des__comment btn-comment"><span id="commnetsCount" class="comment-count"></span><span> comments</span><i class="picon-size fa-solid fa-comments"></i></div>
                         <div class="p-des__react"> <span id="reactCount">5 </span><a href="#" class="text-secondary"><i class="picon-size fa-solid fa-face-grin-hearts"></i></a></div>
                     </div>
