@@ -12238,8 +12238,14 @@ body {
 
 
 
+
 .specialist__icon > *{
   color: blue !important;
 
 }
 /* ===============end admin page ================== */
+
+
+#edit_bio {
+  display: none;
+}

@@ -4,23 +4,45 @@ include "../functionalities/validation_function.php";
 include "../functionalities/data_control.php";
 include "../config/db_connection.php";
 
+if (isset($_SESSION['user'])) {
+    $user_id = $_SESSION['user']['id'];
+}
 
-$user_id = $_SESSION['user']['id'];
+// start block for edit doc 
+
+if (isset($_POST['btn-edit_experts'])) {
+
+    unset($_POST['btn-edit_experts']);
+    $_POST['btn-edit_user'] = true;
+}
+
+
+
+
+
+// end block for edit doc 
+
+
+
+
 $validaiton = true;
 $validation_message = [];
 
 
 if (isset($_POST['btn-edit_user'])) {
-
-
     unset($_POST['btn-edit_user']);
+
 
     // empty data validation 
     if (empty_data_validation($_POST)) {
         //data validation 
         $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
-            $validation_report['id'] = $user_id;
+
+            if ($user_id != "") {
+                $validation_report['id'] = $user_id;
+            }
+
 
 
 
@@ -29,23 +51,60 @@ if (isset($_POST['btn-edit_user'])) {
 
                 $validation_message['success'] = "your information has been updated successfully.";
 
-                $_SESSION['user']['f_name'] = $updated_info['first_name'];
-                $_SESSION['user']['l_name'] = $updated_info['last_name'];
-                $_SESSION['user']['gender'] = $updated_info['gender'];
-                $_SESSION['user']['date_of_birth'] = $updated_info['date-of-birth'];
-                $_SESSION['user']['country_id'] = $updated_info['country'];
-                $_SESSION['user']['phone_code'] = $updated_info['phone_code'];
-                $_SESSION['user']['phone_number'] = $updated_info['number'];
-                $_SESSION['user']['addr'] = $updated_info['address'];
-                $_SESSION['user']['city'] = $updated_info['city'];
-                $_SESSION['user']['zip_code'] = $updated_info['zip_code'];
-                $_SESSION['user']['phone_code_id'] = $updated_info['phone-code'];
-                $_SESSION['user']['working_info'] = $updated_info['working_info'];
-                $_SESSION['user']['education_info'] = $updated_info['education_info'];
-                $_SESSION['user']['country_name'] = $updated_info['country_name'];
-                $_SESSION['user']['full_name'] = $updated_info['full_name'];
-                header("Location: ../view_profile.php");
+                
+                if(isset($updated_info['role_id'])){ //special user update section 
+                    if($updated_info['role_id'] == 2){
+                        $_SESSION['councilor']['f_name'] = $updated_info['first_name']; 
+                        $_SESSION['councilor']['l_name'] = $updated_info['last_name']; 
+                        $_SESSION['councilor']['gender'] = $updated_info['gender']; 
+                        $_SESSION['councilor']['date_of_birth'] = $updated_info['date-of-birth']; 
+                        $_SESSION['councilor']['addr'] = $updated_info['address']; 
+                        $_SESSION['councilor']['city'] = $updated_info['city']; 
+                        $_SESSION['councilor']['zip_code'] = $updated_info['zip_code']; 
+                        $_SESSION['councilor']['phone_number'] = $updated_info['number']; 
+                        $_SESSION['councilor']['education_info'] = $updated_info['education_info']; 
+                        $_SESSION['councilor']['working_info'] = $updated_info['working_info']; 
+                        header("Location: ../admin/my_profile.php");
+                    }elseif($updated_info['role_id'] == 3){
+                        $_SESSION['doctor']['f_name'] = $updated_info['first_name']; 
+                        $_SESSION['doctor']['l_name'] = $updated_info['last_name']; 
+                        $_SESSION['doctor']['gender'] = $updated_info['gender']; 
+                        $_SESSION['doctor']['date_of_birth'] = $updated_info['date-of-birth']; 
+                        $_SESSION['doctor']['addr'] = $updated_info['address']; 
+                        $_SESSION['doctor']['city'] = $updated_info['city']; 
+                        $_SESSION['doctor']['zip_code'] = $updated_info['zip_code']; 
+                        $_SESSION['doctor']['phone_number'] = $updated_info['number']; 
+                        $_SESSION['doctor']['education_info'] = $updated_info['education_info']; 
+                        $_SESSION['doctor']['working_info'] = $updated_info['working_info']; 
+                        header("Location: ../admin/my_profile.php");
+                    }
+                    
+                }
+
+                if (isset($_SESSION['user'])) {
+                    $_SESSION['user']['f_name'] = $updated_info['first_name'];
+                    $_SESSION['user']['l_name'] = $updated_info['last_name'];
+                    $_SESSION['user']['gender'] = $updated_info['gender'];
+                    $_SESSION['user']['date_of_birth'] = $updated_info['date-of-birth'];
+                    $_SESSION['user']['country_id'] = $updated_info['country'];
+                    $_SESSION['user']['phone_code'] = $updated_info['phone_code'];
+                    $_SESSION['user']['phone_number'] = $updated_info['number'];
+                    $_SESSION['user']['addr'] = $updated_info['address'];
+                    $_SESSION['user']['city'] = $updated_info['city'];
+                    $_SESSION['user']['zip_code'] = $updated_info['zip_code'];
+                    $_SESSION['user']['phone_code_id'] = $updated_info['phone-code'];
+                    $_SESSION['user']['working_info'] = $updated_info['working_info'];
+                    $_SESSION['user']['education_info'] = $updated_info['education_info'];
+                    $_SESSION['user']['country_name'] = $updated_info['country_name'];
+                    $_SESSION['user']['full_name'] = $updated_info['full_name'];
+                    header("Location: ../view_profile.php");
+                }
             } else {
+
+                print_r($updated_info);
+                echo "Yalla";
+                exit();
+
                 $validation_message['technical_error'] = "technical problem";
                 $validation = false;
             }
@@ -209,10 +268,10 @@ if (isset($_POST['btn-edit_user'])) {
         exit();
     }
 } else {
+    echo "hei there";
     header('Location: ../error.php');
-    exit();
 }
 
 
 
-include "../functionalities/form-validation.php";
+// include "../functionalities/form-validation.php";

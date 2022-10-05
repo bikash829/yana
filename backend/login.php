@@ -12,7 +12,7 @@ if (isset($_POST['btn-login'])) {
     $email = trim($_POST['email']);
     $pass = md5($_POST['pass']);
 
-    $sql = "SELECT `users`.*,`users`.phone_code AS `phone_code_id`, `additional_info`.`working_info`,`additional_info`.`education` AS `education_info`, `additional_info`.`document_name` AS `education_proof`,`additional_info`.`document_location` AS `education_proof_location`, `country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code` FROM `users` 
+    $sql = "SELECT `users`.*,`users`.phone_code AS `phone_code_id`, `additional_info`.`working_info`,`additional_info`.`education` AS `education_info`, `additional_info`.`document_name` AS `education_proof`,`additional_info`.`document_location` AS `education_proof_location`, `additional_info`.`id` AS `info_id` , `country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code` FROM `users` 
     INNER JOIN `additional_info` ON `users`.`id` = `additional_info`.`user_id`
     INNER JOIN `country` ON `users`.`country_id` = `country`.`id`
     WHERE `users`.`email` = '$email';";
@@ -91,7 +91,7 @@ if (isset($_POST['btn-login'])) {
                 if (!($data['role_id'] == 1)) {
                     $user_id = $data['id'];
 
-                    $sql = "SELECT `users`.* ,`country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code`, `additional_info`.`bio`, `additional_info`.`education` AS 'education_info', `additional_info`.`working_info`
+                    $sql = "SELECT `users`.* ,`country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code`, `additional_info`.`bio`,`additional_info`.`id` AS `info_id` , `additional_info`.`education` AS 'education_info', `additional_info`.`working_info`
                             FROM `users`
                             INNER JOIN `country` ON `users`.`country_id` = `country`.`id`
                             INNER JOIN `additional_info` ON `additional_info`.`user_id` = `users`.`id`

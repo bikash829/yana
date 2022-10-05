@@ -54,8 +54,7 @@ include "../functionalities/validation_function.php";
                                     <div class="row  justify-content-center">
 
                                         <div class="col-12">
-                                            <form action="./backend/edit_user.php" method="POST" class="row g-3 needs-validation register card-body" novalidate>
-
+                                            <form action="../backend/edit_user.php" method="POST" class="row g-3 needs-validation register card-body" novalidate>
                                                 <!-- name  -->
                                                 <div class="col-md-6">
                                                     <label for="first_name" class="form-label">First Name</label>
@@ -122,8 +121,8 @@ include "../functionalities/validation_function.php";
 
 
                                                 <!-- Contact and country  -->
-                                                <div class="col-md-6">
-                                                    <label for="country" class="form-label">Country<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
+                                                <!-- <div class="col-md-6">
+                                                    <label for="country" class="form-label">Country</label>
                                                     <select name="country" class="form-select" id="country" required>
                                                         <option selected disabled value="">Choose...</option>
 
@@ -133,7 +132,7 @@ include "../functionalities/validation_function.php";
                                                     </div>
                                                 </div>
 
-                                                <!-- <div class="col-md-2">
+                                                <div class="col-md-2">
                                                     <label for="phone-code" class="form-label">Code<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
                                                     <select name="phone-code" class="form-select" id="phone-code" required>
                                                         <option value="" selected disabled>Choose...</option>
@@ -144,17 +143,10 @@ include "../functionalities/validation_function.php";
                                                     </div>
                                                 </div> -->
 
-                                                <div class="col-md-6">
-                                                    <label for="phone" class="form-label">Phone Number</label>
-                                                    <input name="number" value="<?= $data['phone_number'] ?>" type="number" class="form-control" id="phone" placeholder="Optional" required>
-                                                    <div class="invalid-feedback">
-                                                        Please provide valid phone number.
-                                                    </div>
-                                                </div>
 
 
                                                 <!-- address info  -->
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <label for="address_" class="form-label">Address</label>
                                                     <input name="address" value="<?= $data['addr'] ?>" type="text" class="form-control" id="address_" aria-describedby="validationServer03Feedback" required>
                                                     <div id="validationServer03Feedback" class="invalid-feedback">
@@ -162,7 +154,7 @@ include "../functionalities/validation_function.php";
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="city_" class="form-label">City<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
+                                                    <label for="city_" class="form-label">City</label>
                                                     <input name="city" type="text" value="<?= $data['city'] ?>" class="form-control" id="city_" required>
                                                     <div id="validationServer05Feedback" class="invalid-feedback">
                                                         Please enter your city name.
@@ -177,6 +169,17 @@ include "../functionalities/validation_function.php";
                                                 </div>
 
 
+                                                <div class="col-md-6">
+                                                    <label for="phone" class="form-label">Phone Number</label>
+                                                    <input name="number" value="<?= $data['phone_number'] ?>" type="number" class="form-control" id="phone" placeholder="Optional" required>
+                                                    <div class="invalid-feedback">
+                                                        Please provide valid phone number.
+                                                    </div>
+                                                </div>
+
+                                                <!-- user id  -->
+                                                <input type="hidden" name="id" value="<?=$data['id']?>">
+                                                <input type="hidden" name="role_id" value="<?=$data['role_id']?>">
 
                                                 <!-- qualifications  -->
                                                 <div class="col-md-12 switch-patient">
@@ -199,9 +202,7 @@ include "../functionalities/validation_function.php";
 
                                                 <div class="col-md-12 switch-patient">
                                                     <label for="edu" class="form-label">Work Places</label>
-                                                    <!-- <button title="Click here for the instraction" type="button" class="badge button btn-help" data-bs-toggle="popover" data-bs-title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">
-                ?
-            </button> -->
+                                               
                                                     <p class="help_input" style="color:red;">
                                                         Example# (workplace)(otherworkplace)(anotherworkplace)
                                                     </p>
@@ -218,7 +219,7 @@ include "../functionalities/validation_function.php";
 
 
                                                 <div class="col-12 d-grid">
-                                                    <button name="btn-edit_user" class="btn btn-primary" type="submit">Register Now</button>
+                                                    <button name="btn-edit_experts" class="btn btn-primary" type="submit">Register Now</button>
                                                 </div>
                                             </form>
 

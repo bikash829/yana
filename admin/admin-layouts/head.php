@@ -24,7 +24,7 @@ if(!(isset($_SESSION['admin']) || isset($_SESSION['councilor']) || isset($_SESSI
 
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/styles.css" type="text/css">
+    <link rel="stylesheet" href="./css/styles.css" type="text/css">
     <script defer src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- <script src="../js/main.js" defer></script> -->
 

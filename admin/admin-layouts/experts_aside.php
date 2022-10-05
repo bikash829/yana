@@ -48,6 +48,7 @@ $next_appointment = "./next_appointment.php";
 
                         <a class="nav-link" href="my_profile.php">My Profile</a>
                         <a class="nav-link" href="ex_edit_profile.php">Edit Profile</a>
+                        <a class="nav-link" href="ex_edit_bio.php">Edit Bio</a>
 
                     </nav>
                 </div>

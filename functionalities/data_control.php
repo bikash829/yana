@@ -205,9 +205,9 @@ function save_councilor($data)
     $gender = $data['gender'];
     $date_of_birth = $data['date-of-birth'];
     $pass = $data['password'];
-    if(isset($data['patient_status'])){
+    if (isset($data['patient_status'])) {
         $patient_status = $data['patient_status'];
-    }else{
+    } else {
         $patient_status = 'NULL';
     }
 
@@ -320,6 +320,7 @@ function save_councilor($data)
 // update user 
 function update_user($data)
 {
+
     $f_name = $data['first_name'];
     $l_name = $data['last_name'];
     // $email = $data['email'];
@@ -356,48 +357,75 @@ function update_user($data)
     }
     $user_id = $data['id'];
 
-    $sql = "START TRANSACTION;
-    UPDATE `users` 
-    SET `f_name`='$f_name', `l_name` = '$l_name', `gender`='$gender', `date_of_birth`='$date_of_birth',`country_id` = '$country_id', `phone_code` = '$phone_code', `phone_number` = '$phone_number', `addr`='$addr',`city`='$city', `zip_code` = '$zip_code' 
-    WHERE `id`=$user_id;
-
-    UPDATE `additional_info` 
-    SET `education` = '$education', `working_info` = '$working_info'
-    WHERE `user_id` = '$user_id';
-
-    SELECT `country`.`name` AS `country_name` FROM `country` WHERE `country`.`id` = $country_id;
-    
-    SELECT `country`.`phonecode` AS `phone_code` FROM `country` WHERE `country`.`id` = $phone_code;
-
-    COMMIT;";
 
 
-    if (db_connection()->multi_query($sql)) {
+    if (isset($data['role_id'])) {
+        if ($data['role_id'] == 2 || $data['role_id'] == 3) {
 
-        // retriving country information 
-        // $sql = "SELECT `id` AS `country_id`,`name` AS country_name,(SELECT `id` AS `phone_code_id`,`phonecode` FROM `country` WHERE `id` = $phone_code) AS `phone_code` FROM `country` 
-        // WHERE `id` = $country_id;";
-
-        $sql = "SELECT `id` AS `country_id`,`name` AS country_name,(SELECT `id` FROM `country` WHERE `id` = $phone_code) AS `phone_code_id`,(SELECT `phonecode` FROM `country` WHERE `id` = $phone_code) AS `phone_code` FROM `country` 
-        WHERE `id` = $country_id;"; 
-
-      
-        if ($result = db_connection()->query($sql)) {
-            $row = $result->fetch_assoc();
+            $sql = "START TRANSACTION;
+                    UPDATE `users` 
+                    SET `f_name`='$f_name', `l_name` = '$l_name', `gender`='$gender', `date_of_birth`='$date_of_birth', `phone_number` = '$phone_number', `addr`='$addr',`city`='$city', `zip_code` = '$zip_code' 
+                    WHERE `id`=$user_id;
 
 
-            $data['phone_code'] = $row['phone_code'];
-            $data['country_name'] = $row['country_name'];
-            $data['phone_code_id'] = $row['phone_code_id'];
-            $data['country_id'] = $row['country_id'];
-            $data['full_name'] = $f_name . ' ' . $l_name;
+                    UPDATE `additional_info` 
+                    SET `education` = '$education', `working_info` = '$working_info'
+                    WHERE `user_id` = '$user_id';
 
-            return $data;
+                    COMMIT;";
+
+
+          
+            if (db_connection()->multi_query($sql)) {
+                return $data;
+            }
         }
+    } else { //user update 
+
+        $sql = "START TRANSACTION;
+                UPDATE `users` 
+                SET `f_name`='$f_name', `l_name` = '$l_name', `gender`='$gender', `date_of_birth`='$date_of_birth',`country_id` = '$country_id', `phone_code` = '$phone_code', `phone_number` = '$phone_number', `addr`='$addr',`city`='$city', `zip_code` = '$zip_code' 
+                WHERE `id`=$user_id;
 
 
-       return true;
-    } else {
-        return false;
+                UPDATE `additional_info` 
+                SET `education` = '$education', `working_info` = '$working_info'
+                WHERE `user_id` = '$user_id';
+
+                SELECT `country`.`name` AS `country_name` FROM `country` WHERE `country`.`id` = $country_id;
+                
+                SELECT `country`.`phonecode` AS `phone_code` FROM `country` WHERE `country`.`id` = $phone_code;
+
+                COMMIT;";
+
+
+        if (db_connection()->multi_query($sql)) {
+
+            // retriving country information 
+            // $sql = "SELECT `id` AS `country_id`,`name` AS country_name,(SELECT `id` AS `phone_code_id`,`phonecode` FROM `country` WHERE `id` = $phone_code) AS `phone_code` FROM `country` 
+            // WHERE `id` = $country_id;";
+
+            $sql = "SELECT `id` AS `country_id`,`name` AS country_name,(SELECT `id` FROM `country` WHERE `id` = $phone_code) AS `phone_code_id`,(SELECT `phonecode` FROM `country` WHERE `id` = $phone_code) AS `phone_code` FROM `country` 
+                    WHERE `id` = $country_id;";
+
+
+            if ($result = db_connection()->query($sql)) {
+                $row = $result->fetch_assoc();
+
+
+                $data['phone_code'] = $row['phone_code'];
+                $data['country_name'] = $row['country_name'];
+                $data['phone_code_id'] = $row['phone_code_id'];
+                $data['country_id'] = $row['country_id'];
+                $data['full_name'] = $f_name . ' ' . $l_name;
+
+                return $data;
+            }
+
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }
