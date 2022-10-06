@@ -55,10 +55,12 @@
   <!--fontawesome js-->
   <script src="./vendor/fontawesome-free-6.1.1/js/all.js" type="text/javascript"></script>
    <!-- bootstrap js  -->
-  <script src="./js/main.js" type="text/javascript"></script>
-  <script type="text/javascript">
+   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <!-- datatable  -->
+  <script type="text/javascript" src="vendor/DataTables/datatables.min.js"></script>
 
-  </script>
+  <script src="./js/main.js" type="text/javascript"></script>
+  
   </body>
 
   </html>

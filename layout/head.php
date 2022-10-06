@@ -13,6 +13,11 @@
 
   <!--fontawesome link-->
   <link rel="stylesheet" type="text/css" href="./vendor/fontawesome-free-6.1.1/css/all.min.css">
+
+  <!-- data table  -->
+  <link rel="stylesheet" type="text/css" href="./vendor/DataTables/datatables.min.css"/>
+
+
   <!--custom css-->
   <link rel="stylesheet" type="text/css" href="./css/style.css">
   <!--custom responsive css-->
@@ -23,6 +28,8 @@
   <!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Passion+One:900" rel="stylesheet">
+
+
 
 
 

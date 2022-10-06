@@ -60,14 +60,15 @@ CREATE TABLE appointment(
     end_time DATETIME,
     ap_date DATE,
     patient_capacity int(3),
-    fees decimal(10, 2)
+    fees decimal(10, 2),
+    `description` TEXT 
 );
 -- patient appoINTment table
 CREATE TABLE user_appointment(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     patient_id INT(10) NOT NULL,
     appointment_id INT(10) NOT NULL,
-    appointment_date DATE
+    appointment_status INT(2)
 );
 -- user role 
 CREATE TABLE user_role(

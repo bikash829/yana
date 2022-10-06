@@ -633,6 +633,7 @@
 .specialist__card {
   background-color: #fff;
   border-radius: var(--card-radius);
+  position: relative;
 }
 
 .specialist__img-con {
@@ -665,6 +666,21 @@
   color: var(--icon-color);
 }
 
+.specialist_view{
+  /* width: var(--card-widht); */
+  display: block;
+  width: 100%;
+  padding: .8rem 0;
+  font-size: 1.2rem;
+  outline: none;
+  border: none;
+  border-radius: var(--card-radius) var(--card-radius) 0 0 ;
+  position: absolute;
+  top: 0;
+  background-color: rgba(0, 128, 0,.9);
+  display: none;
+
+}
 /* .specialist__info .person{
     margin: 0;
 } */
