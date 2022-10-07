@@ -1,11 +1,6 @@
 <?php
 $create_appointment  = "./ex_create_appointment.php";
 $next_appointment = "./appointment_history.php";
-// $doctor = "./doctors.php";
-// $councilor = "./councilors.php";
-// $all_user = "./all_user.php";
-// $pending_user = "./pending_user.php";
-// $blocked_user = "./blocked_user.php";
 
 
 
@@ -59,11 +54,11 @@ $next_appointment = "./appointment_history.php";
                     </nav>
                 </div>
                 <div class="sb-sidenav-menu-heading">Notifications & Messages</div>
-                <a class="nav-link" href="charts.php">
+                <a class="nav-link" href="admin_community.php">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-users-rectangle"></i></div>
                     Community Posts
                 </a>
-                <a class="nav-link" href="charts.php">
+                <a class="nav-link" href="create_post.php">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
                     Create Post
                 </a>
@@ -76,7 +71,15 @@ $next_appointment = "./appointment_history.php";
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            <span><?= ucwords($_SESSION['admin']['role']) ?></span>
+            <span>
+                <?php 
+                    if(isset($_SESSION['doctor'])){
+                        echo "Doctor";
+                    }elseif(isset($_SESSION['councilor'])){
+                        echo "Councilor";
+                    }
+                ?>
+            </span>
         </div>
     </nav>
 </div>

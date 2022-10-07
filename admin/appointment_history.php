@@ -110,22 +110,23 @@ if ($apointment_set = db_connection()->query($sql)) {
 
 
                                         <td>
-                                        <a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view</a>
+                                        <!-- <a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view</a> -->
 
-                                            <!-- <div class="dropdown  overflow-visible">
+                                            <div class="dropdown  overflow-visible">
                                                 <div class="action">
                                                     <div class="btn-group">
                                                         <button class="action dropdown-toggle action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view</a></li>
+                                                            <li><a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> View Appintment</a></li>
+                                                            <li><a class="dropdown-item" href="./appointed_patients.php?appointment_id=<?= $value['id'] ?>&view_patients=true"><i class="fa-solid fa-eye text-success"></i> view Patients</a></li>
                                                            
                                                             <li><a class="dropdown-item" href="./backend/manage_appointment.php?del_appointment=true&appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
-                                            </div> -->
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php

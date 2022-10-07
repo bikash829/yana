@@ -70,11 +70,11 @@ $active_appointments  = "./active_appointments.php";
                     </nav>
             </div> -->
             <div class="sb-sidenav-menu-heading">Notifications & Messages</div>
-            <a class="nav-link" href="charts.php">
+            <a class="nav-link" href="admin_community.php">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users-rectangle"></i></div>
                 Community Posts
             </a>
-            <a class="nav-link" href="charts.php">
+            <a class="nav-link" href="create_post.php">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
                 Create Post
             </a>

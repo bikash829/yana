@@ -98,7 +98,7 @@ if (isset($_GET['view_patients']) && isset($_GET['appointment_id'])) {
                                         <td><?= $row['phonecode'] . $row['phone_number'] ?></td>
                                         <td><?= $row['country_name'] ?></td>
                                         <td><?= $row['address'] ?></td>
-                                        <!-- <td><?= $row[''] ?></td> -->
+                                        
 
                                         <!-- <td>
                                             <div class="dropdown  overflow-visible">

@@ -33,7 +33,12 @@ if (!(isset($_SESSION['admin']) || isset($_SESSION['councilor']) || isset($_SESS
 
     <script defer src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- <script src="../js/main.js" defer></script> -->
-
+    <?php if (isset($community)) { ?>
+        <!--custom css-->
+        <!-- <link rel="stylesheet" type="text/css" href="../css/style.css"> -->
+        <!--custom responsive css-->
+        <!-- <link rel="stylesheet" text="text/css" href="../css/responsive.css"> -->
+    <?php } ?>
 </head>
 
 <body class="sb-nav-fixed">
