@@ -76,6 +76,10 @@
   padding: var(--segment-y-margin) var(--segment-x-margin);
 }
 
+.segment-margin-side {
+  padding: 3rem var(--segment-x-margin);
+}
+
 .button {
   outline: none;
   border: none;

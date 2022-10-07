@@ -59,7 +59,7 @@ $councilor_reg = "./councilor_reg.php";
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="./view_profile.php">View Profile</a></li>
                             <li><a class="dropdown-item" href="./edit_user.php">Edit Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Somethinge</a></li>
+                            <li><a class="dropdown-item" href="./patient_appointments.php">My Appointments</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

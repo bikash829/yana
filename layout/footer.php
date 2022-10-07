@@ -54,7 +54,7 @@
   <!-- <script defer src="./vendor/bootstrap-5.2.0/js/bootstrap.bundle.js" type="text/javascript"></script> -->
   <!--fontawesome js-->
   <script src="./vendor/fontawesome-free-6.1.1/js/all.js" type="text/javascript"></script>
-   <!-- bootstrap js  -->
+   <!-- jquery js  -->
    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <!-- datatable  -->
   <script type="text/javascript" src="vendor/DataTables/datatables.min.js"></script>

@@ -74,7 +74,7 @@ include_once "./layout/navigation_bar.php";
 <?php
 include_once "./layout/footer.php"
 ?>
-<?=$_SESSION['user']['f_name']?>
+
 
 <script>
     let fristName, lastName, emailId;

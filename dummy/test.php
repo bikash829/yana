@@ -1,39 +1,57 @@
 <?php
 include "../config/db_connection.php";
 
-function appointment_status($uid,$ap_id)
+function active_appointment()
 {
-    //2 -> pending
-    //0 -> canceled
-    //1 -> active 
-    //3 -> past
+    $sql = "SELECT appointment.*,concat(users.f_name,' ',users.l_name) as full_name, users.email,users.phone_number 
+    FROM appointment
+    JOIN users ON appointment.doctor_id = users.id";
+    // $active_appointments = array();
 
-    $sql = "SELECT user_appointment.*,users.f_name AS pf_name, users.l_name as pl_name, users.id as p_id,
-            appointment.id as appointment_id,users.email as p_email
-            FROM user_appointment
+    // if ($all_appointments_set = db_connection()->query($sql)) {
+    //     $all_appointments = $all_appointments_set->fetch_all(MYSQLI_ASSOC);
+    //     foreach ($all_appointments as $row) {
+
+    //         $diff = floor((time() - strtotime($row['ap_date'])) / (60 * 60 * 24));
+
+    //         if ($diff < 0) {
+    //             array_push($active_appointments, $row);
+
+    //         }
+
+    //     }
+
+    //     return $active_appointments;
+    // } else {
+    //     return false;
+    // }
+}
+
+
+function patients_info($ap_id)
+{
+    $sql = "SELECT concat(users.f_name,' ',users.l_name) AS full_name, users.email, users.phone_code as phone_code_id,country.phonecode, users.phone_number,users.gender,users.date_of_birth,country.name as country_name, 
+            concat(users.addr,',',users.city,'-',users.zip_code) as `address`
+            FROM appointment
+            JOIN user_appointment ON appointment.id = user_appointment.appointment_id
             JOIN users ON user_appointment.patient_id = users.id
-            JOIN appointment ON user_appointment.appointment_id = appointment.id
-            WHERE user_appointment.patient_id = $uid 
-            AND user_appointment.appointment_id = $ap_id
-            ;";
+            JOIN country ON users.country_id = country.id
+            JOIN country con_ph ON users.phone_code = con_ph.id
+            WHERE appointment.id = $ap_id";
 
 
-
-    if ($collection = db_connection()->query($sql)) {
-        $data = $collection->fetch_assoc();
-        return $data;
-    } else {
+    if ($user_info_set = db_connection()->query($sql)) {
+        $user_info = $user_info_set->fetch_assoc();
+        return $user_info;
+        
+    }else{
         return false;
     }
 }
 
 
 
-print_r(appointment_status(19,4));
+print_r(patients_info(4));
 
 
-
-
-
-
-// print_r(appointment_list());
+// (SELECT users.f_name as doc_f_name,users.l_name as doc_lname FROM appointment JOIN users ON appointment.doctor_id = users.id WHERE appointment.id = user_appointment.appointment_id)

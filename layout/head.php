@@ -28,11 +28,6 @@
   <!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Passion+One:900" rel="stylesheet">
-
-
-
-
-
 </head>
 
 <body>

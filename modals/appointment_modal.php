@@ -41,7 +41,7 @@ function appointment_status($uid, $ap_id)
             </div>
             <div class="modal-body">
 
-                <!-- password section  -->
+                <!-- booking section  -->
                 <table class="table table-striped" id="appointment_table">
                     <thead>
                         <th>Date</th>
@@ -69,12 +69,6 @@ function appointment_status($uid, $ap_id)
                             $appointment_id = $row['id'];
 
                             $appointmnet_status = appointment_status($patient_id, $appointment_id);
-
-                            // print_r($appointmnet_status);
-                            // print_r($patient_id);
-                            // print_r($appointment_id);
-                            // exit();
-
                         ?>
 
                             <tr>

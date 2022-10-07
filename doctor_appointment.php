@@ -1,6 +1,7 @@
 <?php
 $title = "Appointment";
 $state = "doctor_appointment";
+$banner_title = "";
 $banner_poster = "./images/banner/banner3.jpg";
 
 include_once "./layout/head.php";
@@ -30,14 +31,15 @@ if ($special_user_set = db_connection()->query($sql)) {
 ?>
 
 <main class="main">
-    <section class="specialist segment-margin">
+    <section class="specialist segment-margin-side">
+        <div class="d-grid gap-2 mb-4"><a href="./upcomming_appointment.php" class="btn btn-lg btn-primary">Upcomming Appointments</a></div>
         <div class="section-heading">
             <h3 class="section-heading__title">
                 Experts And Councilors
             </h3>
-            <p class="section-heading__para">
+            <!-- <p class="section-heading__para">
                 Green above he cattle god saw day multiply under fill in the cattle fowl a all, living, tree word link available in the service for subdue fruit.
-            </p>
+            </p> -->
         </div>
         <!-- councilor list  -->
         <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -174,7 +176,7 @@ if ($special_user_set = db_connection()->query($sql)) {
                                         </div>
 
                                         <div class="specialist__info ">
-                                            <input type="hidden" id='user_id' value="<?=$row['id']?>">
+                                            <input type="hidden" id='user_id' value="<?= $row['id'] ?>">
                                             <div class="person">
                                                 <h3 class="person__name"><?= $row['f_name'] . ' ' . $row['l_name'] ?></h3>
                                                 <h3 class="person__occu">Proffesion Skills</h3>
@@ -263,7 +265,7 @@ include_once "./layout/footer.php"
             viewSpecialist.style.display = 'none';
         });
 
-        viewSpecialist.addEventListener('click',(e)=>{
+        viewSpecialist.addEventListener('click', (e) => {
             window.location = './super_user_profile.php?id =' + user_id.value;
         });
     }
