@@ -68,7 +68,7 @@ CREATE TABLE user_appointment(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     patient_id INT(10) NOT NULL,
     appointment_id INT(10) NOT NULL,
-    appointment_status INT(2)
+    appointment_status INT(2) COMMENT "2=Pending,1=Active,0=Canceled,3=past"
 );
 -- user role 
 CREATE TABLE user_role(

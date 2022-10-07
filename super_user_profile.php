@@ -12,6 +12,9 @@ include_once "./layout/navigation_bar.php";
 include "./config/db_connection.php";
 
 
+$patient_id = $_SESSION['user']['id'];
+
+
 
 //user data 
 
@@ -41,10 +44,9 @@ if (isset($_GET['id_'])) {
         }
     }
 
+
+
     $next_appointment = next_appointment($user_id);
-
-
-
     $sql = "SELECT `users`.* ,`country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code`, `additional_info`.`bio`,`additional_info`.`id` AS `info_id` , `additional_info`.`education` AS 'education_info', `additional_info`.`working_info`
             FROM `users`
             INNER JOIN `country` ON `users`.`country_id` = `country`.`id`
@@ -232,7 +234,7 @@ if (isset($_GET['id_'])) {
         </div>
         <div class="row justify-content-center mt-4">
             <div class="col-lg-10 col-12 d-grid gap-2">
-                <button type="button" class="btn btn-primary">Make An Appointment</button>
+                <button type="button"  data-bs-toggle="modal" data-bs-target="#make_appointment"  class="btn btn-primary">Make An Appointment</button>
 
             </div>
         </div>

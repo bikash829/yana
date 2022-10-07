@@ -9,8 +9,8 @@ if (isset($_GET['appointment_id']) && isset($_GET['uid'])) {
     $user_id = $_GET['uid'];
 
 
-    $sql = "INSERT INTO `user_appointment`(`patient_id`,`appointment_id`)
-            VALUES ($user_id,$appointment_id);";
+    $sql = "INSERT INTO `user_appointment`(`patient_id`,`appointment_id`,`appointment_status`)
+            VALUES ($user_id,$appointment_id,2);";
 
     
 

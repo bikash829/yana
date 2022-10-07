@@ -27,3 +27,22 @@ SELECT `users`.* ,`country`.`name` AS `country_name`, `country`.`phonecode` AS `
 FROM `users`
 INNER JOIN `country` ON `users`.`country_id` = `country`.`id`
 WHERE `users`.`id` = 17; 
+
+
+
+doctor-> appointment
+users -> appointmnet
+roel -> users 
+
+
+SELECT user_appointment.*,users.f_name AS pf_name, users.l_name as pl_name, users.id as p_id,
+appointment.id as appointment_id,users.email as p_email,
+FROM user_appointment
+JOIN users ON user_appointment.patient_id = users.id
+JOIN appointment ON user_appointment.appointment_id = appointment.id
+WHERE user_appointment.id = 2;
+
+
+FROM user_appointment WHERE patient_id = 19; 
+
+SELECT * FROM appointment WHERE 
