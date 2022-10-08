@@ -41,7 +41,14 @@ if (isset($_GET['view_patients']) && isset($_GET['appointment_id'])) {
 ?>
 <div id="layoutSidenav">
     <!-- aside  -->
-    <?php include_once "./admin-layouts/aside.php"; ?>
+    <?php
+    if (isset($_SESSION['admin'])) {
+        include_once "./admin-layouts/aside.php";
+    } elseif (isset($_SESSION['doctor']) || isset($_SESSION['councilor'])) {
+        $dashboard = "./experts_dashboard.php";
+        include_once "./admin-layouts/experts_aside.php";
+    }
+?>
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">

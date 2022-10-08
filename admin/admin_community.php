@@ -3,21 +3,17 @@ $community = true;
 include_once "./admin-layouts/head.php";
 include_once "./admin-layouts/nav.php";
 
-if (isset($_SESSION['admin'])) {
-    $user_role = 'admin';
-} elseif (isset($_SESSION['doctor'])) {
-    $user_role = 'doctor';
-} elseif (isset($_SESSION['councilor'])) {
-    $user_role = 'councilor';
-}
+
 ?>
 <div id="layoutSidenav">
     <!-- aside  -->
 
     <?php
     if (isset($_SESSION['admin'])) {
+       
         include_once "./admin-layouts/aside.php";
     } elseif (isset($_SESSION['doctor']) || isset($_SESSION['councilor'])) {
+        $dashboard = "./experts_dashboard.php";
         include_once "./admin-layouts/experts_aside.php";
     }
 
@@ -31,7 +27,7 @@ if (isset($_SESSION['admin'])) {
 
         $sql = "SELECT `forum`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `forum`
         INNER JOIN `users` ON `forum`.`user_id` = `users`.`id`
-        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id` ;";
+        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id` ORDER BY post_date DESC;";
 
         if ($forum_set = db_connection()->query($sql)) {
             $all_forum = $forum_set->fetch_all(MYSQLI_ASSOC);
@@ -46,7 +42,7 @@ if (isset($_SESSION['admin'])) {
             $sql = "SELECT `comments`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `comments`
                     INNER JOIN `users` ON `comments`.`user_id` = `users`.`id`
                     INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id`
-                    ;";
+                    ORDER BY comment_date DESC;";
 
 
             if ($comment_set = db_connection()->query($sql)) {

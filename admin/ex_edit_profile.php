@@ -2,9 +2,9 @@
 include_once "./admin-layouts/head.php";
 
 if (isset($_SESSION['doctor'])) {
-    $user_role = ucwords($_SESSION['doctor']['role']);
+    $user_role = $_SESSION['doctor']['role'];
 } elseif (isset($_SESSION['councilor'])) {
-    $user_role = ucwords($_SESSION['councilor']['role']);
+    $user_role = $_SESSION['councilor']['role'];
 } else {
     $user_role =  "Nothing to print";
 }

@@ -1,9 +1,6 @@
 <?php
 $create_appointment  = "./ex_create_appointment.php";
 $next_appointment = "./appointment_history.php";
-
-
-
 ?>
 
 <div id="layoutSidenav_nav">
@@ -63,7 +60,7 @@ $next_appointment = "./appointment_history.php";
                     Create Post
                 </a>
 
-                <a class="nav-link" href="tables.php">
+                <a class="nav-link" href="my_patients.php">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Total Patients
                 </a>

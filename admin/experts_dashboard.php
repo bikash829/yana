@@ -2,9 +2,9 @@
 include_once "./admin-layouts/head.php";
 
 if (isset($_SESSION['doctor'])) {
-    $user_role = ucwords($_SESSION['doctor']['role']);
+    $user_role = $_SESSION['doctor']['role'];
 } elseif (isset($_SESSION['councilor'])) {
-    $user_role = ucwords($_SESSION['councilor']['role']);
+    $user_role = $_SESSION['councilor']['role'];
 } else {
     $user_role =  "Nothing to print";
 }
@@ -14,6 +14,42 @@ $dashboard = "./experts_dashboard.php";
 
 include_once "./admin-layouts/nav.php";
 include "../config/db_connection.php";
+
+$user_id = $_SESSION[$user_role]['id'];
+
+
+function appointment_history($user_id)
+{
+    $sql = "SELECT *, count(*) AS total_appointment FROM `appointment` WHERE `doctor_id` = $user_id";
+    
+    if ($apointment_set = db_connection()->query($sql)) {
+        $appointment_list = $apointment_set->fetch_all(MYSQLI_ASSOC);
+        return $appointment_list;
+    } else {
+        return false;
+    }
+}
+
+
+
+function db_result($query){
+    if($result = db_connection()->query($query)){
+        return $result->fetch_assoc();
+    }else{
+        return false;
+    }
+
+}
+
+$total_patient = "SELECT count(*) AS total_patients FROM user_appointment 
+        JOIN appointment ON user_appointment.appointment_id = appointment.id
+        WHERE doctor_id = $user_id  AND appointment_status = 1 GROUP BY user_appointment.patient_id;";
+
+$appointment_list = appointment_history($user_id);
+$total_patient = db_result($total_patient)['total_patients'];
+
+
+
 ?>
 
 <div id="layoutSidenav">
@@ -28,23 +64,23 @@ include "../config/db_connection.php";
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
                 <div class="row">
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <h4 class="card-header">Total Doctors</h4>
+                            <h4 class="card-header">My Patients</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2"><?= $total_doc ?></p>
+                                <p class="text-center fs-2"><?= $total_patient ?></p>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="./doctors.php">View Details</a>
+                                <a class="small text-white stretched-link" href="./my_patients.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card bg-warning text-white mb-4">
-                            <h4 class="card-header">Total Councilors</h4>
+                            <h4 class="card-header">Total Appointments</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2"><?= $total_councilor ?></p>
+                                <p class="text-center fs-2"><?= $appointment_list[0]['total_appointment'] ?></p>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="./councilors.php">View Details</a>
@@ -52,27 +88,16 @@ include "../config/db_connection.php";
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-success text-white mb-4">
-                            <h4 class="card-header">Total Patients</h4>
-                            <div class="card-body">
-                                <p class="text-center fs-2"><?= $total_patient ?></p>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="./patients.php">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
+                   
+                    <div class="col-xl-4 col-md-6">
                         <div class="card bg-danger text-white mb-4">
-                            <h4 class="card-header">Pending Request</h4>
+                            <h4 class="card-header">Past Appointments</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2"><?= $total_request ?></p>
+                                <p class="text-center fs-2">10</p>
                             </div>
 
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="./pending_user.php">View Details</a>
+                                <a class="small text-white stretched-link" href="#">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -101,92 +126,70 @@ include "../config/db_connection.php";
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Registerd Doctors And Councilors
+                        Recent Appointments
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Email Id</th>
-                                    <th>Country</th>
-                                    <th>Born In</th>
-                                    <th>Role</th>
+                                    <th>Sr No.</th>
+                                    <th>Date</th>
+                                    <th>Start At</th>
+                                    <th>End In</th>
+                                    <th>Patient Capacity</th>
+                                    <th>Seat Left</th>
+                                    <th>Fees</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Email id</th>
-                                    <th>Country</th>
-                                    <th>Born In</th>
-                                    <th>Role</th>
+                                    <th>Sr No.</th>
+                                    <th>Date</th>
+                                    <th>Start At</th>
+                                    <th>End In</th>
+                                    <th>Patient Capacity</th>
+                                    <th>Seat Left</th>
+                                    <th>Fees</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <?php
-                                foreach ($active_user_list as $row) {
-                                    // print_r($active_user_list);
-                                    // exit();
+                                <?php $count = 1;
+                                foreach ($appointment_list as $row) { ?>
 
-                                    switch ($row['role_id']) {
-                                        case 1:
-                                            $row['role'] = "admin";
-                                            break;
-                                        case 2:
-                                            $row['role'] = "councilor";
-                                            break;
-                                        case 3:
-                                            $row['role'] = "doctor";
-                                            break;
-                                        case 4:
-                                            $row['role'] = "patient";
-                                            break;
+                                    <tr>
+                                        <td><?= $count ?></td>
+                                        <td><?= $row['ap_date'] ?></td>
+                                        <td><?= $row['start_time'] ?></td>
+                                        <td><?= $row['end_time'] ?></td>
+                                        <td><?= $row['patient_capacity'] ?></td>
+                                        <td><?= $row[''] ?></td>
+                                        <td><?= $row['fees'] ?></td>
 
-                                        default:
-                                            $row['role'] = "others";
-                                            break;
-                                    }
+                                        <td>
+                                            <!-- <a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view</a> -->
 
-                                    if ($row['role_id'] == 2 || $row['role_id'] == 3) {
+                                            <div class="dropdown  overflow-visible">
+                                                <div class="action">
+                                                    <div class="btn-group">
+                                                        <button class="action dropdown-toggle action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $row['id'] ?>"><i class="fa-solid fa-eye text-success"></i> View Appintment</a></li>
+                                                            <li><a class="dropdown-item" href="./appointed_patients.php?appointment_id=<?= $row['id'] ?>&view_patients=true"><i class="fa-solid fa-eye text-success"></i> view Patients</a></li>
 
-                                ?>
-
-                                        <tr>
-                                            <td><?= $row['f_name'] . ' ' . $row['l_name'] ?></td>
-                                            <td><?= $row['email'] ?></td>
-                                            <td><?= $row['country_name'] ?></td>
-                                            <td><?= $row['date_of_birth'] ?></td>
-                                            <td><?= $row['role'] ?></td>
-                                            <td>
-                                                <div class="dropdown  overflow-visible">
-                                                    <div class="action">
-                                                        <div class="btn-group">
-                                                            <button class="action dropdown-toggle action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                                                            </button>
-                                                            <ul class="dropdown-menu">
-                                                                <li><a class="dropdown-item" href="./view_user.php?view_user=true&user_id=<?= $row['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view</a></li>
-                                                                <?php if ($row['role_id'] == 2 || $row['role_id'] == 3) { ?>
-                                                                    <li><a class="dropdown-item" href="../backend/manage_user.php?block=true&user_id=<?= $row['id'] ?>"><i class="fa-solid fa-user-lock text-primary"></i> block</a></li>
-                                                                <?php } ?>
-                                                                <li><a class="dropdown-item" href="../backend/manage_user.php?del_user=true&user_id=<?= $row['id'] ?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
-                                                            </ul>
-                                                        </div>
+                                                            <!-- <li><a class="dropdown-item" href="./backend/manage_appointment.php?del_appointment=true&appointment_id=<?= $row['id'] ?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li> -->
+                                                        </ul>
                                                     </div>
                                                 </div>
-                                            </td>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                                            </td>
-                                        </tr>
-
-                                <?php
-                                    }
-                                }
-                                ?>
+                                <?php $count++;
+                                } ?>
 
                             </tbody>
                         </table>

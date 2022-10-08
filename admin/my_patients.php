@@ -1,5 +1,4 @@
 <?php
-
 include_once "./admin-layouts/head.php";
 
 if (isset($_SESSION['doctor'])) {
@@ -10,11 +9,10 @@ if (isset($_SESSION['doctor'])) {
     $user_role =  "Nothing to print";
 }
 
-//changing layouts
+// link 
 $dashboard = "./experts_dashboard.php";
+
 include_once "./admin-layouts/nav.php";
-
-
 
 // data 
 switch (isset($_SESSION)) {
@@ -32,26 +30,40 @@ switch (isset($_SESSION)) {
 
 include "../config/db_connection.php";
 
-$user_id = $data['id'];
+function my_patients($doc_id){
+    $sql = "SELECT concat(p.f_name,' ',p.l_name) AS full_name,p.id AS patient_id, p.email, p.phone_code as phone_code_id, p.phone_number, 
+            country.name AS country_name, country.phonecode AS phone_code, appointment.id AS appointment_id, appointment.ap_date 
+            FROM user_appointment 
+            JOIN appointment ON user_appointment.appointment_id = appointment.id
+            JOIN users p ON user_appointment.patient_id = p.id
+            JOIN country ON p.country_id = country.id
+            JOIN country phone ON p.phone_code = phone.id
+            WHERE doctor_id = 17 GROUP BY user_appointment.patient_id
+            ORDER BY ap_date DESC;";
+    
+    if($patients_set = db_connection()->query($sql)){
+        $patient_list = $patients_set->fetch_all(MYSQLI_ASSOC);
+        return $patient_list;
+    }else{
+        return false;
+    }
 
-$sql = "SELECT * FROM `appointment` WHERE `doctor_id` = $user_id ORDER BY ap_date DESC";
-
-
-
-if ($apointment_set = db_connection()->query($sql)) {
-    $appointment_list = $apointment_set->fetch_all(MYSQLI_ASSOC);
 }
+
+$patient_list = my_patients($_SESSION[$user_role]['id']);
+
 ?>
 <div id="layoutSidenav">
     <!-- aside  -->
     <?php include_once "./admin-layouts/experts_aside.php"; ?>
     <div id="layoutSidenav_content">
+
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">All Appointment</h1>
+                <h1 class="mt-4">My Patients</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?= $dashboard ?>">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Tables</li>
+                    <li class="breadcrumb-item active">Patients</li>
                 </ol>
                 <!-- <div class="card mb-4">
                     <div class="card-body">
@@ -63,48 +75,49 @@ if ($apointment_set = db_connection()->query($sql)) {
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        All Appointment
+                        My Patients
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Date</th>
-                                    <th>Start At</th>
-                                    <th>End In</th>
-                                    <th>Patient Capacity</th>
-                                    <th>Fees</th>
-                                    <th>Description</th>
+                                    <th>sr. no</th>
+                                    <th>ap_id</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Contact No</th>
+                                    <th>Appointment Date</th>
+                                    <th>Country</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Date</th>
-                                    <th>Start At</th>
-                                    <th>End In</th>
-                                    <th>Patient Capacity</th>
-                                    <th>Fees</th>
-                                    <th>Description</th>
+                                    <th>sr. no</th>
+                                    <th>ap_id</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Contact No</th>
+                                    <th>Appointment Date</th>
+                                    <th>Country</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 <?php
-                                foreach ($appointment_list as $value) {
-                                    // print_r($value);
+                                $count = 1;
+                                foreach ($patient_list as $value) {
+                                    
                                 ?>
 
                                     <tr>
-                                        <td><?= $value['id'] ?></td>
+                                        <td><?= $count ?></td>
+                                        <td><?= $value['appointment_id'] ?></td>
+                                        <td><?= $value['full_name'] ?></td>
+                                        <td><?= $value['email'] ?></td>
+                                        <td><?= $value['phone_code'] . $value['phone_number'] ?></td>
                                         <td><?= $value['ap_date'] ?></td>
-                                        <td><?= $value['start_time']?></td>
-                                        <td><?= $value['end_time'] ?></td>
-                                        <td><?= $value['patient_capacity'] ?></td>
-                                        <td><?= $value['fees'] ?></td>
-                                        <td><?= $value['description'] ?></td>
+                                        <td><?= $value['country_name'] ?></td>
 
 
                                         <td>
@@ -117,8 +130,8 @@ if ($apointment_set = db_connection()->query($sql)) {
 
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> View Appintment</a></li>
-                                                            <li><a class="dropdown-item" href="./appointed_patients.php?appointment_id=<?= $value['id'] ?>&view_patients=true"><i class="fa-solid fa-eye text-success"></i> view Patients</a></li>
+                                                            <li><a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $value['appointment_id'] ?>"><i class="fa-solid fa-eye text-success"></i> View Appintment</a></li>
+                                                            <li><a class="dropdown-item" href="./view_patients.php?view_user=ture&user_id=<?= $value['patient_id'] ?>&view_patients=true"><i class="fa-solid fa-eye text-success"></i> view Patients</a></li>
 
                                                             <!-- <li><a class="dropdown-item" href="./backend/manage_appointment.php?del_appointment=true&appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li> -->
                                                         </ul>
@@ -127,16 +140,14 @@ if ($apointment_set = db_connection()->query($sql)) {
                                             </div>
                                         </td>
                                     </tr>
-                                <?php
-                                }
-
-                                ?>
+                                <?php $count = 1; } ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </main>
+
         <!-- footer  -->
         <?php include_once "./admin-layouts/footer.php"; ?>
     </div>
@@ -145,6 +156,7 @@ if ($apointment_set = db_connection()->query($sql)) {
 <script src="js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="./js/datatables-simple-demo.js"></script>
+
 
 
 </body>
