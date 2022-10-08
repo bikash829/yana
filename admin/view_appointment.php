@@ -38,7 +38,8 @@ if(isset($_GET['appointment_id'])){
 
 $sql = "SELECT * FROM `appointment` WHERE `id` = $appointment_id";
 
-
+// seat count 
+// function count_
 
 if ($apointment_set = db_connection()->query($sql)) {
     $appointment = $apointment_set->fetch_assoc();
@@ -90,7 +91,7 @@ if ($apointment_set = db_connection()->query($sql)) {
 
 
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="validationCustom03" class="form-label">Capacity</label>
                             <input  disabled name="patient-capacity" value="<?=$appointment['patient_capacity']?>" type="number" class="form-control" id="validationCustom03" required>
                             <div class="invalid-feedback">
@@ -98,7 +99,13 @@ if ($apointment_set = db_connection()->query($sql)) {
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="validationCustom03" class="form-label">Seat Left</label>
+                            <input  disabled name="patient-capacity" value="<?=$appointment['patient_capacity']?>" type="number" class="form-control" id="validationCustom03" required>
+                            
+                        </div>
+
+                        <div class="col-md-4">
                             <label for="validationCustom03" class="form-label">Fee</label>
                             <input  disabled name="ap-fee" type="number" value="<?=$appointment['fees']?>" class="form-control" id="validationCustom03" required>
                             <div class="invalid-feedback">

@@ -3,11 +3,11 @@ $community = true;
 include_once "./admin-layouts/head.php";
 include_once "./admin-layouts/nav.php";
 
-if(isset($_SESSION['admin'])){
+if (isset($_SESSION['admin'])) {
     $user_role = 'admin';
-}elseif(isset($_SESSION['doctor'])){
+} elseif (isset($_SESSION['doctor'])) {
     $user_role = 'doctor';
-}elseif(isset($_SESSION['councilor'])){
+} elseif (isset($_SESSION['councilor'])) {
     $user_role = 'councilor';
 }
 ?>
@@ -44,9 +44,9 @@ if(isset($_SESSION['admin'])){
         {
 
             $sql = "SELECT `comments`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `comments`
-        INNER JOIN `users` ON `comments`.`user_id` = `users`.`id`
-        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id`
-        ;";
+                    INNER JOIN `users` ON `comments`.`user_id` = `users`.`id`
+                    INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id`
+                    ;";
 
 
             if ($comment_set = db_connection()->query($sql)) {
@@ -107,7 +107,7 @@ if(isset($_SESSION['admin'])){
                                     ?>
                                             <div class="p-des__reply">
                                                 <h5 class="p-des__reply-author"> <a href="#" class="text-secondary"><?= $comment['f_name'] . ' ' . $comment['l_name'] ?></a> </h5>
-                                                <h6 class="p-des__reply-author fw-lighter"> <a href="#" class="text-secondary"><?= ucwords($comment['role'])?></a> </h6>
+                                                <h6 class="p-des__reply-author fw-lighter replied_by"> <a href="#"><?= ucwords($comment['role']) ?></a> | <span><?=$comment['comment_date']?></span> </h6>
                                                 <p><?= $comment['comment'] ?></p>
                                                 <div class="p-des__reply-info">
                                                     <p class="p-des__reply-time"><?= $comment['comment_date'] ?></p>
@@ -120,7 +120,7 @@ if(isset($_SESSION['admin'])){
                             </div>
                         </div>
                     <?php } ?>
-                    
+
                     <!-- page number  -->
                     <div aria-label="Page navigation example">
                         <ul class="pagination justify-content-center">

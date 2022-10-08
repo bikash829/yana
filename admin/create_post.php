@@ -15,24 +15,31 @@ include_once "./admin-layouts/nav.php";
         include_once "./admin-layouts/experts_aside.php";
     }
 
+    if(isset($_SESSION['admin'])){
+        $user_role = 'admin';
+    }elseif(isset($_SESSION['doctor'])){
+        $user_role = 'doctor';
+    }elseif(isset($_SESSION['councilor'])){
+        $user_role = 'councilor';
+    }
+
     ?>
     <div id="layoutSidenav_content">
-        <section class="segment-margin community">
+        <section class="segment-margin ">
             <!-- post sectoin  -->
-            <div class="community__post post">
-                <!-- creating new post section  -->
-
-                <div class="post__card">
+            <div class="community__post community__post--modified post m-4">
+            <!-- creating new post section  -->
+            
+                <div class="post__card post__card--modified">
                     <div class="post__title">
-                        <h3 class="post__author">Create a new post</h3>
-                        <!-- <h4 class="post__upload-info">date of the post</h4> -->
+                        <h3 class="post__author fs-4">Create a new post</h3>
                     </div>
                     <div class="p-des">
                         <div class="p-des__article">
-                            <form action="./backend/create_post.php" method="POST">
+                            <form action="../backend/create_post.php" method="POST">
 
-
-                                <input type="hidden" name="user_id" value="<?= $_SESSION['user']['id'] ?>">
+                                <h5 class="fs-4 fw-lighter"><?= $_SESSION[$user_role]['f_name'] . $_SESSION[$user_role]['l_name'] ?></h5>
+                                <input type="hidden" name="user_id" value="<?= $_SESSION[$user_role]['id'] ?>">
                                 <div class="form-group py-2">
 
                                     <input type="text" name="post_title" required class="form-control" placeholder="Post Title" maxlength="256">
@@ -53,7 +60,14 @@ include_once "./admin-layouts/nav.php";
                     </div>
                 </div>
 
-                <!-- end creating new post  -->
+            <!-- <div class="row justify-content-center">
+                <div class="col-11">
+                    <div class="card">
+                       <h3>Hello this is a test</h3>
+                    </div>
+                </div>
+            </div> -->
+            <!-- end creating new post  -->
             </div>
         </section>
 

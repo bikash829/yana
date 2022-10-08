@@ -12402,9 +12402,14 @@ body {
   display: block;
 }
 
+.community__post--modified{
+  box-shadow: 0 0 10px rgba(185, 185, 187, .5);
+}
 
 
-
+.replied_by *{
+  font-size : .8rem;
+}
 
 
 /* ==============community section end============== */

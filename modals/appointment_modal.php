@@ -1,6 +1,3 @@
-<!-- Password change modal -->
-
-
 <?php
 function appointment_status($uid, $ap_id)
 {

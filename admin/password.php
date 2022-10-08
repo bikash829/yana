@@ -27,13 +27,13 @@
                                                 <label for="inputEmail">Email address</label>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" href="login.php">Return to login</a>
+                                                <a class="small" href="index.php">Return to login</a>
                                                 <a class="btn btn-primary" href="login.php">Reset Password</a>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="register.php">Need an account? Sign up!</a></div>
+                                        <div class="small"><a href="#" data-bs-toggle="modal" data-bs-target="#register_popup_admin">Need an account? Sign up!</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -59,4 +59,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
     </body>
+    <?php
+    include "../modals/register_modal.php";
+
+    ?>
 </html>
