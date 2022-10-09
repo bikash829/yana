@@ -1,6 +1,16 @@
 <?php
 $create_appointment  = "./ex_create_appointment.php";
 $next_appointment = "./appointment_history.php";
+
+if(isset($_SESSION['admin'])){
+    $user = 'admin';
+}elseif(isset($_SESSION['councilor'])){
+    $user = 'councior';
+}elseif(isset($_SESSION['doctor'])){
+    $user = 'doctor';
+}
+
+
 ?>
 
 <div id="layoutSidenav_nav">
@@ -47,6 +57,8 @@ $next_appointment = "./appointment_history.php";
                         <a class="nav-link" href="my_profile.php">My Profile</a>
                         <a class="nav-link" href="ex_edit_profile.php">Edit Profile</a>
                         <a class="nav-link" href="ex_edit_bio.php">Edit Bio</a>
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#change_admin_pass">Change Password</a>
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#change_admin_email" >Change Email</a>
 
                     </nav>
                 </div>
@@ -80,3 +92,10 @@ $next_appointment = "./appointment_history.php";
         </div>
     </nav>
 </div>
+
+
+<?php 
+include "../modals/admin_pass&email.php";
+
+
+?>
