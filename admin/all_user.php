@@ -4,8 +4,6 @@ include_once "./admin-layouts/head.php";
 include_once "./admin-layouts/nav.php";
 
 // db connection 
-
-
 $validation = true;
 $validation_message = [];
 

@@ -1,6 +1,16 @@
 <?php
+session_start();
 $validation = true;
 $validation_message = array();
+
+
+if(isset($_SESSION['admin'])){
+    $user = 'admin';
+}elseif(isset($_SESSION['doctor'])){
+    $user = 'docotr';
+}elseif(isset($_SESSION['councilor'])){
+    $user = 'councilor';
+}
 
 include "../config/db_connection.php";
 
@@ -68,6 +78,7 @@ function email_change($data)
             if ($user_pass['pass'] == $pass) {
                 $sql = "UPDATE users SET `email` = '$email' WHERE id = $user_id;";
                 if($con->query($sql)){
+                    
                     return array('status' => true, 'sucess' => "Your email has been chnaged successfully.");
                 }else{
                     return array('status' => false, 'error' => "Technical error");
@@ -86,6 +97,7 @@ function email_change($data)
 //Data passing
 if (isset($_POST['btn_change_pass'])) {
     if (password_verification($_POST)['status']) {
+        session_unset();
         echo password_verification($_POST)['success'];
     } else {
         echo password_verification($_POST)['error'];
@@ -93,6 +105,7 @@ if (isset($_POST['btn_change_pass'])) {
 } elseif (isset($_POST['btn_change_email'])) {
     $email_report = email_change($_POST);
     if ($email_report['status']) {
+        $_SESSION[$user]['email']= $_POST['email'];
         echo $email_report['success'];
     } else {
         echo $email_report['error'];

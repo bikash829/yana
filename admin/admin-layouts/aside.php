@@ -41,56 +41,32 @@ $active_appointments  = "./active_appointments.php";
                 </div>
                 <div class="sb-sidenav-menu-heading">Appointments</div>
                 <a class="nav-link" href="<?= $appointment_request ?>"><i class="fa-solid fa-hourglass-start"></i>&nbsp; Appointment Request</a>
-                <a class="nav-link" href="<?= $active_appointments ?>"> Active Appointments</a>
+                <a class="nav-link" href="<?= $active_appointments ?>"><i class="fa-regular fa-square-check"></i>&nbsp; Active Appointments</a>
 
-                <!-- <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                            Authentication
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="login.php">Login</a>
-                                <a class="nav-link" href="register.php">Register</a>
-                                <a class="nav-link" href="password.php">Forgot Password</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                            Error
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="401.php">401 Page</a>
-                                <a class="nav-link" href="404.php">404 Page</a>
-                                <a class="nav-link" href="500.php">500 Page</a>
-                            </nav>
-                        </div>
-                    </nav>
-            </div> -->
-            <div class="sb-sidenav-menu-heading">Notifications & Messages</div>
-            <a class="nav-link" href="admin_community.php">
-                <div class="sb-nav-link-icon"><i class="fa-solid fa-users-rectangle"></i></div>
-                Community Posts
-            </a>
-            <a class="nav-link" href="create_post.php">
-                <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
-                Create Post
-            </a>
-            <a class="nav-link" href="contact_message.php">
-                <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope"></i></div>
-                Contact Us Message
-            </a>
-            <a class="nav-link" href="tables.php">
-                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                Tables
-            </a>
+                <div class="sb-sidenav-menu-heading">Community</div>
+
+                <a class="nav-link" href="admin_community.php">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-users-rectangle"></i></div>
+                    Community Posts
+                </a>
+                <a class="nav-link" href="create_post.php">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
+                    Create Post
+                </a>
+
+
+                <div class="sb-sidenav-menu-heading">Notifications & Messages</div>
+
+                <a class="nav-link" href="contact_message.php">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope"></i></div>
+                    Contact Us Message
+                </a>
+
+            </div>
         </div>
-</div>
-<div class="sb-sidenav-footer">
-    <div class="small">Logged in as:</div>
-    <span><?= ucwords($_SESSION['admin']['role']) ?></span>
-</div>
-</nav>
+        <div class="sb-sidenav-footer">
+            <div class="small">Logged in as:</div>
+            <span><?= ucwords($_SESSION['admin']['role']) ?></span>
+        </div>
+    </nav>
 </div>
