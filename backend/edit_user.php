@@ -106,7 +106,6 @@ if (isset($_POST['btn-edit_user'])) {
             } else {
 
                 print_r($updated_info);
-                echo "Yalla";
                 exit();
 
                 $validation_message['technical_error'] = "technical problem";
@@ -208,9 +207,11 @@ if (isset($_POST['btn-edit_user'])) {
 } elseif (isset($_POST['btn_change_doc'])) {
 } elseif (isset($_POST['btn_change_pp'])) { //change profile picture
 
-
     if (isset($_FILES['new_pp'])) {
         $profile_photo = $_FILES['new_pp'];
+
+        // print_r($profile_photo);
+        // exit();
         $pp_name = $profile_photo['name'];
         $pp_explotion = explode('.', $profile_photo['name']);
         $pp_type = strtolower(end($pp_explotion));
@@ -229,12 +230,14 @@ if (isset($_POST['btn-edit_user'])) {
                     $pp_dir = './uploads/profile_photo/';
                     $pp_new_name = $_SESSION['user']['f_name'] . "_pp" . time() . mt_rand() . ".$pp_type";
 
+                    $new_location = '.'.$pp_dir . $pp_new_name;
+                    
 
                     // database query 
                     $sql = "UPDATE `users` SET `users`.`profile_location` = '$pp_dir', `users`.`profile_photo` = '$pp_new_name' WHERE `users`.`id` = $user_id";
 
                     if (db_connection()->query($sql)) {
-                        move_uploaded_file($pp_temp_location, '.' . $pp_dir . $pp_new_name);
+                        move_uploaded_file($pp_temp_location, $new_location);
                         $validation_message['chaged_pp'] = "Your profile photo has been changed successfully";
                         $_SESSION['user']['profile_location'] = $pp_dir;
                         $_SESSION['user']['profile_photo'] = $pp_new_name;

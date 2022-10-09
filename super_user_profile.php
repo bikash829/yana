@@ -100,9 +100,6 @@ if (isset($_GET['id_'])) {
 
 // appointment data 
 
-
-
-
 ?>
 
 
@@ -110,12 +107,14 @@ if (isset($_GET['id_'])) {
     <section class="profile my-5">
         
 
+    <?php if($data['role'] == 'doctor'){ ?>
         <div class="row justify-content-center mb-4">
             <div class="col-lg-10 col-12 d-grid gap-2">
                 <button type="button" data-bs-toggle="modal" data-bs-target="#make_appointment" class="btn btn-primary">Make An Appointment</button>
 
             </div>
         </div>
+    <?php } ?>
 
         <div class="row justify-content-center">
             <div class="col-lg-10 col-12">
@@ -232,12 +231,15 @@ if (isset($_GET['id_'])) {
             </div>
 
         </div>
+
+        <?php if($data['role'] == 'doctor'){ ?>
         <div class="row justify-content-center mt-4">
             <div class="col-lg-10 col-12 d-grid gap-2">
                 <button type="button"  data-bs-toggle="modal" data-bs-target="#make_appointment"  class="btn btn-primary">Make An Appointment</button>
 
             </div>
         </div>
+        <?php } ?>
 
 
     </section>

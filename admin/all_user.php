@@ -11,6 +11,8 @@ $validation_message = [];
 $status = 1;
 include "./users_query.php";
 
+// print_r($sql);
+// exit();
 if ($dataList =  db_connection()->query($sql)) {
     $user_stack = $dataList->fetch_all(MYSQLI_ASSOC);
 } else {

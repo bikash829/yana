@@ -4,7 +4,4 @@ $sql = "SELECT `users`.*,`users`.phone_code AS `phone_code_id`, `additional_info
         INNER JOIN `additional_info` ON `users`.`id` = `additional_info`.`user_id`
         INNER JOIN `country` ON `users`.`country_id` = `country`.`id`
         WHERE `users`.`status` = $status;";
-
-
-
 ?>

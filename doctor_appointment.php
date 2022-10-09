@@ -41,8 +41,9 @@ if ($special_user_set = db_connection()->query($sql)) {
                 Green above he cattle god saw day multiply under fill in the cattle fowl a all, living, tree word link available in the service for subdue fruit.
             </p> -->
         </div>
-        <!-- councilor list  -->
+        
         <div class="accordion" id="accordionPanelsStayOpenExample">
+            <!-- councilor list  -->
             <div class="accordion-item">
 
 
@@ -79,6 +80,7 @@ if ($special_user_set = db_connection()->query($sql)) {
                                         </div>
 
                                         <div class="specialist__info ">
+                                        <input type="hidden" id='user_id' value="<?= $row['id'] ?>">
                                             <div class="person">
                                                 <h3 class="person__name"><?= $row['f_name'] . ' ' . $row['l_name'] ?></h3>
                                                 <h3 class="person__occu">Proffesion Skills</h3>
@@ -128,6 +130,7 @@ if ($special_user_set = db_connection()->query($sql)) {
                                                 ?>
                                             </div>
                                         </div>
+                                        <button id="specialist_view" id="councilor_link" class="specialist_view">View Info</button>
                                     </div>
 
                             <?php }
@@ -178,7 +181,7 @@ if ($special_user_set = db_connection()->query($sql)) {
                                         <div class="specialist__info ">
                                             <input type="hidden" id='user_id' value="<?= $row['id'] ?>">
                                             <div class="person">
-                                                <h3 class="person__name"><?= $row['f_name'] . ' ' . $row['l_name'] ?></h3>
+                                                <h3 class="person__name">Dr. <?= $row['f_name'] . ' ' . $row['l_name'] ?></h3>
                                                 <h3 class="person__occu">Proffesion Skills</h3>
                                             </div>
                                             <p class="person__description">
@@ -268,5 +271,9 @@ include_once "./layout/footer.php"
         viewSpecialist.addEventListener('click', (e) => {
             window.location = './super_user_profile.php?id =' + user_id.value;
         });
+
+    // let councilor_link = document.getElementById('councilor_link');
+
+    
     }
 </script>

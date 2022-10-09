@@ -81,7 +81,7 @@ if (isset($_GET['view_user'])) {
                                                 <div class="card-body profile-details">
 
                                                     <div class="form-group">
-                                                        <h5 class="mb-0"><?= $data['f_name'] . $data['l_name'] ?></h5>
+                                                        <h5 class="mb-0"><?= ucwords($data['f_name'])  . ' ' .ucwords($data['l_name']) ?></h5>
                                                     </div>
                                                     <div class="form-group pb-3 text-secondary">
                                                         <?= ucwords($data['role']) ?>
