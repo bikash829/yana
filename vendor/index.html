@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="./bootstrap-5.2.0-dist/css/bootstrap.min.css"
+    />
+   
+  </head>
+  <body>
+    <button
+      type="button"
+      class="btn btn-secondary"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      data-bs-custom-class="custom-tooltip"
+      data-bs-title="This top tooltip is themed via CSS variables."
+      aria-describedby="tooltip747140"
+    >
+      Custom tooltip
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-secondary tooltip"
+      data-bs-toggle="tooltip"
+      data-bs-placement="bottom"
+      title="Tooltip on bottom"
+    >
+      Tooltip on bottom
+    </button>
+    <script src="./bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+      $(document).ready(function(){
+        $('.tooltip').tooltip({
+          selector: "[data-bs-toggle=tooltip]",
+          container:"body"
+        })
+
+      });
+    </script>
+  </body>
+</html>

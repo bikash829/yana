@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h1>Yo welcome the dirty test.</h1>
+
+    <select name="person_name" id="person_name">
+      <option value="" selected disabled>Choose One</option>
+      <!-- <option value="" name="">Data</option> -->
+    </select>
+
+    <select name="phone_code" id="phone_code">
+      <option value="" selected disabled>Choose One</option>
+      <!-- <option value="" name="">Data</option> -->
+    </select>
+
+    <script type="text/javascript">
+      const dataSet = {
+        0: {
+          id: 1,
+          name: "Jhon",
+          phoneCode: "+880 65 77",
+        },
+        1: {
+          id: 2,
+          name: "Jonathan",
+          phoneCode: "+770",
+        },
+        2: {
+          id: 3,
+          name: "Doy",
+          phoneCode: "+70",
+        },
+        3: {
+          id: 4,
+          name: "Rambo",
+          phoneCode: "+60",
+        },
+      };
+
+      for (value in dataSet) {
+      }
+
+      let person, name, person_id, phoneCode;
+
+      person = document.querySelector("#person_name");
+
+      // country = country.;
+      phoneCode = document.querySelector("#phone_code");
+
+      let newElement, attribute, content, numCodeElement;
+
+      for (let value in dataSet) {
+        // country data
+        newElement = document.createElement("option");
+        newElement.textContent = dataSet[value].name;
+        newElement.setAttribute("value", dataSet[value].id);
+        person.append(newElement);
+        // console.log(value);
+
+        // phone code
+        numCodeElement = document.createElement("option");
+        numCodeElement.textContent = dataSet[value].phoneCode;
+        numCodeElement.setAttribute("value", dataSet[value].id);
+        phoneCode.append(numCodeElement);
+      }
+
+      // country.firstElementChild.setAttribute('selected', '');
+      // phoneCode.firstElementChild.setAttribute('selected', '');
+
+      // left by here =====================================
+      person.addEventListener("change", (e) => {
+        let selectedCountry = e.target.value;
+
+        phoneCode.children[0].removeAttribute("selected");
+
+        // reset nodelist
+        let count = 1;
+        for (value in dataSet) {
+          let newNode;
+          newNode = document.createTextNode(dataSet[value].phoneCode);
+
+          console.log(
+            "new node",
+            newNode,
+            "dataset",
+            dataSet[value],
+            "phone code",
+            phoneCode
+          );
+
+          //   replace node
+          let existedElement = phoneCode.children[count];
+
+          existedElement.replaceChild(newNode, existedElement.childNodes[0]);
+
+          //   attributes
+          existedElement.removeAttribute("selected");
+          if (dataSet[value].id == selectedCountry) {
+            existedElement.setAttribute("selected", "");
+            console.log(dataSet[value].id);
+          }
+          count++;
+        }
+      });
+    </script>
+  </body>
+</html>

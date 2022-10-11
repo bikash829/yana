@@ -1,0 +1,197 @@
+
+/* Login design */
+.sign_in_card{
+
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 400px;
+    background-color: rgba(0, 126, 105,0.7) !important;
+}
+
+.social_icon span{
+    font-size: 60px;
+    margin-left: 10px;
+    color: #FFC312;
+}
+
+.social_icon span:hover{
+    color: white;
+    cursor: pointer;
+}
+
+.card_header h3{
+    color: white;
+}
+
+.social_icon{
+    position: absolute;
+    right: 20px;
+    top: -45px;
+}
+
+.input_group span{
+    width: 50px;
+    background-color: #FFC312;
+    color: black;
+    border:0 !important;
+}
+
+.log_input:focus{
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important;
+
+}
+
+.remember{
+    color: white;
+}
+
+.remember .log_input
+{
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    margin-right: 5px;
+}
+
+.login_btn{
+    color: black;
+    background-color: #FFC312;
+    width: 100px;
+}
+
+.login_btn:hover{
+    color: black;
+    background-color: white;
+}
+
+.links{
+    color: white;
+}
+
+.links a{
+    margin-left: 4px;
+}
+
+/* Sign up design */
+.radio_>div>label{
+    cursor: pointer;
+}
+
+.custom_input>input{
+    height: 40px !important;
+
+}
+.custom_input>input:focus{
+    outline: none !important;
+    border: none !important;
+    box-shadow: 0 0 5px #3dbbdd !important;
+}
+.custom_input>input:active{
+    outline: none !important;
+    border: none !important;
+}
+.custom_input>input:hover{
+    box-shadow: 0 0 5px #3dbbdd !important;
+    transform: translate(1);
+    transition: 1s;
+}
+.custom_input>select{
+    height: 40px !important;
+}
+.custom_input>label{
+    color: black;
+}
+.cus_card{
+    background-color: rgba(  0, 126, 105,.4);
+    margin: 5vh 0 10vh 0;
+    /*padding: 0 5px 0 5px !important;*/
+}
+
+.cus_su_con{
+    background-color: rgba( 60, 143, 167,.2);
+}
+
+.sign_text{
+    color: black;
+}
+.sign_text:hover{
+    text-decoration: underline;
+
+}
+
+/*---------------Profile Design ------------------*/
+
+.profile_container{
+    background-color: rgb( 251, 238, 230 );
+}
+.profile_pic{
+    height: 20em;
+    width: 100%;
+
+}
+.profile_pic>img{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* -------- Change profile picture --------------*/
+.profile_modal{
+    background-color: rgba( 98, 146, 49,.9) !important;
+
+}
+
+/*animated social icons*/
+.social-menu ul {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+.social-menu ul li {
+    list-style: none;
+    margin: 0 10px;
+}
+.social-menu ul li i {
+    color: #000000;
+    font-size: 25px;
+    line-height: 50px;
+    transition: .5s;
+}
+.social-menu ul li i:hover {
+    color: #ffffff;
+}
+.social-menu ul li a {
+    position: relative;
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    text-align: center;
+    transition: 0.5s;
+    transform: translate(0,0px);
+    box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.5);
+}
+.social-menu ul li a:hover {
+    transform: rotate(0deg) skew(0deg) translate(0, -10px);
+}
+.social-menu ul li:nth-child(1) a:hover {
+    background-color: #3b5999;
+}
+.social-menu ul li:nth-child(2) a:hover {
+    background-color: #55acee;
+}
+.social-menu ul li:nth-child(3) a:hover {
+    background-color: #e4405f;
+}
+.social-menu ul li:nth-child(4) a:hover {
+    background-color: #cd201f;
+}
+.social-menu ul li:nth-child(5) a:hover {
+    background-color: #0077B5;
+}
