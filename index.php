@@ -71,7 +71,7 @@ include_once "./layout/navigation_bar.php";
     </div>
   </section>
   <!-- ---------------service end ----------- -->
- 
+
   <!-- ------------patient review------------ -->
   <section class="patient-review segment-margin">
     <div class="patient-review__heading-container section-heading ">
@@ -347,5 +347,5 @@ include_once "./layout/navigation_bar.php";
 
 <?php
 include_once "./layout/footer.php"
-
 ?>
+

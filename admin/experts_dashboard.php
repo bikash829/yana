@@ -68,7 +68,7 @@ $total_patient = db_result($total_patient)['total_patients'];
                         <div class="card bg-primary text-white mb-4">
                             <h4 class="card-header">My Patients</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2"><?= $total_patient ?></p>
+                                <p class="text-center fs-2"><?php if($total_patient < 1){ echo 0;}else{ echo $total_patient;} ?></p>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="./my_patients.php">View Details</a>
@@ -156,15 +156,18 @@ $total_patient = db_result($total_patient)['total_patients'];
                             </tfoot>
                             <tbody>
                                 <?php $count = 1;
-                                foreach ($appointment_list as $row) { ?>
+                                foreach ($appointment_list as $row) { 
+                                   if(!empty($row["total_appointment"])){;
+                                   ?>
+                                    
 
                                     <tr>
                                         <td><?= $count ?></td>
                                         <td><?= $row['ap_date'] ?></td>
                                         <td><?= $row['start_time'] ?></td>
                                         <td><?= $row['end_time'] ?></td>
-                                        <td><?= $row['patient_capacity'] ?></td>
-                                        <td><?= $row[''] ?></td>
+                                        <td><?=$row['patient_capacity']?></td>
+                                        <td></td>
                                         <td><?= $row['fees'] ?></td>
 
                                         <td>
@@ -189,7 +192,7 @@ $total_patient = db_result($total_patient)['total_patients'];
                                     </tr>
 
                                 <?php $count++;
-                                } ?>
+                                } }?>
 
                             </tbody>
                         </table>

@@ -29,6 +29,7 @@ if (isset($_POST['btn-create-user'])) {
         default:
             break;
     }
+    
 }
 
 
@@ -59,7 +60,6 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
                 $validation = false;
             }
         } else {
-            echo "Data validation : *************";
             $validation = false;
             $validation_message = data_validation($_POST);
         }
@@ -170,11 +170,15 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
 }
 
 // =====================================empty registration session =================
-
-
 // validation checkup 
 if ($validation) {
-    print_r($validation_message);
+    // print_r($validation_message);
+    $validation_message['status'] = true;
+    $_SESSION['registration_status'] = $validation_message;
+    header("Location: ../view_profile.php");
 } else {
-    print_r($validation_message);
+    // print_r($validation_message);
+    $validation_message['status'] = false;
+    $_SESSION['registration_status'] = $validation_message;
+    header("Location: ../view_profile.php");
 }

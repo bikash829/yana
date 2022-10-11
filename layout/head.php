@@ -28,6 +28,9 @@
   <!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Passion+One:900" rel="stylesheet">
+
+
+  <script src="./vendor/alert/dist/sweetalert2.all.min.js"></script>
 </head>
 
 <body>

@@ -1,6 +1,7 @@
 <?php
 include_once "./admin-layouts/head.php";
 
+
 if (isset($_SESSION['doctor'])) {
     $user_role = $_SESSION['doctor']['role'];
 } elseif (isset($_SESSION['councilor'])) {
@@ -8,6 +9,7 @@ if (isset($_SESSION['doctor'])) {
 } else {
     $user_role =  "Nothing to print";
 }
+
 
 // link 
 $dashboard = "./experts_dashboard.php";
@@ -38,8 +40,11 @@ function my_patients($doc_id){
             JOIN users p ON user_appointment.patient_id = p.id
             JOIN country ON p.country_id = country.id
             JOIN country phone ON p.phone_code = phone.id
-            WHERE doctor_id = 17 GROUP BY user_appointment.patient_id
+            WHERE doctor_id = $doc_id GROUP BY user_appointment.patient_id
             ORDER BY ap_date DESC;";
+
+
+
     
     if($patients_set = db_connection()->query($sql)){
         $patient_list = $patients_set->fetch_all(MYSQLI_ASSOC);
@@ -49,6 +54,7 @@ function my_patients($doc_id){
     }
 
 }
+
 
 $patient_list = my_patients($_SESSION[$user_role]['id']);
 
@@ -156,9 +162,6 @@ $patient_list = my_patients($_SESSION[$user_role]['id']);
 <script src="js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="./js/datatables-simple-demo.js"></script>
-
-
-
 </body>
 
 </html>

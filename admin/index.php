@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +15,9 @@
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="../vendor/bootstrap-5.2.0-dist/css/bootstrap.min.css">
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+    <!-- sweet alert  -->
+    <script src="../vendor/alert/dist/sweetalert2.all.min.js"></script>
 
 </head>
 
@@ -78,6 +85,45 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
     <script src="../vendor/bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/scripts.js"></script>
+
+    <?php
+
+    if (isset($_SESSION['login_status'])) {
+        $login_status = $_SESSION['login_status'];
+        unset($_SESSION['login_status']);
+        if (!($login_status['status'])) {
+            unset($login_status['status']);
+            $message = '';
+            foreach ($login_status as $text) {
+                $message .= $text;
+            }
+            $login_status = json_encode(array('message' => $message, 'status' => 'error'));
+        } else {
+            echo "something bad happend";
+        }
+    }
+
+
+    ?>
+
+    <script type="text/javascript">
+        // let login_status = <?php if(isset($login_status)){ echo $login_status;}else{ echo 0;} ?>
+
+        // console.log(login_status)
+        const php_msg = <?php if(isset($login_status)){ echo $login_status; }?>;
+
+        let login_status = php_msg ? php_msg: null;
+
+        if (login_status != null) {
+            Swal.fire({
+                position: 'top-end',
+                icon: login_status['status'],
+                title: login_status['message'],
+                showConfirmButton: false,
+                timer: 3000
+            })
+        }
+    </script>
 </body>
 
 </html>

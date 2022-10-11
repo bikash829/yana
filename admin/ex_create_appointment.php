@@ -55,8 +55,8 @@ switch (isset($_SESSION)) {
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="validationCustom02" class="form-label">Start At</label>
-                                    <input name="ap-start-at" type="time" class="form-control" id="validationCustom02" max="23:00" min="00:00" required>
+                                    <label for="start_at" class="form-label">Start At</label>
+                                    <input name="ap-start-at" type="time" class="form-control" id="start_at" max="23:00" min="00:00" required>
                                     <div class="valid-feedback">
                                         Looks good!
                                     </div>
@@ -64,7 +64,7 @@ switch (isset($_SESSION)) {
 
                                 <div class="col-md-4">
                                     <label for="validationCustom02" class="form-label">End In</label>
-                                    <input name="ap-end-in" type="time" class="form-control" id="validationCustom02" max="23:59:59" min="00:00" required>
+                                    <input name="ap-end-in" type="time" class="form-control"  max="23:59:59" min="00:00" required>
                                     <div class="valid-feedback">
                                         Looks good!
                                     </div>
@@ -74,18 +74,18 @@ switch (isset($_SESSION)) {
 
 
                                 <div class="col-md-6">
-                                    <label for="validationCustom03" class="form-label">Capacity</label>
-                                    <input name="patient-capacity" type="number" class="form-control" id="validationCustom03" required>
+                                    <label for="capacity" class="form-label">Capacity</label>
+                                    <input name="patient-capacity" type="number" class="form-control" id="capacity" required>
                                     <div class="invalid-feedback">
-                                        Please provide a valid city.
+                                        Please set maximum capacity of your appointment
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="validationCustom03" class="form-label">Fee</label>
-                                    <input name="ap-fee" type="number" class="form-control" id="validationCustom03" required>
+                                    <label for="fee" class="form-label">Fee</label>
+                                    <input name="ap-fee" type="number" class="form-control" id="fee" required>
                                     <div class="invalid-feedback">
-                                        Please provide a valid city.
+                                        Assign you fee for per patient
                                     </div>
                                 </div>
 
@@ -93,7 +93,7 @@ switch (isset($_SESSION)) {
                                     <label for="validationTextarea" class="form-label">Appoinment Description</label>
                                     <textarea name="ap-description" class="form-control" id="validationTextarea" placeholder="Required example textarea" required></textarea>
                                     <div class="invalid-feedback">
-                                        Please enter a message in the textarea.
+                                        Please enter the appointment description for the patients.
                                     </div>
                                 </div>
 
@@ -164,16 +164,15 @@ switch (isset($_SESSION)) {
 
     let ageGuard = document.getElementById('apointment-date');
     let currentDate = new Date();
-
+    let initialMonth = currentDate.getMonth() +1;
     let currentDay, currentMonth, currentYear;
     currentDay = currentDate.getDate() < 10 ? `0${currentDate.getDate()}` : currentDate.getDate();
-    currentMonth = currentDate.getMonth() < 10 ? `0${currentDate.getMonth()}` : currentDate.getMonth();
+    currentMonth = initialMonth < 10 ? `0${initialMonth}` : initialMonth;
     currentYear = currentDate.getFullYear();
 
     let minYear = `${currentYear-10}-${currentMonth}-${currentDay}`;
 
     let today = `${currentYear}-${currentMonth}-${currentDay}`;
-    console.log(today);
 
 
     ageGuard.min = today;

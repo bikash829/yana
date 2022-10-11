@@ -33,6 +33,10 @@ if (!(isset($_SESSION['admin']) || isset($_SESSION['councilor']) || isset($_SESS
 
     <script defer src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- <script src="../js/main.js" defer></script> -->
+    
+    <!-- sweet alert  -->
+    <script src="../vendor/alert/dist/sweetalert2.all.min.js"></script>
+
     <?php if (isset($community)) { ?>
         <!--custom css-->
         <!-- <link rel="stylesheet" type="text/css" href="../css/style.css"> -->

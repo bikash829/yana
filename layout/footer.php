@@ -54,13 +54,60 @@
   <!-- <script defer src="./vendor/bootstrap-5.2.0/js/bootstrap.bundle.js" type="text/javascript"></script> -->
   <!--fontawesome js-->
   <script src="./vendor/fontawesome-free-6.1.1/js/all.js" type="text/javascript"></script>
-   <!-- jquery js  -->
-   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <!-- jquery js  -->
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <!-- datatable  -->
   <script type="text/javascript" src="vendor/DataTables/datatables.min.js"></script>
 
   <script src="./js/main.js" type="text/javascript"></script>
-  
+
+<?php
+function alert($data)
+{
+  if ($data['status']) {
+    $success = '';
+    unset($data['status']);
+    foreach ($data as $message) {
+      $success .= trim($message);
+    }
+    return array('status' => 'success', 'message' => $success);
+  } else {
+    $error  = '';
+    
+    foreach ($data as $message) {
+      $error .= trim($message);
+    }
+    return array('status' => 'error', 'message' => $error);
+  }
+}
+
+if (isset($_SESSION['login_status'])) {
+
+  $login_status = json_encode(alert($_SESSION['login_status']));
+  unset($_SESSION['login_status']);
+}
+
+?>
+  <script type="text/javascript">
+   const php_msg = <?php if(isset($login_status)){ echo $login_status; }?>
+
+    let login_status = php_msg ? php_msg: null;
+    
+    // console.log(login_status);
+
+    if (login_status != null) {
+      Swal.fire({
+        position: 'top-end',
+        icon: login_status['status'],
+        title: login_status['message'],
+        showConfirmButton: false,
+        timer: 2000
+      })
+
+      console.log(login_status);
+    }
+  </script>
+
   </body>
 
   </html>

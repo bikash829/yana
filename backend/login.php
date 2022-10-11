@@ -19,9 +19,6 @@ if (isset($_POST['btn-login'])) {
 
     if (db_connection()->query($sql)) {
         $query_status = db_connection()->query($sql);
-
-
-
         if ($query_status->num_rows > 0) {
             $data = $query_status->fetch_assoc();
 
@@ -53,9 +50,9 @@ if (isset($_POST['btn-login'])) {
                     $_SESSION['user']['login_status'] = 1;
                     $_SESSION['user']['full_name'] = $_SESSION['user']['f_name'] . ' ' . $_SESSION['user']['l_name'];
                     $validation_message['login_sucess'] = "You are logged in successfully";
-                    if (isset($_SERVER["HTTP_REFERER"])) {
-                        header("Location: " . $_SERVER["HTTP_REFERER"]);
-                    }
+                    // if (isset($_SERVER["HTTP_REFERER"])) {
+                    //     header("Location: " . $_SERVER["HTTP_REFERER"]);
+                    // }
                 } else {
                     $validation_message['status'] = false;
                     $validation_message['wrong_pass'] = "Incorrect id or password please try again with valid password";
@@ -67,28 +64,28 @@ if (isset($_POST['btn-login'])) {
         } else {
 
             $validation_message['status'] = false;
-            $validation_message['not_found'] = "Invalid user id";
+            $validation_message['not_found'] = "Invalid user";
         }
     } else {
         $validation_message['status'] = false;
         $validation_message['error_db_connection'] = "Failed to connect to MySQL: " . $mysqli->connect_error;
     }
+    $_SESSION['login_status'] = $validation_message;
+    header("Location: " . $_SERVER["HTTP_REFERER"]);
 } elseif (isset($_POST['btn-admin-login'])) { // Admin login checker
-
     $email = trim($_POST['email']);
     $pass = md5($_POST['pass']);
     $sql = "SELECT * FROM `users`
             WHERE `email` = '$email';";
-
-
     if ($query_status = db_connection()->query($sql)) {
+        
         if ($query_status->num_rows > 0) {
 
             $data = $query_status->fetch_assoc();
             if ($pass == $data['pass']) {
 
-
-                // additional information 
+               
+                // additional information for doctor and councilor data
                 if (!($data['role_id'] == 1)) {
                     $user_id = $data['id'];
 
@@ -146,8 +143,7 @@ if (isset($_POST['btn-login'])) {
                     header("Location: ../admin/dashboard.php");
                 } elseif ($data['role_id'] == 2) { //councilor login
                     if (empty($data['status'])) {
-
-
+                        
                         header("Location: ../admin/waiting.php");
                     } else {
                         $_SESSION['councilor'] = $data;
@@ -176,10 +172,21 @@ if (isset($_POST['btn-login'])) {
             $validation_message['invalid_error'] = "Invalid information";
             $validation_message['status'] = false;
         }
+
+
     } else {
         $validation_message['technical_error'] = "Technical error contact with technitian";
         $validation_message['status'] = false;
     }
+    
+    
+    if(!$validation_message['status']){
+        $_SESSION['login_status'] = $validation_message;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);  
+    }
+     
+
+
 } else {
 
     $validation_message['status'] = false;
@@ -188,9 +195,18 @@ if (isset($_POST['btn-login'])) {
 
 
 // validation chekup 
-if ($validation_message['status']) {
-    print_r($validation_message);
-} else {
+// if ($validation_message['status']) {
+//     $validation_message['login_success']
+//     $_SESSION['login'] = $validation_message;
+//     header("Location: " . $_SERVER["HTTP_REFERER"]);
+// } else {
+//     $_SESSION['login_faild'] = $validation_message;
+//     header("Location: " . $_SERVER["HTTP_REFERER"]);
+// }
 
-    print_r($validation_message);
-}
+// print_r($validation_message);
+// exit();
+
+
+
+
