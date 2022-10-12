@@ -64,7 +64,7 @@ switch (isset($_SESSION)) {
 
                                 <div class="col-md-4">
                                     <label for="validationCustom02" class="form-label">End In</label>
-                                    <input name="ap-end-in" type="time" class="form-control"  max="23:59:59" min="00:00" required>
+                                    <input name="ap-end-in" type="time" class="form-control" max="23:59:59" min="00:00" required>
                                     <div class="valid-feedback">
                                         Looks good!
                                     </div>
@@ -137,7 +137,9 @@ switch (isset($_SESSION)) {
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="./js/datatables-simple-demo.js"></script>
 
+
 <script>
+    
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {
         'use strict'
@@ -164,7 +166,7 @@ switch (isset($_SESSION)) {
 
     let ageGuard = document.getElementById('apointment-date');
     let currentDate = new Date();
-    let initialMonth = currentDate.getMonth() +1;
+    let initialMonth = currentDate.getMonth() + 1;
     let currentDay, currentMonth, currentYear;
     currentDay = currentDate.getDate() < 10 ? `0${currentDate.getDate()}` : currentDate.getDate();
     currentMonth = initialMonth < 10 ? `0${initialMonth}` : initialMonth;

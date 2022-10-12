@@ -1,4 +1,5 @@
 <?php 
+session_start();
 include "../config/db_connection.php";
 
 
@@ -7,7 +8,7 @@ $validation = true;
 $validation_message = [];
 
 
-if(isset($_POST['post_article'])){
+if(isset($_POST['post_article'])){ //post 
    
 
     $user_id  = $_POST['user_id'];
@@ -24,13 +25,22 @@ if(isset($_POST['post_article'])){
 
     if(db_connection()->query($sql)){
         $validation_message['create_post_success'] = "Your article has been posted successfully";
+        $validation_message['status'] = 'success';
+        $_SESSION['post_alert'] = $validation_message;
         header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit();
     } else{
         $validation= false;
         $validation_message['error'] = "Technical error";
     }
+
+   
+    $validation_message['status'] = 'error';
+    $_SESSION['post_alert'] =  $validation_message;
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit();
     
-}elseif(isset($_POST['btn-comment'])){
+}elseif(isset($_POST['btn-comment'])){ //comment
 
     
 
@@ -45,7 +55,10 @@ if(isset($_POST['post_article'])){
 
     if($comment = db_connection()->query($sql)){
         $validation_message['comment_succes'] = "Comment posted";
+        $validation_message['status'] = 'success';
+        $_SESSION['comment_alert'] = $validation_message;
         header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit();
 
     }else{
         $validation = false;
@@ -58,5 +71,8 @@ if(isset($_POST['post_article'])){
     $validation = false;
     $validation_message['error'] = "You are not supose to be here";
  }
-
+ $validation_message['status'] = 'error';
+ $_SESSION['comment_alert'] = $validation_message;
+ header("Location: " . $_SERVER['HTTP_REFERER']);
+ exit();
 ?>

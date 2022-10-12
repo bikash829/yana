@@ -42,7 +42,7 @@ switch (isset($_SESSION)) {
                     <div class="col-lg-8 col-10">
                         <div class="card">
                             <div class="card-header">
-                                <?= $data['f_name'] . $data['l_name'] ?>
+                                <?= ucwords($data['f_name'])  . ' ' . ucwords($data['l_name'])  ?>
 
                             </div>
                             <div class="card-body position-relative">
@@ -58,7 +58,7 @@ switch (isset($_SESSION)) {
                                             <div class="card-body profile-details row">
 
                                                 <div class="form-group col-md-6 col-lg-6">
-                                                    <h5 class="mb-0"><?= $data['f_name'] .' '. $data['l_name'] ?></h5>
+                                                    <h5 class="mb-0"><?= ucwords($data['f_name']) . ' ' . ucwords($data['l_name'])  ?></h5>
                                                 </div>
                                                 <div class="form-group pb-3 text-secondary ">
                                                     <?= ucwords($data['role']) ?>
@@ -92,18 +92,18 @@ switch (isset($_SESSION)) {
                                                 </div>
 
                                                 <div class="form-group py-1 col-md-6 col-lg-6">
-                                                    <span><i class="fa-solid fa-location-dot"></i><?=$data['addr'] . ', ' . $data['city'] . '-' . $data['zip_code']?></span>
+                                                    <span><i class="fa-solid fa-location-dot"></i><?= $data['addr'] . ', ' . $data['city'] . '-' . $data['zip_code'] ?></span>
                                                 </div>
                                                 <div class="form-group py-1 col-md-6 col-lg-6">
                                                     <span><i class="fa-solid fa-flag"></i> <?= $data['country_name'] ?></span>
                                                 </div>
 
                                                 <div class="form-group pt-2 text-center col-12">
-                                                     About
+                                                    About
                                                 </div>
 
                                                 <div class="form-group  col-12">
-                                                     <?= $data['bio'] ?>
+                                                    <?= $data['bio'] ?>
                                                 </div>
 
 
@@ -138,6 +138,40 @@ switch (isset($_SESSION)) {
 <script src="js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="./js/datatables-simple-demo.js"></script>
+
+
+
+<?php
+include "../functionalities/alert.php";
+if (isset($_SESSION['edit_info'])) {
+
+    $alert_status = json_encode(alert($_SESSION['edit_info']));
+    var_dump($alert_status);
+    unset($_SESSION['edit_info']);
+}
+
+?>
+<script type="text/javascript">
+    const php_msg = <?php if (isset($alert_status)) {
+                        echo $alert_status;
+                    } ?>
+
+    let alertStatus = php_msg ? php_msg : null;
+
+    if (alertStatus != null) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus['status'],
+            title: alertStatus['message'],
+            showConfirmButton: false,
+            timer: 4000
+        })
+
+        console.log(alertStatus);
+    }
+</script>
+
+
 </body>
 
 </html>

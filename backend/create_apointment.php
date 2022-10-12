@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 $validation = true;
 $validation_message = [];
 
@@ -22,7 +22,7 @@ if(isset($_POST['btn-create-apointment'])){
 
     if(db_connection()->query($sql)){
         $validation_message['success'] = "Apointment Has been created successfully.";
-        header("Location: ../admin/ex_create_appointment.php");
+        
     }else{
         $validation = false;
         $validation_message['error'] = "Technical error contact with developer";
@@ -37,9 +37,10 @@ if(isset($_POST['btn-create-apointment'])){
 
 // validation checker
 if($validation){
-    print_r($validation_message);
-    exit();
+    $_SESSION['appointment_create'] = $validation_message;
+    $_SESSION['appointment_create']['status'] = true;
+    header("Location: ../admin/appointment_history.php");
 
 }else{
-    print_r($validation_message);
+    header("Location: ../../error.php");
 }

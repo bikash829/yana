@@ -100,7 +100,7 @@ if ($apointment_set = db_connection()->query($sql)) {
                                     <tr>
                                         <td><?= $value['id'] ?></td>
                                         <td><?= $value['ap_date'] ?></td>
-                                        <td><?= $value['start_time']?></td>
+                                        <td><?= $value['start_time'] ?></td>
                                         <td><?= $value['end_time'] ?></td>
                                         <td><?= $value['patient_capacity'] ?></td>
                                         <td><?= $value['fees'] ?></td>
@@ -145,7 +145,35 @@ if ($apointment_set = db_connection()->query($sql)) {
 <script src="js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="./js/datatables-simple-demo.js"></script>
+<?php
+include "../functionalities/alert.php";
+if (isset($_SESSION['appointment_create'])) {
 
+    $alert_status = json_encode(alert($_SESSION['appointment_create']));
+
+    unset($_SESSION['appointment_create']);
+}
+
+?>
+<script type="text/javascript">
+    const php_msg = <?php if (isset($alert_status)) {
+                        echo $alert_status;
+                    } ?>
+
+    let alertStatus = php_msg ? php_msg : null;
+
+    if (alertStatus != null) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus['status'],
+            title: alertStatus['message'],
+            showConfirmButton: false,
+            timer: 4000
+        })
+
+        console.log(alertStatus);
+    }
+</script>
 
 </body>
 

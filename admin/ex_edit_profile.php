@@ -118,33 +118,6 @@ include "../functionalities/validation_function.php";
                                                         Please provide a valid date of birth.
                                                     </div>
                                                 </div>
-
-
-                                                <!-- Contact and country  -->
-                                                <!-- <div class="col-md-6">
-                                                    <label for="country" class="form-label">Country</label>
-                                                    <select name="country" class="form-select" id="country" required>
-                                                        <option selected disabled value="">Choose...</option>
-
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Please select country.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-2">
-                                                    <label for="phone-code" class="form-label">Code<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
-                                                    <select name="phone-code" class="form-select" id="phone-code" required>
-                                                        <option value="" selected disabled>Choose...</option>
-
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        lease select your valid phone code.
-                                                    </div>
-                                                </div> -->
-
-
-
                                                 <!-- address info  -->
                                                 <div class="col-md-12">
                                                     <label for="address_" class="form-label">Address</label>
@@ -219,12 +192,9 @@ include "../functionalities/validation_function.php";
 
 
                                                 <div class="col-12 d-grid">
-                                                    <button name="btn-edit_experts" class="btn btn-primary" type="submit">Register Now</button>
+                                                    <button name="btn-edit_experts" class="btn btn-primary" type="submit">Edit Now</button>
                                                 </div>
                                             </form>
-
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -254,6 +224,37 @@ include "../config/db_connection.php";
 include "../functionalities/country_code_menupulation.php";
 
 ?>
+
+<?php
+include "../functionalities/alert.php";
+if (isset($_SESSION['edit_info'])) {
+
+    $alert_status = json_encode(alert($_SESSION['edit_info']));
+    var_dump($alert_status);
+    unset($_SESSION['edit_info']);
+}
+
+?>
+<script type="text/javascript">
+    const php_msg = <?php if (isset($alert_status)) {
+                        echo $alert_status;
+                    } ?>
+
+    let alertStatus = php_msg ? php_msg : null;
+
+    if (alertStatus != null) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus['status'],
+            title: alertStatus['message'],
+            showConfirmButton: false,
+            timer: 4000
+        })
+
+        console.log(alertStatus);
+    }
+</script>
+
 
 <script type="text/javascript">
     // console.log(country);

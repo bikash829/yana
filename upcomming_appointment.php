@@ -9,13 +9,17 @@ include_once "./layout/navigation_bar.php";
 
 
 include "./config/db_connection.php";
+$user_id = $_SESSION['user']['id'] ?? null;
+
+// var_dump($user_id);
+// exit();
 
 //upcomming appointments
 function upcomming_appointments()
 {
     $sql = "SELECT `appointment`.*, `users`.id as doctor_id , concat(`users`.f_name,' ',`users`.l_name) AS full_name  
     FROM appointment 
-    JOIN users ON appointment.doctor_id = users.id";
+    JOIN users ON appointment.doctor_id = users.id ORDER BY appointment.ap_date";
     $upcomming_appointments = [];
 
 
@@ -52,10 +56,6 @@ function appointment_status($uid, $ap_id)
             WHERE user_appointment.patient_id = $uid 
             AND user_appointment.appointment_id = $ap_id
             ;";
-
-
-    
-
 
     if ($collection = db_connection()->query($sql)) {
         $data = $collection->fetch_assoc();
@@ -111,10 +111,10 @@ function appointment_status($uid, $ap_id)
                         <td><?= $row['fees'] ?></td>
                         <?php
                         if (isset($_SESSION['user'])) {
-                            
+
                             $appointment_status = appointment_status($_SESSION['user']['id'], $row['id']);
 
-                            if(empty($appointment_status)){
+                            if (empty($appointment_status)) {
                                 $appointment_status['appointment_status'] = "";
                             }
                         ?>
@@ -135,13 +135,13 @@ function appointment_status($uid, $ap_id)
                                     <p class="text-secondar">Past</p>
                                 </td>
                             <?php  } else { ?>
-                                <td><a class="btn btn-sm btn-primary" href="./backend/appointment_booking.php?appointment_id=<?= $row['id'] ?>&uid=<?= $_SESSION['user']['id'] ?>">Booking</a></td>
+                                <td><button value="<?= $row['id'] ?>" class="btn btn-sm btn-primary booking" href="#">Booking</button></td>
                             <?php } ?>
 
                         <?php
                         } else {
                         ?>
-                            <td><a class="btn btn-sm btn-primary" href="#">Booking</a></td>
+                            <td><button value="<?= $row['id'] ?>" class="btn btn-sm btn-primary booking" href="#">Booking</button></td>
 
                         <?php
                         }
@@ -156,24 +156,80 @@ function appointment_status($uid, $ap_id)
                 }
 
                 ?>
-
-
             </tbody>
         </table>
-
-
-
-
     </section>
-
 </main>
-
-
 <?php
-include_once "./layout/footer.php"
+include_once "./layout/footer.php";
+
+include "./functionalities/alert.php";
+
+if (isset($_SESSION['booking_status'])) {
+    $alert_status = alert($_SESSION['booking_status']);
+    unset($_SESSION['booking_status']);
+} else {
+    $alert_status = false;
+}
+
 ?>
 
 <script type="text/javascript">
+    // confirmation message 
+    let alertStatus = <?= json_encode($alert_status) ?>;
+    if (alertStatus) {
+        Swal.fire({
+
+            title: alertStatus.status,
+            text: alertStatus.message,
+            icon:  alertStatus.status
+
+        })
+    }
+
+
+
+    // warning section 
+    let booking = document.querySelectorAll('.booking');
+
+    let userId = <?= json_encode($user_id) ?> ?? false;
+
+    // if(userId != null)
+    if (userId) { //logged on user
+        for (let element of booking) {
+            element.addEventListener('click', (e) => {
+                let appointmentId = e.target.value;
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Confirm!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = `./backend/appointment_booking.php?appointment_id=${appointmentId}&uid=${userId}`;
+                    }
+                })
+            });
+        }
+        console.log("You are logged on");
+    } else { // for guest user
+        for (let element of booking) {
+            element.addEventListener('click', (e) => {
+                let appointmentId = e.target.value;
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please login to book an appointment'
+                })
+            });
+        }
+        console.log('you should login first');
+    }
+
+    //data table 
     $(document).ready(function() {
         $('#my_appointments').DataTable();
     });

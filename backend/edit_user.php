@@ -14,29 +14,20 @@ if (isset($_SESSION['user'])) {
 }
 
 // start block for edit doc 
-
 if (isset($_POST['btn-edit_experts'])) {
 
     unset($_POST['btn-edit_experts']);
     $_POST['btn-edit_user'] = true;
 }
 
-
-
-
-
 // end block for edit doc 
-
-
-
-
 $validaiton = true;
 $validation_message = [];
 
 
-if (isset($_POST['btn-edit_user'])) {
+if (isset($_POST['btn-edit_user'])) {  //edit user info
     unset($_POST['btn-edit_user']);
-    
+
 
     $education = $_POST['education_info'];
     $work = $_POST['working_info'];
@@ -51,15 +42,9 @@ if (isset($_POST['btn-edit_user'])) {
         //data validation 
         $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
-
             if ($user_id != "") {
                 $validation_report['id'] = $user_id;
             }
-
-
-
-
-
             if ($updated_info = update_user($validation_report)) {
 
                 $validation_message['success'] = "your information has been updated successfully.";
@@ -77,7 +62,12 @@ if (isset($_POST['btn-edit_user'])) {
                         $_SESSION['councilor']['phone_number'] = $updated_info['number'];
                         $_SESSION['councilor']['education_info'] = $updated_info['education_info'];
                         $_SESSION['councilor']['working_info'] = $updated_info['working_info'];
+                       
+                       //report 
+                        $_SESSION['edit_info'] = $validation_message;
+                        $_SESSION['edit_info']['status'] = true;
                         header("Location: ../admin/my_profile.php");
+                        exit();
                     } elseif ($updated_info['role_id'] == 3) {
                         $_SESSION['doctor']['f_name'] = $updated_info['first_name'];
                         $_SESSION['doctor']['l_name'] = $updated_info['last_name'];
@@ -89,7 +79,13 @@ if (isset($_POST['btn-edit_user'])) {
                         $_SESSION['doctor']['phone_number'] = $updated_info['number'];
                         $_SESSION['doctor']['education_info'] = $updated_info['education_info'];
                         $_SESSION['doctor']['working_info'] = $updated_info['working_info'];
+
+                        //report 
+                        print_r($validation_message);
+                        $_SESSION['edit_info'] = $validation_message;
+                        $_SESSION['edit_info']['status'] = true;
                         header("Location: ../admin/my_profile.php");
+                        exit();
                     }
                 }
 
@@ -113,16 +109,13 @@ if (isset($_POST['btn-edit_user'])) {
                 }
             } else {
 
-                print_r($updated_info);
-                exit();
 
                 $validation_message['technical_error'] = "technical problem";
                 $validation = false;
             }
         } else {
-            echo "Data validation : *************";
-            $validation = false;
             $validation_message = data_validation($_POST);
+            $validation = false;
         }
     } else {
         $validation = false;
@@ -131,10 +124,16 @@ if (isset($_POST['btn-edit_user'])) {
 
 
     // checker 
-    if ($validaiton) {
+    if ($validation) {
+        echo "edit succes";
         print_r($validation_message);
+        exit();
     } else {
-        print_r($validation_message);
+       
+        $_SESSION['edit_info'] = $validation_message;
+        $_SESSION['edit_info']['status'] = false;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
+        exit();
     }
 } elseif (isset($_POST['btn_change_pass'])) { //password changing 
     if ($_POST['password'] == $_POST['confirm_pass']) {
@@ -213,6 +212,7 @@ if (isset($_POST['btn-edit_user'])) {
         exit();
     }
 } elseif (isset($_POST['btn_change_doc'])) {
+    echo "doesn't work";
 } elseif (isset($_POST['btn_change_pp'])) { //change profile picture
 
     if (isset($_FILES['new_pp'])) {
@@ -238,8 +238,8 @@ if (isset($_POST['btn-edit_user'])) {
                     $pp_dir = './uploads/';
                     $pp_new_name = $_SESSION['user']['f_name'] . "_pp" . time() . mt_rand() . ".$pp_type";
 
-                    $new_location = '.'.$pp_dir . $pp_new_name;
-                    
+                    $new_location = '.' . $pp_dir . $pp_new_name;
+
 
                     // database query 
                     $sql = "UPDATE `users` SET `users`.`profile_location` = '$pp_dir', `users`.`profile_photo` = '$pp_new_name' WHERE `users`.`id` = $user_id";

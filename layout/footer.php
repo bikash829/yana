@@ -61,50 +61,46 @@
 
   <script src="./js/main.js" type="text/javascript"></script>
 
-<?php
-function alert($data)
-{
-  if ($data['status']) {
-    $success = '';
-    unset($data['status']);
-    foreach ($data as $message) {
-      $success .= trim($message);
+  <?php
+  function login_alert($data)
+  {
+    if ($data['status']) {
+      $success = '';
+      unset($data['status']);
+      foreach ($data as $message) {
+        $success .= trim($message);
+      }
+      return array('status' => 'success', 'message' => $success);
+    } else {
+      $error  = '';
+
+      foreach ($data as $message) {
+        $error .= trim($message);
+      }
+      return array('status' => 'error', 'message' => $error);
     }
-    return array('status' => 'success', 'message' => $success);
-  } else {
-    $error  = '';
-    
-    foreach ($data as $message) {
-      $error .= trim($message);
-    }
-    return array('status' => 'error', 'message' => $error);
   }
-}
 
-if (isset($_SESSION['login_status'])) {
+  if (isset($_SESSION['login_status'])) {
+    $login_status = login_alert($_SESSION['login_status']);
+    unset($_SESSION['login_status']);
+  } else {
+    $login_status = false;
+  }
 
-  $login_status = json_encode(alert($_SESSION['login_status']));
-  unset($_SESSION['login_status']);
-}
 
-?>
+  ?>
   <script type="text/javascript">
-   const php_msg = <?php if(isset($login_status)){ echo $login_status; }?>
-
-    let login_status = php_msg ? php_msg: null;
-    
-    // console.log(login_status);
-
-    if (login_status != null) {
+    let loginStatus;
+    loginStatus = <?= json_encode($login_status) ?>;
+    if (loginStatus) {
       Swal.fire({
         position: 'top-end',
-        icon: login_status['status'],
-        title: login_status['message'],
+        icon: loginStatus['status'],
+        title: loginStatus['message'],
         showConfirmButton: false,
         timer: 2000
-      })
-
-      console.log(login_status);
+      });
     }
   </script>
 

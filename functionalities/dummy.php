@@ -62,3 +62,18 @@ $sql = "SELECT `name` AS country_name,(SELECT `phonecode` FROM `country` WHERE `
 
             return $data_set;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ./backend/appointment_booking.php?appointment_id=<?= $row['id'] ?>&uid=<?= $_SESSION['user']['id'] ?>
