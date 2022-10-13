@@ -10,12 +10,13 @@ include "../config/db_connection.php";
 function appointment_request()
 {
     $sql = "SELECT users.id as patient_id,concat(users.f_name,' ',users.l_name) AS patient_full_name,users.email as patient_mail,doctor.id as doc_id, concat(doctor.f_name,' ',doctor.l_name) 
-            AS doc_full_name , doctor.email as doc_mail ,user_appointment.id AS user_appointment_id,users.phone_number,user_appointment.appointment_id,appointment.ap_date,appointment.patient_capacity,appointment.fees
+            AS doc_full_name , doctor.email as doc_mail ,user_appointment.id AS user_appointment_id,users.phone_number,user_appointment.appointment_id,appointment.ap_date,
+            appointment.id as appointment_id,appointment.patient_capacity,appointment.fees
             FROM user_appointment 
             JOIN users ON user_appointment.patient_id = users.id
             JOIN appointment ON user_appointment.appointment_id = appointment.id
             JOIN users doctor ON appointment.doctor_id = doctor.id
-            WHERE appointment_status = 2";
+            WHERE appointment_status = 2 ORDER BY appointment.ap_date";
 
 
     if ($appointmnet_data = db_connection()->query($sql)) {
@@ -55,11 +56,11 @@ function appointment_request()
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Patient Name</th>
-                                    <th>Patient Email</th>
-                                    <!-- <th>Patient Contact</th> -->
+                                    <th>Ap ID </th>
                                     <th>Doctor Name</th>
                                     <th>Doctor email</th>
+                                    <th>Patient Name</th>
+                                    <th>Patient Email</th>
                                     <!-- <th>Experience</th> -->
                                     <th>Date</th>
                                     <th>Capacity</th>
@@ -70,11 +71,12 @@ function appointment_request()
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Patient Name</th>
+                                    <th>Ap ID </th>
                                     <th>Doctor Name</th>
-                                    <th>Patient Email</th>
-                                    <!-- <th>Patient Contact</th> -->
                                     <th>Doctor email</th>
+                                    <th>Patient Name</th>
+                                   
+                                    <th>Patient Email</th>
                                     <!-- <th>Experience</th> -->
                                     <th>Date</th>
                                     <th>Capacity</th>
@@ -90,10 +92,11 @@ function appointment_request()
 
                                     <tr>
                                         <td><?= $row['user_appointment_id'] ?></td>
-                                        <td><?= $row['patient_full_name'] ?></td>
-                                        <td><?= $row['patient_mail'] ?></td>
+                                        <td><?= $row['appointment_id'] ?></td>
                                         <td><?= $row['doc_full_name'] ?></td>
                                         <td><?= $row['doc_mail'] ?></td>
+                                        <td><?= $row['patient_full_name'] ?></td>
+                                        <td><?= $row['patient_mail'] ?></td>
                                         <td><?= $row['ap_date'] ?></td>
                                         <td><?= $row['patient_capacity'] ?></td>
                                         <td><?= $row['fees'] ?></td>

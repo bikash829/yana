@@ -77,7 +77,7 @@ switch (isset($_SESSION)) {
                                                 </div>
 
                                                 <div class="form-group py-1 col-md-6 col-lg-6">
-                                                    <span><i class="fa-solid fa-cake-candles"></i> <?= $data['gender'] ?></span>
+                                                    <span><i class="fa-solid fa-cake-candles"></i> <?= ucwords($data['gender'])  ?></span>
 
                                                 </div>
 

@@ -1,0 +1,14 @@
+doctor dashboard >
+    1. total appointments
+    2. experts_dashboard.php > seat count of appointment list 
+    3. appointment_history.php add a column of total patient
+
+
+admin pannel >
+    1.patient info colum 
+    2. active_appointments.php > view doctor info
+    3. active_appointments.php > view patients
+
+
+additional >
+    1. contact us date 

@@ -20,7 +20,8 @@ $user_id = $_SESSION[$user_role]['id'];
 
 function appointment_history($user_id)
 {
-    $sql = "SELECT *, count(*) AS total_appointment FROM `appointment` WHERE `doctor_id` = $user_id";
+    $sql = "SELECT * FROM `appointment` WHERE `doctor_id` = $user_id ORDER BY ap_date DESC;";
+    
     
     if ($apointment_set = db_connection()->query($sql)) {
         $appointment_list = $apointment_set->fetch_all(MYSQLI_ASSOC);
@@ -46,6 +47,9 @@ $total_patient = "SELECT count(*) AS total_patients FROM user_appointment
         WHERE doctor_id = $user_id  AND appointment_status = 1 GROUP BY user_appointment.patient_id;";
 
 $appointment_list = appointment_history($user_id);
+
+$total_appointment = count($appointment_list);
+
 $total_patient = db_result($total_patient)['total_patients'];
 
 
@@ -80,10 +84,10 @@ $total_patient = db_result($total_patient)['total_patients'];
                         <div class="card bg-warning text-white mb-4">
                             <h4 class="card-header">Total Appointments</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2"><?= $appointment_list[0]['total_appointment'] ?></p>
+                                <p class="text-center fs-2"><?= $total_appointment ?></p>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="./councilors.php">View Details</a>
+                                <a class="small text-white stretched-link" href="./view_appointment.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -156,8 +160,11 @@ $total_patient = db_result($total_patient)['total_patients'];
                             </tfoot>
                             <tbody>
                                 <?php $count = 1;
+                               
                                 foreach ($appointment_list as $row) { 
-                                   if(!empty($row["total_appointment"])){;
+                                    
+
+                                   if(!empty($appointment_list)){;
                                    ?>
                                     
 

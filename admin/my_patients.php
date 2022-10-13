@@ -34,16 +34,16 @@ include "../config/db_connection.php";
 
 function my_patients($doc_id){
     $sql = "SELECT concat(p.f_name,' ',p.l_name) AS full_name,p.id AS patient_id, p.email, p.phone_code as phone_code_id, p.phone_number, 
-            country.name AS country_name, country.phonecode AS phone_code, appointment.id AS appointment_id, appointment.ap_date 
+            country.name AS country_name, country.phonecode AS phone_code, appointment.id AS appointment_id, appointment.ap_date,user_appointment.appointment_status
             FROM user_appointment 
             JOIN appointment ON user_appointment.appointment_id = appointment.id
             JOIN users p ON user_appointment.patient_id = p.id
             JOIN country ON p.country_id = country.id
             JOIN country phone ON p.phone_code = phone.id
-            WHERE doctor_id = $doc_id GROUP BY user_appointment.patient_id
+            WHERE doctor_id = $doc_id 
+            AND user_appointment.appointment_status = 1
+            GROUP BY user_appointment.patient_id
             ORDER BY ap_date DESC;";
-
-
 
     
     if($patients_set = db_connection()->query($sql)){

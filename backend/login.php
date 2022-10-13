@@ -155,6 +155,8 @@ if (isset($_POST['btn-login'])) {
 
 
                         header("Location: ../admin/waiting.php");
+                    }elseif($data['status'] == 2){
+                        header("Location: ../admin/block.php");
                     } else {
                         $_SESSION['doctor'] = $data;
 

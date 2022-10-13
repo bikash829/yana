@@ -40,9 +40,14 @@ if (isset($_GET['view_user'])) {
 
 
 
-    $sql = "SELECT `users`.*,`users`.phone_code AS `phone_code_id`, `additional_info`.`working_info`,`additional_info`.`education` AS `education_info`, `additional_info`.`document_name` AS `education_proof`,`additional_info`.`document_location` AS `education_proof_location`, `country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code` FROM `users` 
+    $sql = "SELECT `users`.*,`users`.phone_code AS `phone_code_id`, `additional_info`.`working_info`,
+    `additional_info`.`education` AS `education_info`, `additional_info`.`document_name` AS `education_proof`,
+    `additional_info`.`document_location` AS `education_proof_location`, `country`.`name` AS `country_name`, 
+    `country`.`phonecode` AS `phone_code`,`user_role`.`role` 
+    FROM `users` 
     INNER JOIN `additional_info` ON `users`.`id` = `additional_info`.`user_id`
     INNER JOIN `country` ON `users`.`country_id` = `country`.`id`
+    INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id`
     WHERE `users`.`id` = $user_id;";
 
 
@@ -86,7 +91,7 @@ if (isset($_GET['view_user'])) {
                         <div class="col-lg-8 col-10">
                             <div class="card">
                                 <div class="card-header">
-                                    <?= $data['f_name'] . $data['l_name'] ?>
+                                    <?= ucwords($data['f_name'])  .' '. ucwords($data['l_name'])  ?>
 
                                 </div>
                                 <div class="card-body position-relative">
@@ -103,7 +108,7 @@ if (isset($_GET['view_user'])) {
                                                 <div class="card-body profile-details">
 
                                                     <div class="form-group">
-                                                        <h5 class="mb-0"><?= $data['f_name'] . $data['l_name'] ?></h5>
+                                                        <h5 class="mb-0"><?= ucwords($data['f_name'])  .' '. ucwords($data['l_name']) ?></h5>
                                                     </div>
                                                     <div class="form-group pb-3 text-secondary">
                                                         <?= ucwords($data['role']) ?>
