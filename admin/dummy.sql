@@ -27,6 +27,10 @@ WHERE doctor_id = 17 GROUP BY user_appointment.patient_id;
 
 
 
+../backend/manage_user.php?block=true&user_id=<?=$row['id']?>
+
+
+
 
 
 

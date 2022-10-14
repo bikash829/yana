@@ -50,7 +50,7 @@ if ($validation) {
                         Doctor List
                     </div>
                     <div class="card-body">
-                        <table id="datatablesSimple">
+                        <table id="doctor_table" class="display">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -77,41 +77,41 @@ if ($validation) {
                             </tfoot>
                             <tbody>
                                 <?php
-                                foreach($user_stack AS $value){
+                                foreach ($user_stack as $value) {
                                     // print_r($value);
 
-                                    if($value['role_id']  == 3){
+                                    if ($value['role_id']  == 3) {
 
-                                        ?>
-                                
-                                <tr>
-                                    <td><?= $value['id'] ?></td>
-                                    <td><?= $value['f_name'] . ' ' . $value['l_name'] ?></td>
-                                    <td><?= $value['gender'] ?></td>
-                                    <td><?= $value['education_info'] ?></td>
-                                    <td><?= date('Y') - date('Y', strtotime($value['date_of_birth'])) ?></td>
-                                    <td><?= $value['working_info'] ?></td>
-                                    <td><?= $value['phone_code']. $value['phone_number'] ?></td>
-                                    
-                                    <td>
-                                        <div class="dropdown  overflow-visible">
-                                            <div class="action">
-                                                <div class="btn-group">
-                                                    <button class="action dropdown-toggle action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ?>
 
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="./view_user.php?view_user=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-eye text-success"></i> view</a></li>
-                                                        <li><a class="dropdown-item" href="../backend/manage_user.php?block=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-user-lock text-primary"></i> block</a></li>
-                                                        <li><a class="dropdown-item" href="../backend/manage_user.php?del_user=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
-                                                    </ul>
+                                        <tr>
+                                            <td><?= $value['id'] ?></td>
+                                            <td><?= $value['f_name'] . ' ' . $value['l_name'] ?></td>
+                                            <td><?= $value['gender'] ?></td>
+                                            <td><?= $value['education_info'] ?></td>
+                                            <td><?= date('Y') - date('Y', strtotime($value['date_of_birth'])) ?></td>
+                                            <td><?= $value['working_info'] ?></td>
+                                            <td><?= $value['phone_code'] . $value['phone_number'] ?></td>
+
+                                            <td>
+                                                <div class="dropdown  overflow-visible">
+                                                    <div class="action">
+                                                        <div class="btn-group">
+                                                            <button class="action dropdown-toggle action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a class="dropdown-item" href="./view_user.php?view_user=true&user_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view</a></li>
+                                                                <li><button class="dropdown-item" name="btn-block" value="../backend/manage_user.php?block=true&user_id=<?= $value['id'] ?>"><i class="fa-solid fa-user-lock text-primary"></i> block</button></li>
+                                                                <li><button class="dropdown-item" name="btn-delete" value="../backend/manage_user.php?del_user=true&user_id=<?= $value['id'] ?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</button></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <?php 
-                            }
+                                            </td>
+                                        </tr>
+                                <?php
+                                    }
                                 }
                                 ?>
                             </tbody>
@@ -126,8 +126,63 @@ if ($validation) {
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="js/datatables-simple-demo.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script> -->
+<!-- <script src="js/datatables-simple-demo.js"></script> -->
+
+<script src="../vendor/DataTables/datatables.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#doctor_table').DataTable();
+    });
+
+
+
+    let btnBlock = document.querySelectorAll("[name='btn-block']");
+    let btnDelete = document.querySelectorAll("[name='btn-delete']");
+
+    // block user 
+    for (let item of btnBlock) {
+        item.addEventListener('click', e => {
+            Swal.fire({
+                title: 'Are you sure want to block the user?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Confirm!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = (e.target).value;
+                }
+            })
+        })
+    }
+
+    //delete user 
+    for (let item of btnDelete) {
+        item.addEventListener('click', e => {
+            Swal.fire({
+                title: 'Are you sure want to delete the user?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Confirm!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = (e.target).value;
+                }
+            })
+        })
+    }
+
+    console.log(btnBlock);
+</script>
+
 </body>
 
 </html>

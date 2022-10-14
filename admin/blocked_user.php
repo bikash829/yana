@@ -38,7 +38,7 @@ if ($validation) {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Pending user</h1>
+                <h1 class="mt-4">Blocked user</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?= $dashboard ?>">Dashboard</a></li>
                     <li class="breadcrumb-item active">Tables</li>
@@ -135,7 +135,7 @@ if ($validation) {
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                         <li><a class="dropdown-item" href="./view_user.php?view_user=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-eye text-success"></i> view</a></li>
-                                                        <li><a class="dropdown-item" href="../backend/manage_user.php?req=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-lock-open text-primary"></i> Unblock</a></li>
+                                                        <li><a class="dropdown-item" href="../backend/manage_user.php?req=true&blocked=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-lock-open text-primary"></i> Unblock</a></li>
                                                         <li><a class="dropdown-item" href="../backend/manage_user.php?del_user=true&user_id=<?=$value['id']?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
                                                     </ul>
                                                 </div>
@@ -161,7 +161,63 @@ if ($validation) {
 <script src="js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
+<script src="../vendor/alert/dist/sweetalert2.all.min.js"></script>
 
 </body>
 
 </html>
+
+
+<!-- alert notification -->
+<?php
+include "../functionalities/alert.php";
+
+
+if (isset($_SESSION['manage_user'])) {
+    $alert_status = alert($_SESSION['manage_user']);
+
+    unset($_SESSION['manage_user']);
+} else {
+    $alert_status = false;
+}
+?>
+
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+
+
+    // let btnUnblock, btnDelete;
+//    const btnUnblock = document.querySelectorAll('[name="btn-unblock"]');
+//    const  btnDelete = document.querySelectorAll('[name="btn-delete"]');
+
+
+//     console.log(btnUnblock);
+//     console.log(btnDelete);
+    
+//     for (let item of btnUnblock){
+//         console.log(item);
+//         item.addEventListener('click',(event)=>{
+//             console.log(event);
+//         });
+//     }
+
+//     for (let item of btnDelete){
+//         console.log(item);
+//         item.addEventListener('click',(event)=>{
+//             console.log(event);
+//         },false)
+//     }
+     
+</script>

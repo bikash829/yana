@@ -27,22 +27,20 @@ if (!(isset($_SESSION['admin']) || isset($_SESSION['councilor']) || isset($_SESS
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/styles.css" type="text/css">
 
-    <!-- data table  -->
-    <link rel="stylesheet" type="text/css" href="../vendor/DataTables/datatables.min.css" />
-
-
+    
+    
     <script defer src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- <script src="../js/main.js" defer></script> -->
     
     <!-- sweet alert  -->
     <script src="../vendor/alert/dist/sweetalert2.all.min.js"></script>
 
-    <?php if (isset($community)) { ?>
-        <!--custom css-->
-        <!-- <link rel="stylesheet" type="text/css" href="../css/style.css"> -->
-        <!--custom responsive css-->
-        <!-- <link rel="stylesheet" text="text/css" href="../css/responsive.css"> -->
-    <?php } ?>
+    <!-- data table  -->
+    <link rel="stylesheet" type="text/css" href="../vendor/DataTables/datatables.css"/>
+    <!-- jquery  -->
+    <script src="../vendor/jquery/jquery-3.6.1.min.js"></script>
+
+
 </head>
 
 <body class="sb-nav-fixed">
@@ -50,5 +48,4 @@ if (!(isset($_SESSION['admin']) || isset($_SESSION['councilor']) || isset($_SESS
 
     <?php
     $dashboard = "./dashboard.php";
-
     ?>
