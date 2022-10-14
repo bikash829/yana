@@ -37,7 +37,7 @@ function password_verification($data)
 
             $verifying = $con->query($sql);
             if (($verifying->num_rows) > 0) {
-                $sql = "UPDATE users SET `pass` = '$hassed_pass'";
+                $sql = "UPDATE users SET `pass` = '$hassed_pass' WHERE id = $user_id";
                 if ($con->query($sql)) {
                     return array('status' => true, 'success' => "Your password has been updated successfully");
                 } else {
