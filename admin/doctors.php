@@ -132,7 +132,36 @@ if ($validation) {
 <script src="../vendor/DataTables/datatables.min.js"></script>
 
 
-<script>
+
+<!-- alert notification -->
+<?php
+include "../functionalities/alert.php";
+
+
+if (isset($_SESSION['manage_user'])) {
+    $alert_status = alert($_SESSION['manage_user']);
+    unset($_SESSION['manage_user']);
+} else {
+    $alert_status = false;
+}
+?>
+
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+
+
+    // datatable 
     $(document).ready(function() {
         $('#doctor_table').DataTable();
     });

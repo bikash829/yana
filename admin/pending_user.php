@@ -49,7 +49,7 @@ if ($validation) {
                         User List
                     </div>
                     <div class="card-body ">
-                        <table id="datatablesSimple">
+                        <table id="pending_user" class="display">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -128,8 +128,8 @@ if ($validation) {
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li><a class="dropdown-item" href="./view_user.php?view_user=true&user_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view</a></li>
-                                                            <li><a class="dropdown-item" href="../backend/manage_user.php?req=true&user_id=<?= $value['id'] ?>"><i class="fa-solid fa-circle-check text-success"></i> Accept</a></li>
-                                                            <li><a class="dropdown-item" href="../backend/manage_user.php?del_user=true&user_id=<?= $value['id'] ?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li>
+                                                            <li><button name="btn-accept" class="dropdown-item" value="../backend/manage_user.php?req=true&user_id=<?= $value['id'] ?>"><i class="fa-solid fa-circle-check text-success"></i> Accept</button></li>
+                                                            <li><button name="btn-delete" class="dropdown-item" value="../backend/manage_user.php?del_user=true&user_id=<?= $value['id'] ?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</button></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -152,12 +152,89 @@ if ($validation) {
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="js/datatables-simple-demo.js"></script>
-<script>
-    let dataTableContainer = document.querySelector('.dataTable-container');
-    console.log(dataTableContainer);
+
+
+
+<script src="../vendor/DataTables/datatables.min.js"></script>
+
+
+<!-- alert notification -->
+<?php
+include "../functionalities/alert.php";
+
+
+if (isset($_SESSION['manage_user'])) {
+    $alert_status = alert($_SESSION['manage_user']);
+    unset($_SESSION['manage_user']);
+} else {
+    $alert_status = false;
+}
+?>
+
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+
+    //datatable
+    $(document).ready(function() {
+        $('#pending_user').DataTable();
+    });
+
+
+
+    let btnAccept = document.querySelectorAll("[name='btn-accept']");
+    let btnDelete = document.querySelectorAll("[name='btn-delete']");
+
+    // block user 
+    for (let item of btnAccept) {
+        item.addEventListener('click', e => {
+            Swal.fire({
+                title: 'Are you sure want to accept the user?',
+                text: "You won't be able to revert this!",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Confirm!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = (e.target).value;
+                }
+            })
+        })
+    }
+
+    //delete user 
+    for (let item of btnDelete) {
+        item.addEventListener('click', e => {
+            Swal.fire({
+                title: 'Are you sure want to delete the user?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Confirm!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = (e.target).value;
+                }
+            })
+        })
+    }
+
 </script>
+
 </body>
 
 </html>
