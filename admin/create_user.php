@@ -14,7 +14,7 @@ include_once "./admin-layouts/nav.php";
                     <li class="breadcrumb-item"><a href="<?= $dashboard ?>">Dashboard</a></li>
                     <li class="breadcrumb-item active">Create User</li>
                 </ol>
-                <div class="row justify-content-center">
+                <div class="row justify-content-center mb-4">
                     <div class="col-md-10 col-xl-8">
                         <div class="card">
                             <section class="segment-margin register-container">
@@ -271,7 +271,42 @@ include_once "./admin-layouts/nav.php";
 </div>
 <!-- script -->
 
-<?php include_once "./admin-layouts/closer.php"; ?>
-<script>
 
+
+<!-- alert notification -->
+<?php
+include "./admin-layouts/closer.php";
+include "../functionalities/alert.php";
+
+
+// echo "where";
+// var_dump($_SESSION['registration_status']);
+// exit();
+
+if (isset($_SESSION['registration_status'])) {
+    $alert_status = alert($_SESSION['registration_status']);
+    // var_dump($alert_status);
+    // exit();
+    unset($_SESSION['registration_status']);
+} else {
+    $alert_status = false;
+}
+?>
+
+
+<script type="text/javascript">
+    // validation message 
+    console.log("hola")
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus);
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
 </script>
+  
