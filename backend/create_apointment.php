@@ -5,6 +5,9 @@ $validation_message = [];
 
 include "../config/db_connection.php";
 
+// print_r($_POST);
+// exit();
+
 if(isset($_POST['btn-create-apointment'])){
 
     $doctor_id = $_POST['user_id'];
@@ -40,7 +43,12 @@ if($validation){
     $_SESSION['appointment_create'] = $validation_message;
     $_SESSION['appointment_create']['status'] = true;
     header("Location: ../admin/appointment_history.php");
+    exit();
 
 }else{
-    header("Location: ../../error.php");
+    $_SESSION['appointment_create'] = $validation_message;
+    $_SESSION['appointment_create']['status'] = false;
+    // header("Location: ../admin/appointment_history.php");
+    header("Location: " . $_SERVER["HTTP_REFERER"]);
+    exit();
 }

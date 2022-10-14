@@ -4,8 +4,10 @@ include_once "./admin-layouts/head.php";
 
 if (isset($_SESSION['doctor'])) {
     $user_role = ucwords($_SESSION['doctor']['role']);
+    $session_name  = 'doctor';
 } elseif (isset($_SESSION['councilor'])) {
     $user_role = ucwords($_SESSION['councilor']['role']);
+    $session_name  = 'councilor';
 } else {
     $user_role =  "Nothing to print";
 }
@@ -43,7 +45,7 @@ switch (isset($_SESSION)) {
                     <div class="card ">
                         <h4 class="card-header">Create Appoingtment</h4>
                         <div class="card-body">
-                            <form method="POST" action="../backend/create_apointment.php" class="row g-3 needs-validation" novalidate>
+                            <form id='create_appointment' action="../backend/create_apointment.php" method="POST" class="row g-3 needs-validation" novalidate>
                                 <div class="col-12 text-center">
                                     <h3><label for="time" class="">Set Time</label></h3>
                                 </div>
@@ -111,8 +113,9 @@ switch (isset($_SESSION)) {
                                 </div>
                                 <!-- //user id  -->
                                 <input type="hidden" name="user_id" value="<?= $data['id'] ?>">
+                                <input type="hidden" name="btn-create-apointment" ?>
                                 <div class="col-12">
-                                    <button name="btn-create-apointment" class="btn btn-primary" type="submit">Create</button>
+                                    <button id="btn-create-appointment" type="submit" class="btn btn-primary">Create</button>
                                 </div>
                             </form>
 
@@ -139,7 +142,6 @@ switch (isset($_SESSION)) {
 
 
 <script>
-    
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {
         'use strict'
@@ -150,13 +152,38 @@ switch (isset($_SESSION)) {
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
             .forEach(function(form) {
+
+
                 form.addEventListener('submit', function(event) {
+    
                     if (!form.checkValidity()) {
                         event.preventDefault()
                         event.stopPropagation()
+                       
+                    } else {
+                       
+                        event.preventDefault();
+
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, Confrim!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+                               
+                                form.submit();
+                            }
+                        })
+                        
                     }
 
                     form.classList.add('was-validated')
+
                 }, false)
             })
     })()
@@ -179,6 +206,41 @@ switch (isset($_SESSION)) {
 
     ageGuard.min = today;
 </script>
+
+
+<!-- notification view  -->
+
+<?php 
+include "../functionalities/alert.php";
+
+if (isset($_SESSION['appointment_create'])) {
+    $alert_status = alert($_SESSION['appointment_create']);
+    unset($_SESSION['appointment_create']);
+} else {
+    $alert_status = false;
+}
+
+
+?>
+
+<script type="text/javascript">
+    // validation message 
+    console.log(<?=json_encode($alert_status)?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+
+
+</script>
+
 </body>
 
 </html>

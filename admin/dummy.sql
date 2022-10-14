@@ -24,3 +24,10 @@ WHERE doctor_id = 17 GROUP BY user_appointment.patient_id;
 SELECT count(*) FROM user_appointment 
 JOIN appointment ON user_appointment.appointment_id = appointment.id
 WHERE doctor_id = 17 GROUP BY user_appointment.patient_id;
+
+
+
+
+
+
+

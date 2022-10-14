@@ -10,7 +10,7 @@ include_once "./admin-layouts/nav.php";
 
     <?php
     if (isset($_SESSION['admin'])) {
-       
+
         include_once "./admin-layouts/aside.php";
     } elseif (isset($_SESSION['doctor']) || isset($_SESSION['councilor'])) {
         $dashboard = "./experts_dashboard.php";
@@ -103,7 +103,7 @@ include_once "./admin-layouts/nav.php";
                                     ?>
                                             <div class="p-des__reply">
                                                 <h5 class="p-des__reply-author"> <a href="#" class="text-secondary"><?= $comment['f_name'] . ' ' . $comment['l_name'] ?></a> </h5>
-                                                <h6 class="p-des__reply-author fw-lighter replied_by"> <a href="#"><?= ucwords($comment['role']) ?></a> | <span><?=$comment['comment_date']?></span> </h6>
+                                                <h6 class="p-des__reply-author fw-lighter replied_by"> <a href="#"><?= ucwords($comment['role']) ?></a> | <span><?= $comment['comment_date'] ?></span> </h6>
                                                 <p><?= $comment['comment'] ?></p>
                                                 <div class="p-des__reply-info">
                                                     <p class="p-des__reply-time"><?= $comment['comment_date'] ?></p>
@@ -166,3 +166,33 @@ include_once "./admin-layouts/nav.php";
 </div>
 <!-- script -->
 <?php include_once "./admin-layouts/closer.php"; ?>
+
+
+
+<!-- popup alert  -->
+<?php
+// include "../functionalities/alert.php";
+// alert defined on footer before 
+
+if (isset($_SESSION['comment_alert'])) {
+    $alert_status = alert($_SESSION['comment_alert']);
+    var_dump($alert_status);
+    unset($_SESSION['comment_alert']);
+} else {
+    $alert_status = false;
+}
+?>
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+</script>

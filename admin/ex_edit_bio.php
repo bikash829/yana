@@ -97,6 +97,35 @@ switch (isset($_SESSION)) {
         bioEdit.style.display = 'none';
     });
 </script>
+
+<!-- popup alert  -->
+<?php 
+include "../functionalities/alert.php";
+
+
+if (isset($_SESSION['edit_bio'])) {
+    $alert_status = alert($_SESSION['edit_bio']);
+    unset($_SESSION['edit_bio']);
+} else {
+    $alert_status = false;
+}
+?>
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+
+
+</script>
 </body>
 
 </html>

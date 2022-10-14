@@ -34,7 +34,7 @@ include "../config/db_connection.php";
 
 $user_id = $data['id'];
 
-$sql = "SELECT * FROM `appointment` WHERE `doctor_id` = $user_id ORDER BY ap_date DESC";
+$sql = "SELECT * FROM `appointment` WHERE `doctor_id` = $user_id ORDER BY id DESC";
 
 
 
@@ -145,34 +145,39 @@ if ($apointment_set = db_connection()->query($sql)) {
 <script src="js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="./js/datatables-simple-demo.js"></script>
-<?php
+
+
+
+
+<?php 
 include "../functionalities/alert.php";
+
 if (isset($_SESSION['appointment_create'])) {
-
-    $alert_status = json_encode(alert($_SESSION['appointment_create']));
-
+    $alert_status = alert($_SESSION['appointment_create']);
     unset($_SESSION['appointment_create']);
+} else {
+    $alert_status = false;
 }
 
+
 ?>
+
 <script type="text/javascript">
-    const php_msg = <?php if (isset($alert_status)) {
-                        echo $alert_status;
-                    } ?>
-
-    let alertStatus = php_msg ? php_msg : null;
-
-    if (alertStatus != null) {
+    // validation message 
+    console.log(<?=json_encode($alert_status)?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
         Swal.fire({
             position: 'top-end',
-            icon: alertStatus['status'],
-            title: alertStatus['message'],
+            icon: alertStatus.status,
+            title: alertStatus.message,
             showConfirmButton: false,
-            timer: 4000
+            timer: 2500
         })
-
-        console.log(alertStatus);
     }
+
+
 </script>
 
 </body>

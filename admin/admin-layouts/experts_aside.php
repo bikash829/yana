@@ -99,3 +99,36 @@ include "../modals/admin_pass&email.php";
 
 
 ?>
+
+
+<!-- popup alert  -->
+<?php 
+include "../functionalities/alert.php";
+
+
+if (isset($_SESSION['change_admin_pass'])) {
+    $alert_status = alert($_SESSION['change_admin_pass']);
+    unset($_SESSION['change_admin_pass']);
+}elseif(isset($_SESSION['email_changed'])){
+    $alert_status = alert($_SESSION['email_changed']);
+    unset($_SESSION['email_changed']);
+} else {
+    $alert_status = false;
+}
+?>
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+
+
+</script>

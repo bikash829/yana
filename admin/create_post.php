@@ -82,3 +82,32 @@ include_once "./admin-layouts/nav.php";
 </div>
 <!-- script -->
 <?php include_once "./admin-layouts/closer.php"; ?>
+
+<?php
+// include "../functionalities/alert.php";
+// alert defined on footer before 
+
+if (isset($_SESSION['post_alert'])) {
+    $alert_status = alert($_SESSION['post_alert']);
+    var_dump($alert_status);
+    unset($_SESSION['post_alert']);
+} else {
+    $alert_status = false;
+}
+?>
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+</script>
+
+

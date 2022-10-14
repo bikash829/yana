@@ -25,7 +25,7 @@ if(isset($_POST['post_article'])){ //post
 
     if(db_connection()->query($sql)){
         $validation_message['create_post_success'] = "Your article has been posted successfully";
-        $validation_message['status'] = 'success';
+        $validation_message['status'] = true;
         $_SESSION['post_alert'] = $validation_message;
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit();
@@ -35,7 +35,7 @@ if(isset($_POST['post_article'])){ //post
     }
 
    
-    $validation_message['status'] = 'error';
+    $validation_message['status'] = false;
     $_SESSION['post_alert'] =  $validation_message;
     header("Location: " . $_SERVER['HTTP_REFERER']);
     exit();
@@ -55,7 +55,7 @@ if(isset($_POST['post_article'])){ //post
 
     if($comment = db_connection()->query($sql)){
         $validation_message['comment_succes'] = "Comment posted";
-        $validation_message['status'] = 'success';
+        $validation_message['status'] = true;
         $_SESSION['comment_alert'] = $validation_message;
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit();
@@ -71,7 +71,7 @@ if(isset($_POST['post_article'])){ //post
     $validation = false;
     $validation_message['error'] = "You are not supose to be here";
  }
- $validation_message['status'] = 'error';
+ $validation_message['status'] = false;
  $_SESSION['comment_alert'] = $validation_message;
  header("Location: " . $_SERVER['HTTP_REFERER']);
  exit();

@@ -107,12 +107,18 @@ session_start();
     ?>
 
     <script type="text/javascript">
-        // let login_status = <?php if(isset($login_status)){ echo $login_status;}else{ echo 0;} ?>
+        // let login_status = <?php if (isset($login_status)) {
+                                    echo $login_status;
+                                } else {
+                                    echo 0;
+                                } ?>
 
         // console.log(login_status)
-        const php_msg = <?php if(isset($login_status)){ echo $login_status; }?>;
+        const php_msg = <?php if (isset($login_status)) {
+                            echo $login_status;
+                        } ?>;
 
-        let login_status = php_msg ? php_msg: null;
+        let login_status = php_msg ? php_msg : null;
 
         if (login_status != null) {
             Swal.fire({
@@ -121,6 +127,38 @@ session_start();
                 title: login_status['message'],
                 showConfirmButton: false,
                 timer: 3000
+            })
+        }
+    </script>
+
+
+
+    <!-- popup alert  -->
+    <?php
+    include "../functionalities/alert.php";
+
+
+    if (isset($_SESSION['change_admin_pass'])) {
+        $alert_status = alert($_SESSION['change_admin_pass']);
+        unset($_SESSION['change_admin_pass']);
+    }elseif(isset($_SESSION['email_changed'])){
+        $alert_status = alert($_SESSION['email_changed']);
+        unset($_SESSION['email_changed']);
+    } else {
+        $alert_status = false;
+    }
+    ?>
+
+    <script type="text/javascript">
+        // validation message 
+        alertStatus = <?= json_encode($alert_status ?? null) ?>;
+        if (alertStatus) {
+            Swal.fire({
+                position: 'top-end',
+                icon: alertStatus.status,
+                title: alertStatus.message,
+                showConfirmButton: false,
+                timer: 2500
             })
         }
     </script>
