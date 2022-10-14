@@ -27,7 +27,7 @@ include_once "./admin-layouts/nav.php";
 
         $sql = "SELECT `forum`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `forum`
         INNER JOIN `users` ON `forum`.`user_id` = `users`.`id`
-        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id` ORDER BY post_date DESC;";
+        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id` ORDER BY id DESC;";
 
         if ($forum_set = db_connection()->query($sql)) {
             $all_forum = $forum_set->fetch_all(MYSQLI_ASSOC);
@@ -42,7 +42,7 @@ include_once "./admin-layouts/nav.php";
             $sql = "SELECT `comments`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `comments`
                     INNER JOIN `users` ON `comments`.`user_id` = `users`.`id`
                     INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id`
-                    ORDER BY comment_date DESC;";
+                    ORDER BY id DESC;";
 
 
             if ($comment_set = db_connection()->query($sql)) {
@@ -92,7 +92,7 @@ include_once "./admin-layouts/nav.php";
                                         <div class="">
                                             <textarea name="comment" required rows="2" class="form-control " placeholder="Leave a Comment"></textarea>
                                         </div>
-                                        <div class="text-end"><input class="btn btn-sm btn-secondary mt-1" type="submit" value="reply" name="btn-comment"></div>
+                                        <div class="text-end"><input class="btn btn-sm btn-secondary mt-1" type="submit" value="comment" name="btn-comment"></div>
 
                                     </form>
 
@@ -171,7 +171,7 @@ include_once "./admin-layouts/nav.php";
 
 <!-- popup alert  -->
 <?php
-// include "../functionalities/alert.php";
+include "../functionalities/alert.php";
 // alert defined on footer before 
 
 if (isset($_SESSION['comment_alert'])) {

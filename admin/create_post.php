@@ -84,7 +84,7 @@ include_once "./admin-layouts/nav.php";
 <?php include_once "./admin-layouts/closer.php"; ?>
 
 <?php
-// include "../functionalities/alert.php";
+include "../functionalities/alert.php";
 // alert defined on footer before 
 
 if (isset($_SESSION['post_alert'])) {

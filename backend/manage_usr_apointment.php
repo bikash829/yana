@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $validation = true;
 $validation_message = [];
 
@@ -52,8 +52,13 @@ if (isset($_GET['user_ap'])) {
 
 // page redirection 
 if ($validation) {
+    $validation_message['status'] = true;
+    $_SESSION['appointmnet_request'] = $validation_message;
     header("Location: " . $_SERVER["HTTP_REFERER"]);
     exit();
 } else {
-    print_r($validation_message);
+    $validation_message['status'] = false;
+    $_SESSION['appointmnet_request'] = $validation_message;
+    header("Location: " . $_SERVER["HTTP_REFERER"]);
+    exit();
 }
