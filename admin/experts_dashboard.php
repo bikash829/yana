@@ -68,7 +68,7 @@ $total_patient = db_result($total_patient)['total_patients'];
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
                 <div class="row">
-                    <div class="col-xl-4 col-md-6">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="card bg-primary text-white mb-4">
                             <h4 class="card-header">My Patients</h4>
                             <div class="card-body">
@@ -80,7 +80,7 @@ $total_patient = db_result($total_patient)['total_patients'];
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-md-6">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="card bg-warning text-white mb-4">
                             <h4 class="card-header">Total Appointments</h4>
                             <div class="card-body">
@@ -93,7 +93,7 @@ $total_patient = db_result($total_patient)['total_patients'];
                         </div>
                     </div>
                    
-                    <div class="col-xl-4 col-md-6">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="card bg-danger text-white mb-4">
                             <h4 class="card-header">Past Appointments</h4>
                             <div class="card-body">

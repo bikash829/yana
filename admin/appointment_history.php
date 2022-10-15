@@ -150,7 +150,8 @@ if ($apointment_set = db_connection()->query($sql)) {
 
 
 <?php 
-include "../functionalities/alert.php";
+include_once "../functionalities/alert.php";
+
 
 if (isset($_SESSION['appointment_create'])) {
     $alert_status = alert($_SESSION['appointment_create']);

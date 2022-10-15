@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 08, 2022 at 08:30 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Host: 127.0.0.1
+-- Generation Time: Oct 15, 2022 at 02:10 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,23 +42,22 @@ CREATE TABLE `additional_info` (
 --
 
 INSERT INTO `additional_info` (`id`, `user_id`, `education`, `working_info`, `document_name`, `document_location`, `bio`) VALUES
-(1, 2, 'Accusamus labore sed', 'Ea ut quis earum lab', 'Denise_edu1664440426137598886.pdf', './uploads/educatoinal_doc/', NULL),
-(3, 4, 'zlkdjfoasjdfjiusdjfiasfiuhasdiuf', 'adfhuasdhfuyahsufhuyashfuyashf', 'Noble_edu1664440574755575728.pdf', './uploads/educatoinal_doc/', NULL),
-(4, 5, 'adfafadsfa', 'adfadfasf', 'Daquan_edu1664440607357116983.pdf', './uploads/educatoinal_doc/', NULL),
 (5, 6, 'adfasdfasdfasfasfasaa', 'adfasfasdf', 'Orli_edu166444065211843635.pdf', './uploads/educatoinal_doc/', NULL),
-(6, 7, '', '', '', '', NULL),
 (7, 8, '', '', '', '', 'BLAH BLAH BLAH'),
-(8, 9, 'Explicabo Ex non om', 'Quam doloribus conse', 'Bernard_edu16644784361644613381.pdf', './uploads/educatoinal_doc/', 'hola yalla'),
 (9, 10, 'zcvxzxcv', 'zxcvzxcv', 'Evelyn_edu16645587961548556545.pdf', './uploads/educatoinal_doc/', NULL),
 (10, 11, '', '', '', '', NULL),
-(11, 12, 'asdfasdf', 'adfasdf', 'August_edu1664640246447615645.pdf', './uploads/educatoinal_doc/', 'mod nai mod'),
-(12, 13, 'adfasdfasdf', '', 'Pandora_edu16646402611305251472.pdf', './uploads/educatoinal_doc/', 'luca chupi'),
-(13, 14, 'sddgfsafasdf', 'adfasdfad', 'Ferdinand_edu16646403051423019155.pdf', './uploads/educatoinal_doc/', NULL),
-(14, 15, '', '', '', '', NULL),
-(15, 16, 'dafsdadasdf', '', 'Fredericka_edu1664641154770421947.pdf', './uploads/educatoinal_doc/', NULL),
 (16, 17, 'Sapiente sunt ut ame', 'Voluptates lorem ut', 'Connor_edu1664643225159706293.pdf', './uploads/educatoinal_doc/', 'something something\r\n'),
-(17, 18, '', '', '', '', NULL),
-(18, 19, '', '', '', '', NULL);
+(17, 18, 'adsfasdf', '', '', '', NULL),
+(18, 19, '', '', '', '', NULL),
+(19, 20, '', '', '', '', NULL),
+(22, 23, 'sgwdfasdasdf', 'adfasdfasdfdas', 'Unity_edu1665761079664412066.pdf', './uploads/educatoinal_doc/', NULL),
+(23, 24, '', '', '', '', NULL),
+(25, 26, '', '', '', '', NULL),
+(26, 27, 'Voluptatibus quis im', 'Consectetur labore c', 'Garrett_edu1665762253856135200.pdf', './uploads/educatoinal_doc/', NULL),
+(27, 28, '', '', '', '', NULL),
+(28, 29, '', '', '', '', NULL),
+(29, 30, 'Non rerum totam dign', 'Reprehenderit minim', 'Uta_edu1665763173821464796.pdf', './uploads/educatoinal_doc/', NULL),
+(30, 31, 'afddfasfa', 'asdfasdfafsd', 'Urielle_edu166576324160452429.pdf', './uploads/educatoinal_doc/', NULL);
 
 -- --------------------------------------------------------
 
@@ -87,7 +86,21 @@ INSERT INTO `appointment` (`id`, `doctor_id`, `start_time`, `end_time`, `ap_date
 (4, 17, '05:30', '09:50', '2022-10-21', 30, '1500.00', 'Hello I am blah blah blah'),
 (5, 17, '05:55', '06:06', '2022-10-20', 13, '1500.00', 'Hello I am blah blah blah'),
 (6, 17, '04:36', '14:22', '2022-09-23', 59, '78.00', ''),
-(7, 17, '04:39', '21:47', '2022-09-25', 91, '42.00', 'Consequuntur illo re');
+(7, 17, '04:39', '21:47', '2022-09-25', 91, '42.00', 'Consequuntur illo re'),
+(8, 22, '22:11', '05:05', '2022-10-14', 15, '1500.00', 'Blah  blah blah'),
+(9, 22, '05:55', '07:07', '2022-10-27', 5, '2000.00', 'afdafdas'),
+(10, 22, '04:04', '15:03', '2022-10-15', 44, '1500.00', 'adfasdfasdfasdf'),
+(11, 22, '05:05', '07:07', '2022-10-14', 5, '2000.00', 'adfasfds'),
+(12, 22, '20:50', '11:06', '2022-10-11', 1, '94.00', 'Nesciunt enim cum d'),
+(13, 22, '15:43', '01:08', '2022-10-11', 68, '28.00', 'Numquam laborum ut a'),
+(14, 22, '05:40', '16:29', '2022-10-11', 15, '82.00', 'Aut repudiandae cumq'),
+(15, 22, '04:44', '15:04', '2022-10-20', 44, '44444.00', 'sdfafdasf'),
+(16, 22, '', '', '0000-00-00', 0, '0.00', ''),
+(17, 22, '', '', '0000-00-00', 0, '0.00', ''),
+(18, 22, '', '', '0000-00-00', 0, '0.00', ''),
+(19, 22, '13:42', '10:57', '2022-10-13', 84, '5.00', 'Delectus quos esse '),
+(20, 22, '09:15', '18:02', '2022-10-14', 75, '5.00', 'Veniam sit atque in'),
+(21, 22, '06:10', '23:38', '2022-10-14', 5, '88.00', 'Autem dolore eos ob');
 
 -- --------------------------------------------------------
 
@@ -114,7 +127,27 @@ INSERT INTO `comments` (`id`, `user_id`, `forum_id`, `comment`, `comment_date`) 
 (4, 17, 1, 'asdfasdfasdf', '2022-10-07'),
 (5, 17, 1, 'I am commenting', '2022-10-07'),
 (6, 17, 2, 'mmmmmmmm this is a good post', '2022-10-07'),
-(7, 1, 6, 'Yo\r\n', '2022-10-08');
+(7, 1, 6, 'Yo\r\n', '2022-10-08'),
+(8, 1, 6, 'dfgadf', '2022-10-09'),
+(9, 18, 7, 'Molestiae non quibus', '2022-10-10'),
+(10, 22, 7, 'can i comment??', '2022-10-11'),
+(11, 18, 7, 'adfasdfasd', '2022-10-12'),
+(12, 18, 12, 'adsfasdfasdf', '2022-10-12'),
+(13, 18, 13, 'adsfasdfas', '2022-10-12'),
+(14, 18, 13, 'adfadfasdf', '2022-10-12'),
+(15, 18, 13, 'adfasdf', '2022-10-12'),
+(16, 18, 14, 'wtert', '2022-10-12'),
+(17, 18, 19, 'ADDFASDFA', '2022-10-12'),
+(18, 18, 19, 'ADADF', '2022-10-12'),
+(19, 1, 13, 'jguggvyguggbyu', '2022-10-13'),
+(20, 22, 20, 'odjfkahsdiuf', '2022-10-13'),
+(21, 22, 20, 'bdgsdgfsdfg', '2022-10-14'),
+(22, 22, 20, 'dfasfd', '2022-10-14'),
+(23, 22, 20, 'uj6ju67j', '2022-10-14'),
+(24, 22, 20, 'afadfasd', '2022-10-14'),
+(25, 22, 20, 'zcxzvzxcv', '2022-10-14'),
+(26, 22, 20, 'zasddsf', '2022-10-14'),
+(27, 1, 22, 'iyguygygytgy', '2022-10-14');
 
 -- --------------------------------------------------------
 
@@ -134,25 +167,8 @@ CREATE TABLE `comment_react` (
 --
 -- Table structure for table `contact_us`
 --
-
-CREATE TABLE `contact_us` (
-  `id` int(11) NOT NULL,
-  `f_name` varchar(50) DEFAULT NULL,
-  `l_name` varchar(50) DEFAULT NULL,
-  `comment` text DEFAULT NULL,
-  `email` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `contact_us`
---
-
-INSERT INTO `contact_us` (`id`, `f_name`, `l_name`, `comment`, `email`) VALUES
-(1, 'Alma', 'Wilkins', 'Aut et et in iusto p', 'wagojar@mailinator.com'),
-(2, 'Forrest', 'Pennington', 'Ut omnis et ea ea qu', 'pajaw@mailinator.com'),
-(3, 'Sacha', 'Mccormick', 'Dolor rem veniam qu', 'nitak@mailinator.com'),
-(4, 'Sean', 'Bass', 'Ut eius sapiente vol', 'navibyq@mailinator.com'),
-(5, 'Dane', 'Shepherd', 'Ipsam et sint iste qasdaS Ipsam et sint iste qasdaSIpsam et sint iste qasdaSIpsam et sint iste qasdaS Ipsam et sint iste qasdaS Ipsam et sint iste qasdaS Ipsam et sint iste qasdaS Ipsam et sint iste qasdaS Ipsam et sint iste qasdaS Ipsam et sint iste qasdaS Ipsam et sint iste qasdaSIpsam et sint iste qasdaS Ipsam et sint iste qasdaS Ipsam et sint iste qasdaS Ipsam et sint iste qasdaS', 'vulyzex@mailinator.com');
+-- Error reading structure for table yana.contact_us: #1932 - Table 'yana.contact_us' doesn't exist in engine
+-- Error reading data for table yana.contact_us: #1064 - You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM `yana`.`contact_us`' at line 1
 
 -- --------------------------------------------------------
 
@@ -439,7 +455,24 @@ INSERT INTO `forum` (`id`, `user_id`, `post_title`, `post_description`, `post_da
 (3, 17, 'afasdfasdfasdfasdf', 'adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf adfasfdf ', '2022-10-01'),
 (4, 17, 'belh', ' blah blah b lah blah blah b lah blah blah b lah blah blah b lah blah blah b lah blah blah b lah blah blah b lah blah blah b lah blah blah b lah blah blah b lah blah blah b lah blah blah b lah blah blah b lah blah blah b lah ', '2022-10-01'),
 (5, 17, 'Reprehenderit maxime est consequatur rerum velit non iusto minus facere tempore non natus delectus voluptatibus officia cumque deleniti porro', 'Sunt accusantium numasdfsdfsadfasdfasdfsadfasfd', '2022-10-08'),
-(6, 1, 'Nisi voluptas aperiam quae non', 'Omnis ut excepteur e', '2022-10-08');
+(6, 1, 'Nisi voluptas aperiam quae non', 'Omnis ut excepteur e', '2022-10-08'),
+(7, 1, 'adfasfdadfa', 'asdfafadasdfasdfasdf', '2022-10-09'),
+(8, 1, 'sgfsdgfd', 'sdafasdf', '2022-10-09'),
+(9, 1, 'safafs', 'asdfadfasfda', '2022-10-09'),
+(10, 1, 'Quae atque aperiam voluptas in atque mollitia ullam illum id aut in ex voluptatem est', 'Eum elit voluptatib', '2022-10-09'),
+(11, 1, 'asdfasfda', 'asdfasdfasdfasdf', '2022-10-09'),
+(12, 1, 'sfgsdfgfsdf', 'sdfgsdfgsdfg', '2022-10-10'),
+(13, 18, 'Sint qui id modi nisi facilis odio eum et ut sequi voluptas fugit nihil incidunt', 'Magni debitis saepe ', '2022-10-12'),
+(14, 18, 'asdfasd', 'asdfasdf', '2022-10-12'),
+(15, 18, 'asdfasdf', 'asdfasdf', '2022-10-12'),
+(16, 18, 'wetge', 'fgsfas', '2022-10-12'),
+(17, 18, 'Voluptatem fuga Adipisci amet quia quae dolores nobis anim et adipisci quas deserunt inventore aut et voluptatem facere exercitationem inventore', 'In esse dolore even', '2022-10-12'),
+(18, 18, 'Est ipsum qui aut recusandae Aute qui rerum in quibusdam odit rerum id officiis laborum Inventore fugiat sit dolores', 'Officiis eaque et si', '2022-10-12'),
+(19, 18, 'Voluptatem officia irure est iure praesentium dolor', 'Quia deleniti laudan', '2022-10-12'),
+(20, 1, 'ojihihuihuyi', 'iuhuyguyguy', '2022-10-13'),
+(21, 22, 'kgytf', 'iuguygytugu', '2022-10-13'),
+(22, 22, 'Inventore nostrum cupiditate ab corporis culpa et esse commodo autem at quidem eum modi ex', 'Excepteur ratione qu', '2022-10-14'),
+(23, 1, 'Enim dicta occaecat aliquid sed rerum provident ad iusto in ducimus in', 'At minima placeat m', '2022-10-14');
 
 -- --------------------------------------------------------
 
@@ -565,23 +598,24 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `f_name`, `l_name`, `email`, `gender`, `date_of_birth`, `pass`, `country_id`, `phone_code`, `phone_number`, `addr`, `city`, `zip_code`, `profile_photo`, `profile_location`, `role_id`, `status`) VALUES
 (1, 'Admin', NULL, 'admin@email.com', NULL, NULL, '59235f35e4763abb0b547bd093562f6e', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1),
-(2, 'Denise', 'Mcmahon', 'jecotuzi@mailinator.com', 'other', '2017-08-19', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 115, '61', '225', 'Similique perferendi', 'Consequuntur libero', '76032', 'Denise_pp1664440426868841801.jpg', './uploads/profile_photo/', 2, 1),
-(4, 'Noble', 'Morton', 'fubysikam@mailinator.com', 'other', '2005-03-17', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 89, '135', '86', 'Aliqua Omnis culpa', 'Porro deserunt moles', '13655', 'Noble_pp16644405741650534100.jpg', './uploads/profile_photo/', 3, 1),
-(5, 'Daquan', 'Cox', 'remawexyw@mailinator.com', 'male', '1974-01-18', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 217, '228', '687', 'Impedit voluptatibu', 'Est non sed quis cu', '49578', 'Daquan_pp16644406071369086133.jpg', './uploads/profile_photo/', 2, 1),
-(6, 'Orli', 'Austin', 'nyfyhaqah@mailinator.com', 'other', '1974-02-19', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 190, '175', '573', 'Iusto labore nobis n', 'Reiciendis veniam i', '44003', 'Orli_pp1664440652949331879.jpg', './uploads/profile_photo/', 3, 1),
-(7, 'Keane', 'Harding', 'goqupesid@mailinator.com', 'female', '1993-10-02', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 89, '239', '806', 'Ipsum vel illo sit i', 'Amet ea qui similiq', '20065', '', '', 4, 1),
-(8, 'Nora', 'Mclaughlin', 'gozada@mailinator.com', 'female', '2003-05-14', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 101, '101', '367', 'Omnis est aperiam in', 'Ipsum facilis rerum', '42867', '', '', 4, 1),
-(9, 'Bernard', 'Peters', 'xowovola@mailinator.com', 'other', '1999-10-18', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 43, '181', '870', 'Qui numquam natus eu', 'Harum consequatur d', '37676', '', '', 3, 1),
-(10, 'Evelyn', 'Albert', 'xuqi@mailinator.com', 'female', '1986-08-27', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 179, '65', '170', 'Optio qui illo et d', 'Sit est modi cum qui', '84403', '', '', 2, 1),
-(11, 'Lavinia', 'Freeman', 'kedo@mailinator.com', 'other', '1974-11-04', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 60, '33', '381', 'Quia facere occaecat', 'Ipsum nulla adipisci', '77268', '', '', 4, 1),
-(12, 'August', 'Shepard', 'tijigori@mailinator.com', 'male', '1997-09-13', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 183, '128', '586', 'Reiciendis suscipit', 'Aut similique tempor', '22947', '', '', 3, 1),
-(13, 'Pandora', 'Sargent', 'liloso@mailinator.com', 'other', '1993-09-29', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 149, '50', '303', 'Aut eu quasi eu sapi', 'Nemo consequuntur la', '55198', '', '', 2, 1),
-(14, 'Ferdinand', 'Madden', 'rafej@mailinator.com', 'female', '1982-09-28', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 99, '1', '41', 'Sequi ut ullam sit', 'Dolores aperiam quas', '26665', '', '', 2, 1),
-(15, 'Geoffrey', 'Witt', 'sicodu@mailinator.com', 'male', '1988-10-23', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 42, '67', '692', 'Blanditiis velit do', 'Aut incididunt vel e', '53461', '', '', 4, 1),
-(16, 'Fredericka', 'Pace', 'dytelovow@mailinator.com', 'male', '2007-11-11', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 142, '213', '662', 'Necessitatibus conse', 'Non sunt ut sit do i', '38309', '', '', 2, NULL),
-(17, 'Connor', 'Gregory', 'bikash@gmail.com', 'male', '1976-08-06', '1a1802a423a96dc936294e54cc5dea6f', 67, '216', '676', 'Ullamco qui rerum a', 'Deserunt doloremque', '18110', '', '', 3, 1),
-(18, 'mayesha', 'Contreras', 'mayesha@gmail.com', 'male', '1994-02-02', 'd9c437fb39ade8dd0a687d1e1192018c', 185, '149', '592', 'Molestiae repellendu', 'Error quibusdam quod', '58420', '', '', 4, 1),
-(19, 'Kevyn', 'Mooney', 'akash@gmail.com', 'male', '2011-08-01', '7383287175e8c7d46a911dc708a91e33', 18, '18', '0162454544', 'Aliquam error totam', 'Dolor expedita et es', '37881', '', '', 4, 1);
+(2, 'Denise', 'Mcmahon', 'jecotuzi@mailinator.com', 'other', '2017-08-19', '26d4fccb3c81e8855dc60ed8b037f801', 115, '61', '225', 'Similique perferendi', 'Consequuntur libero', '76032', 'Denise_pp1664440426868841801.jpg', './uploads/profile_photo/', 2, 2),
+(6, 'Orli', 'Austin', 'nyfyhaqah@mailinator.com', 'other', '1974-02-19', '26d4fccb3c81e8855dc60ed8b037f801', 190, '175', '573', 'Iusto labore nobis n', 'Reiciendis veniam i', '44003', 'Orli_pp1664440652949331879.jpg', './uploads/profile_photo/', 3, 2),
+(8, 'Nora', 'Mclaughlin', 'gozada@mailinator.com', 'female', '2003-05-14', '26d4fccb3c81e8855dc60ed8b037f801', 101, '101', '367', 'Omnis est aperiam in', 'Ipsum facilis rerum', '42867', '', '', 4, 1),
+(10, 'Evelyn', 'Albert', 'xuqi@mailinator.com', 'female', '1986-08-27', '26d4fccb3c81e8855dc60ed8b037f801', 179, '65', '170', 'Optio qui illo et d', 'Sit est modi cum qui', '84403', '', '', 2, 2),
+(11, 'Lavinia', 'Freeman', 'kedo@mailinator.com', 'other', '1974-11-04', '26d4fccb3c81e8855dc60ed8b037f801', 60, '33', '381', 'Quia facere occaecat', 'Ipsum nulla adipisci', '77268', '', '', 4, 2),
+(17, 'Connor', 'Gregory', 'myemail@gmail.com', 'male', '1976-08-06', '26d4fccb3c81e8855dc60ed8b037f801', 67, '216', '676', 'Ullamco qui rerum a', 'Deserunt doloremque', '18110', '', '', 3, 2),
+(18, 'mayesha', 'Contreras', 'mayesha@gmail.com', 'male', '1994-02-02', '26d4fccb3c81e8855dc60ed8b037f801', 185, '149', '592', 'Molestiae repellendu', 'Error quibusdam quod', '58420', 'mayesha_pp1665400945146475322.jpg', './uploads/', 4, 2),
+(19, 'Kevyn', 'Mooney', 'akash@gmail.com', 'male', '2011-08-01', '26d4fccb3c81e8855dc60ed8b037f801', 18, '18', '0162454544', 'Aliquam error totam', 'Dolor expedita et es', '37881', '', '', 4, 1),
+(20, 'Mugamboo', 'Khus', 'mugamboo@gmail.com', 'male', '2004-06-23', '26d4fccb3c81e8855dc60ed8b037f801', 18, '18', '012548899555', 'mohammadpur', 'Dhaka', '1207', 'Mugamboo_pp1665428190805173544.jpg', './uploads/profile_photo/', 4, 1),
+(22, 'Doctordsaf', 'Treatment', 'doctor@gmail.com', 'male', '1990-02-14', '26d4fccb3c81e8855dc60ed8b037f801', 18, '18', '013546845555', 'Mohammadpur', 'Dhaka', '1207', 'Doctor_pp16654325501350405648.jpg', './uploads/profile_photo/', 3, 2),
+(23, 'Unity', 'Rollins', 'dycemy@mailinator.com', 'female', '1970-12-08', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 230, '79', '340', 'Aut dolore et quo is', 'Tenetur numquam aute', '89023', 'Unity_pp16657610791830845803.jpg', './uploads/profile_photo/', 2, 2),
+(24, 'Geoffrey', 'Alford', 'zecu@mailinator.com', 'male', '2022-06-29', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 130, '95', '231', 'Commodi iure et occa', 'Sequi enim sed at se', '47135', 'Geoffrey_pp1665761484796451164.jpg', './uploads/profile_photo/', 4, 1),
+(26, 'Rhiannon', 'Weeks', 'goduxex@mailinator.com', 'other', '2011-02-19', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 136, '126', '414', 'Non consectetur eius', 'Est beatae sint adi', '60220', 'Rhiannon_pp1665761981117082114.jpg', './uploads/profile_photo/', 4, 1),
+(27, 'Garrett', 'Beck', 'xecerymog@mailinator.com', 'female', '2015-09-29', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 128, '187', '857', 'Ea ratione laboriosa', 'Necessitatibus dolor', '18894', '', '', 2, 2),
+(28, 'Juliet', 'Houston', 'tunev@mailinator.com', 'other', '1999-12-07', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 228, '164', '635', 'Modi et in non velit', 'Et recusandae Saepe', '89058', '', '', 4, 1),
+(29, 'Tyrone', 'Hayden', 'syxezakuli@mailinator.com', 'male', '2019-05-04', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 100, '230', '685', 'Aspernatur quia itaq', 'Voluptatum aut ea mo', '78457', '', '', 4, 1),
+(30, 'Uta', 'Love', 'wyzoxicafy@mailinator.com', 'other', '2000-08-06', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 18, '44', '896', 'Ex nisi natus velit', 'Fugiat quis quo dol', '77158', 'Uta_pp1665763173731119314.jpg', './uploads/profile_photo/', 2, 1),
+(31, 'Urielle', 'Gentry', 'guneh@mailinator.com', 'other', '1973-07-03', 'f3ed11bbdb94fd9ebdefbaf646ab94d3', 149, '168', '992', 'Id qui expedita quo', 'Incididunt voluptas', '75771', 'Urielle_pp16657632412097064415.jpg', './uploads/profile_photo/', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -601,8 +635,14 @@ CREATE TABLE `user_appointment` (
 --
 
 INSERT INTO `user_appointment` (`id`, `patient_id`, `appointment_id`, `appointment_status`) VALUES
-(2, 19, 5, 1),
-(5, 19, 4, 4);
+(34, 18, 4, 1),
+(35, 18, 5, 1),
+(36, 20, 8, 1),
+(47, 18, 8, 1),
+(48, 18, 11, 4),
+(49, 18, 10, 1),
+(50, 18, 9, 4),
+(51, 18, 15, 2);
 
 -- --------------------------------------------------------
 
@@ -658,12 +698,6 @@ ALTER TABLE `comment_react`
   ADD KEY `user_id` (`user_id`),
   ADD KEY `react_id` (`react_id`),
   ADD KEY `comment_id` (`comment_id`);
-
---
--- Indexes for table `contact_us`
---
-ALTER TABLE `contact_us`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `country`
@@ -744,31 +778,25 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `additional_info`
 --
 ALTER TABLE `additional_info`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `comment_react`
 --
 ALTER TABLE `comment_react`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `contact_us`
---
-ALTER TABLE `contact_us`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `country`
@@ -780,7 +808,7 @@ ALTER TABLE `country`
 -- AUTO_INCREMENT for table `forum`
 --
 ALTER TABLE `forum`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `post_react`
@@ -816,13 +844,13 @@ ALTER TABLE `social_user_link`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `user_appointment`
 --
 ALTER TABLE `user_appointment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `user_role`

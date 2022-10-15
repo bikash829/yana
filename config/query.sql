@@ -22,7 +22,7 @@ CREATE TABLE users(
     profile_photo VARCHAR(256),
     profile_location VARCHAR(256),
     role_id INT(2) NOT NULL,
-    `status` INT(2) 
+    `status` INT(2) COMMENT 'Active=1,Block=2,Pending=NULL'
 );
 -- user additional info 
 CREATE TABLE additional_info(
@@ -46,18 +46,12 @@ CREATE TABLE social_user_link(
     user_id INT(10) NOT NULL,
     medium_id INT(10) NOT NULL
 );
--- user additional info link table 
--- CREATE TABLE additional_info_link(
---     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
---     user_id INT(10) NOT NULL,
---     info_id INT(10) NOT NULL
--- );
--- create appoINTment table 
+
 CREATE TABLE appointment(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     doctor_id INT(10) NOT NULL,
-    start_time DATETIME,
-    end_time DATETIME,
+    start_time VARCHAR(10),
+    end_time VARCHAR(10),
     ap_date DATE,
     patient_capacity int(3),
     fees decimal(10, 2),
@@ -68,12 +62,12 @@ CREATE TABLE user_appointment(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     patient_id INT(10) NOT NULL,
     appointment_id INT(10) NOT NULL,
-    appointment_status INT(2) COMMENT "2=Pending,1=Active,4=Canceled,3=past"
+    appointment_status INT(2) COMMENT "1=Active,2=Pending,4=Canceled,3=past"
 );
 -- user role 
 CREATE TABLE user_role(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    role VARCHAR(10) NOT NULL
+    role VARCHAR(10) NOT NULL 
 );
 -- country and code info table
 CREATE TABLE IF NOT EXISTS `country` (
@@ -135,6 +129,7 @@ CREATE TABLE contact_us(
     f_name VARCHAR(50),
     l_name VARCHAR(50),
     comment TEXT,
+    message_date DATE,
     email VARCHAR(100) NOT NULL
 );
 -- |================ foreign key section  =================|
@@ -513,6 +508,28 @@ VALUES
 ('admin@email.com','59235f35e4763abb0b547bd093562f6e',1);
 
 
+
+INSERT INTO `users` (`f_name`, `l_name`, `email`, `gender`, `date_of_birth`, `pass`, `country_id`, `phone_code`, `phone_number`, `addr`, `city`, `zip_code`, `profile_photo`, `profile_location`, `role_id`, `status`) 
+VALUES
+('Admin', NULL, 'admin@email.com', NULL, NULL, MD5('admin@email.com'), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1),
+('Jemmy', 'Lehri', 'jemmy@gmail.com', 'male', '1994-10-12', MD5(email), 5, 5, '015454545', 'Somewherw at london', 'London', '41444', NULL, NULL, 3, 1),
+('mayesha', 'fahmida', 'mayesha@gmail.com', 'female', '1994-09-25', MD5(`email`), 5, 5, '016454530', 'Somewherw at Dhaka', 'Dhaka', '1201', NULL, NULL, 3, 1),
+('rayhan', 'ahmed', 'rayhan@gmail.com', 'male', '1994-09-25', MD5(`email`), 5, 5, '0174545944', 'Somewherw at Savar', 'Dhaka', '1241', NULL, NULL, 3, NULL),
+('yeasin', 'ahmed', 'yeasin@gmail.com', 'male', '1998-09-25', MD5(`email`), 5, 5, '0174545900', 'Somewherw at Chanpur', 'Cumilla', '1241', NULL, NULL, 2, 1),
+('bikash', 'chowdhury', 'bikash@gmail.com', 'male', '1996-09-25', MD5(`email`), 5, 5, '01745459139', 'Somewherw at Dhaka', 'Dhaka', '1221', NULL, NULL, 4, 1),
+('tonoya', 'rahman', 'tonoya@gmail.com', 'female', '1996-09-25', MD5(`email`), 5, 5, '01745459113', 'Somewherw at N.Ganj', 'N.Ganj', '1221', NULL, NULL, 4, 1),
+('oishe', 'binita', 'oishe@gmail.com', 'female', '2000-09-25', MD5(`email`), 5, 5, '01745459113', 'Somewherw at N.Ganj', 'N.Ganj', '5454', NULL, NULL, 4, 1)
+;
+
+
+INSERT INTO `additional_info` (`user_id`, `education`, `working_info`, `document_name`, `document_location`, `bio`) VALUES
+(2, 'Education,example', 'There is several working info.', 'Denise_edu1664440426137598886.pdf', './uploads/educatoinal_doc/', 'Its my bio example '),
+(3, 'One more, education, example', 'Few working info', 'Noble_edu1664440574755575728.pdf', './uploads/educatoinal_doc/', 'Other bio example'),
+(4, 'One more, education, example', 'Other Few working info', 'Noble_edu1664440574755575728.pdf', './uploads/educatoinal_doc/', 'bio  lash example'),
+(5, 'Other educaiton example','Blah blah blah', 'Daquan_edu1664440607357116983.pdf', './uploads/educatoinal_doc/', NULL),
+(6, '', '', '', '', ''),
+(7, '', '', '', '', ''),
+(8, '', '', '', '', '');
 
 -- |-------------suggestion-----------------|-- 
 -- |--+++++++++++++ Alter primary key and AUTO_INCREMENT+++++++++++++--|

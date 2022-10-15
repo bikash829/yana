@@ -103,7 +103,7 @@ include "../modals/admin_pass&email.php";
 
 <!-- popup alert  -->
 <?php 
-include "../functionalities/alert.php";
+include_once "../functionalities/alert.php";
 
 
 if (isset($_SESSION['change_admin_pass'])) {

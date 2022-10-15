@@ -2,6 +2,8 @@ doctor dashboard >
     1. total appointments
     2. experts_dashboard.php > seat count of appointment list 
     3. appointment_history.php add a column of total patient
+	4.past appointment 
+5.duplicate appointmnet same time
 
 
 admin pannel >
