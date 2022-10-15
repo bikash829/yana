@@ -67,7 +67,7 @@ if (isset($_SESSION['admin'])) {
                     <li class="breadcrumb-item active">Admin Dashboard</li>
                 </ol>
                 <div class="row">
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
                             <h4 class="card-header">Total Doctors</h4>
                             <div class="card-body">
@@ -79,7 +79,7 @@ if (isset($_SESSION['admin'])) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="card bg-warning text-white mb-4">
                             <h4 class="card-header">Total Councilors</h4>
                             <div class="card-body">
@@ -91,7 +91,7 @@ if (isset($_SESSION['admin'])) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="card bg-success text-white mb-4">
                             <h4 class="card-header">Total Patients</h4>
                             <div class="card-body">
@@ -103,7 +103,7 @@ if (isset($_SESSION['admin'])) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="card bg-danger text-white mb-4">
                             <h4 class="card-header">Pending Request</h4>
                             <div class="card-body">

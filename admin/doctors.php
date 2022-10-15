@@ -86,7 +86,7 @@ if ($validation) {
 
                                         <tr>
                                             <td><?= $value['id'] ?></td>
-                                            <td><?= $value['f_name'] . ' ' . $value['l_name'] ?></td>
+                                            <td><?= ucwords($value['f_name'] . ' ' . $value['l_name'])  ?></td>
                                             <td><?= $value['gender'] ?></td>
                                             <td><?= $value['education_info'] ?></td>
                                             <td><?= date('Y') - date('Y', strtotime($value['date_of_birth'])) ?></td>

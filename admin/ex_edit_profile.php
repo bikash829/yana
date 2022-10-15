@@ -214,8 +214,6 @@ include "../functionalities/validation_function.php";
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="./js/datatables-simple-demo.js"></script>
 
 <?php
 include "../functionalities/form-validation.php";
@@ -226,7 +224,7 @@ include "../functionalities/country_code_menupulation.php";
 ?>
 
 <?php
-include "../functionalities/alert.php";
+include_once "../functionalities/alert.php";
 if (isset($_SESSION['edit_info'])) {
 
     $alert_status = json_encode(alert($_SESSION['edit_info']));
@@ -268,6 +266,41 @@ if (isset($_SESSION['edit_info'])) {
         }
     }
 
+</script>
+
+
+
+<?php
+include_once "../functionalities/alert.php";
+
+
+if (isset($_SESSION['edit_info'])) {
+    $alert_status = alert($_SESSION['edit_info']);
+
+    unset($_SESSION['edit_info']);
+} else {
+    $alert_status = false;
+}
+
+
+?>
+
+<script type="text/javascript">
+   
+
+    // validation message 
+    console.log(<?= json_encode($alert_status) ?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
 </script>
 
 </body>

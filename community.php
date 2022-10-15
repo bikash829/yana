@@ -20,7 +20,7 @@ include "./config/db_connection.php";
 
 $sql = "SELECT `forum`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `forum` 
         INNER JOIN `users` ON `forum`.`user_id` = `users`.`id`
-        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id`  ORDER BY `post_date` DESC;";
+        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id`  ORDER BY id DESC;";
 
 if ($forum_set = db_connection()->query($sql)) {
     $all_forum = $forum_set->fetch_all(MYSQLI_ASSOC);

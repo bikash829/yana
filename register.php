@@ -217,3 +217,34 @@ include_once "./layout/footer.php";
 
 include "./functionalities/country_code_menupulation.php";
 ?>
+
+
+<?php
+include_once "./functionalities/alert.php";
+
+if (isset($_SESSION['registration_status'])) {
+    var_dump($_SESSION['registration_status']);
+    $alert_status = alert($_SESSION['registration_status']);
+    unset($_SESSION['registration_status']);
+} else {
+    $alert_status = false;
+}
+
+
+?>
+
+<script type="text/javascript">
+    // validation message 
+    console.log(<?= json_encode($alert_status) ?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 4000
+        })
+    }
+</script>

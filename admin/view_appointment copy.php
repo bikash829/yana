@@ -36,11 +36,7 @@ if(isset($_GET['appointment_id'])){
     $appointment_id = $_GET['appointment_id'];
 }
 
-$sql = "SELECT appointment.*,(
-    SELECT count(*) FROM user_appointment WHERE user_appointment.appointment_id = appointment.id) 
-    AS total_patients 
-    FROM appointment 
-    WHERE id = $appointment_id;";
+$sql = "SELECT * FROM `appointment` WHERE `id` = $appointment_id";
 
 // seat count 
 // function count_
@@ -104,8 +100,8 @@ if ($apointment_set = db_connection()->query($sql)) {
                         </div>
 
                         <div class="col-md-4">
-                            <label for="validationCustom03" class="form-label">Total Patients</label>
-                            <input  disabled name="patient-capacity" value="<?=$appointment['total_patients']?>" type="number" class="form-control" id="validationCustom03" required>
+                            <label for="validationCustom03" class="form-label">Seat Left</label>
+                            <input  disabled name="patient-capacity" value="<?=$appointment['patient_capacity']?>" type="number" class="form-control" id="validationCustom03" required>
                             
                         </div>
 

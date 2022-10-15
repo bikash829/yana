@@ -11,6 +11,9 @@ include "../functionalities/data_control.php";
 $validation = true;
 $validation_message = [];
 
+
+
+
 // =====================================empty registration session =================
 
 if (isset($_POST['btn-create-user'])) {
@@ -33,7 +36,6 @@ if (isset($_POST['btn-create-user'])) {
         default:
             break;
     }
-    
 }
 
 
@@ -128,7 +130,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
         unset($_POST['education_info']);
     }
 
-    if(isset($_FILES['xp_info_doc'])){
+    if (isset($_FILES['xp_info_doc'])) {
         unset($_FILES['xp_info_doc']);
     }
 
@@ -142,6 +144,9 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
         $_POST['address'] = $address;
         $_POST['city'] = $city;
         $_POST['zip_code'] = $zip_code;
+
+
+
 
         //data validation 
         $validation_report = data_validation($_POST);
@@ -179,6 +184,8 @@ if ($validation) {
     // print_r($validation_message);
     $validation_message['status'] = true;
     $_SESSION['registration_status'] = $validation_message;
+    // var_dump($validation_message);
+    // exit();
     header("Location: " . $_SERVER["HTTP_REFERER"]);
     exit();
 } else {

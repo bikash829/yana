@@ -16,14 +16,6 @@ include_once "./admin-layouts/nav.php";
 
 
 
-if(isset($_GET)){
-    $bio_sucess = $_GET['bio_update_success'];
-    $bio = $_GET['bio'];
-    
-}
-
-
-
 // data 
 switch (isset($_SESSION)) {
     case 'doctor':
@@ -76,8 +68,7 @@ switch (isset($_SESSION)) {
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="./js/datatables-simple-demo.js"></script>
+
 
 
 <script type="text/javascript">
@@ -98,22 +89,28 @@ switch (isset($_SESSION)) {
     });
 </script>
 
-<!-- popup alert  -->
-<?php 
-include "../functionalities/alert.php";
 
+<?php
+include_once "../functionalities/alert.php";
 
 if (isset($_SESSION['edit_bio'])) {
     $alert_status = alert($_SESSION['edit_bio']);
+
     unset($_SESSION['edit_bio']);
 } else {
     $alert_status = false;
 }
+
+
 ?>
 
 <script type="text/javascript">
+   
+
     // validation message 
+    console.log(<?= json_encode($alert_status) ?>);
     alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
     if (alertStatus) {
         Swal.fire({
             position: 'top-end',
@@ -123,8 +120,6 @@ if (isset($_SESSION['edit_bio'])) {
             timer: 2500
         })
     }
-
-
 </script>
 </body>
 

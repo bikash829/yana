@@ -20,7 +20,9 @@ $user_id = $_SESSION[$user_role]['id'];
 
 function appointment_history($user_id)
 {
-    $sql = "SELECT * FROM `appointment` WHERE `doctor_id` = $user_id ORDER BY ap_date DESC;";
+    $sql = "SELECT *,(
+        SELECT count(*) FROM user_appointment WHERE user_appointment.appointment_id = appointment.id) 
+        as total_patients FROM `appointment` WHERE `doctor_id` = $user_id ORDER BY ap_date DESC;";
     
     
     if ($apointment_set = db_connection()->query($sql)) {
@@ -42,15 +44,18 @@ function db_result($query){
 
 }
 
-$total_patient = "SELECT count(*) AS total_patients FROM user_appointment 
-        JOIN appointment ON user_appointment.appointment_id = appointment.id
-        WHERE doctor_id = $user_id  AND appointment_status = 1 GROUP BY user_appointment.patient_id;";
+$total_patient = "SELECT count(*) as my_patients FROM
+(SELECT count(*) FROM user_appointment 
+JOIN appointment ON appointment.id = user_appointment.appointment_id
+JOIN users doc ON doc.id = appointment.doctor_id
+WHERE doc.id = 4 AND user_appointment.appointment_status = 1 GROUP BY user_appointment.patient_id) AS total_patients
+";
 
 $appointment_list = appointment_history($user_id);
 
 $total_appointment = count($appointment_list);
 
-$total_patient = db_result($total_patient)['total_patients'];
+$total_patient = db_result($total_patient)['my_patients'];
 
 
 
@@ -87,7 +92,7 @@ $total_patient = db_result($total_patient)['total_patients'];
                                 <p class="text-center fs-2"><?= $total_appointment ?></p>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="./view_appointment.php">View Details</a>
+                                <a class="small text-white stretched-link" href="./total_appointments.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -174,7 +179,7 @@ $total_patient = db_result($total_patient)['total_patients'];
                                         <td><?= $row['start_time'] ?></td>
                                         <td><?= $row['end_time'] ?></td>
                                         <td><?=$row['patient_capacity']?></td>
-                                        <td></td>
+                                        <td><?=$row['total_patients']?></td>
                                         <td><?= $row['fees'] ?></td>
 
                                         <td>

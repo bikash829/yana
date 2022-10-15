@@ -52,7 +52,7 @@ if (isset($_GET['view_patients']) && isset($_GET['appointment_id'])) {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">All Patients</h1>
+                <h1 class="mt-4">Patients</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?= $dashboard ?>">Dashboard</a></li>
                     <li class="breadcrumb-item active">Patients</li>

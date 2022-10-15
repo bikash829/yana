@@ -93,9 +93,9 @@ function appointment_request()
                                     <tr>
                                         <td><?= $row['user_appointment_id'] ?></td>
                                         <td><?= $row['appointment_id'] ?></td>
-                                        <td><?= $row['doc_full_name'] ?></td>
+                                        <td><?= ucwords($row['doc_full_name'])  ?></td>
                                         <td><?= $row['doc_mail'] ?></td>
-                                        <td><?= $row['patient_full_name'] ?></td>
+                                        <td><?= ucwords($row['patient_full_name'])  ?></td>
                                         <td><?= $row['patient_mail'] ?></td>
                                         <td><?= $row['ap_date'] ?></td>
                                         <td><?= $row['patient_capacity'] ?></td>

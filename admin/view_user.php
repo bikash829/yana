@@ -20,7 +20,7 @@ if (isset($_GET['view_user'])) {
     INNER JOIN `additional_info` ON `users`.`id` = `additional_info`.`user_id`
     INNER JOIN user_role ON `user_role`.`id` = `users`.`role_id`
     INNER JOIN `country` ON `users`.`country_id` = `country`.`id`
-    WHERE `users`.`id` = 12;";
+    WHERE `users`.`id` = $user_id;";
 
 
     if ($data_set = db_connection()->query($sql)) {
@@ -65,7 +65,7 @@ if (isset($_GET['view_user'])) {
                         <div class="col-lg-8 col-10">
                             <div class="card">
                                 <div class="card-header">
-                                    <?= $data['f_name'] . $data['l_name'] ?>
+                                    <?= ucwords( $data['f_name'] .' '. $data['l_name']) ?>
 
                                 </div>
                                 <div class="card-body position-relative">

@@ -171,7 +171,7 @@ include_once "./admin-layouts/nav.php";
 
 <!-- popup alert  -->
 <?php
-include "../functionalities/alert.php";
+include_once "../functionalities/alert.php";
 // alert defined on footer before 
 
 if (isset($_SESSION['comment_alert'])) {

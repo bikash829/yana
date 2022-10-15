@@ -119,7 +119,7 @@ $patient_list = my_patients($_SESSION[$user_role]['id']);
                                     <tr>
                                         <td><?= $count ?></td>
                                         <td><?= $value['appointment_id'] ?></td>
-                                        <td><?= $value['full_name'] ?></td>
+                                        <td><?= ucwords($value['full_name'])  ?></td>
                                         <td><?= $value['email'] ?></td>
                                         <td><?= $value['phone_code'] . $value['phone_number'] ?></td>
                                         <td><?= $value['ap_date'] ?></td>
