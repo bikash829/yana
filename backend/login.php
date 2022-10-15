@@ -145,9 +145,11 @@ if (isset($_POST['btn-login'])) {
                     if (empty($data['status'])) {
                         
                         header("Location: ../admin/waiting.php");
+                    }elseif($data['status'] == 2){
+                        header("Location: ../admin/block.php");
                     } else {
                         $_SESSION['councilor'] = $data;
-                        header("Location: ../admin/experts_dashboard.php");
+                        header("Location: ../admin/councilor_dashboard.php");
                     }
                 } elseif ($data['role_id'] == 3) { //doctor login
 

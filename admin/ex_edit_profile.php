@@ -9,24 +9,26 @@ if (isset($_SESSION['doctor'])) {
     $user_role =  "Nothing to print";
 }
 
-// link 
-$dashboard = "./experts_dashboard.php";
 
-include_once "./admin-layouts/nav.php";
 
 // data 
 switch (isset($_SESSION)) {
-    case 'doctor':
+    case isset($_SESSION['doctor']):
         $data = $_SESSION['doctor'];
+        $dashboard = "./experts_dashboard.php";
         break;
-    case 'councilor':
+    case isset($_SESSION['councilor']):
         $data = $_SESSION['councilor'];
+        $dashboard = "./councilor_dashboard.php";
         break;
 
     default:
         # code...
         break;
 }
+
+// link 
+include_once "./admin-layouts/nav.php";
 
 
 include "../functionalities/validation_function.php";
@@ -45,7 +47,7 @@ include "../functionalities/validation_function.php";
                     <div class="col-lg-8 col-10">
                         <div class="card">
                             <div class="card-header">
-                                <?= $data['f_name'] . $data['l_name'] ?>
+                                <?= ucwords( $data['f_name'] .' '. $data['l_name']) ?>
 
                             </div>
                             <div class="card-body position-relative">
@@ -58,14 +60,14 @@ include "../functionalities/validation_function.php";
                                                 <!-- name  -->
                                                 <div class="col-md-6">
                                                     <label for="first_name" class="form-label">First Name</label>
-                                                    <input name="first_name" value="<?= $data['f_name'] ?>" type="text" class="form-control" id="first_name" placeholder="First Name" required>
+                                                    <input name="first_name" value="<?=ucwords( $data['f_name']) ?>" type="text" class="form-control" id="first_name" placeholder="First Name" required>
                                                     <div class="invalid-feedback">
                                                         Please enter your first name.
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="last_name" class="form-label">Last name</label>
-                                                    <input name="last_name" value="<?= $data['l_name'] ?>" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
+                                                    <input name="last_name" value="<?= ucwords( $data['l_name']) ?>" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
                                                     <div class="invalid-feedback">
                                                         Please enter your last name.
                                                     </div>

@@ -81,5 +81,37 @@
             </div>
 
         </div>
+
+    </div>
+</div>
+
+
+
+<!-- Profile Picture modal -->
+<div class="modal fade" id="change_pp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change Profile Picture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../backend/edit_user.php" enctype="multipart/form-data" method="POST" class="row g-3 needs-validation" novalidate>
+                    <!-- email section  -->
+
+                    <div class="">
+                        <label for="profile_pp" class="form-label">Upload Photo</label>
+                        <input name="new_pp" type="file" class="form-control" id="profile_pp" required>
+                        <div class="invalid-feedback">
+                            Please Select your photo first
+                        </div>
+                    </div>
+                    <div class="col-12 d-grid">
+                        <button name="btn_change_pp" value="change_pp" type="submit" class="btn btn-primary">Change Photo</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
     </div>
 </div>

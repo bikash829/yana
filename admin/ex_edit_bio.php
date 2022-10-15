@@ -9,26 +9,25 @@ if (isset($_SESSION['doctor'])) {
     $user_role =  "Nothing to print";
 }
 
-// link 
-$dashboard = "./experts_dashboard.php";
-
-include_once "./admin-layouts/nav.php";
-
-
-
 // data 
 switch (isset($_SESSION)) {
-    case 'doctor':
+    case isset($_SESSION['doctor']):
         $data = $_SESSION['doctor'];
+        $dashboard = "./experts_dashboard.php";
         break;
-    case 'councilor':
+    case isset($_SESSION['councilor']):
         $data = $_SESSION['councilor'];
+        $dashboard = "./councilor_dashboard.php";
         break;
 
     default:
         # code...
         break;
 }
+include_once "./admin-layouts/nav.php";
+
+
+
 
 
 ?>
@@ -50,11 +49,11 @@ switch (isset($_SESSION)) {
                             </div>
                             <form action="../backend/bio.php" method="POST" id="edit_bio">
                                 <textarea name="bio" required class="form-control" style="height: 50vh;"><?= $data['bio'] ?></textarea>
-                                <input type="hidden" name="uid" value="<?=$data['id']?>">
-                                <input type="hidden" name="info_id" value="<?=$data['info_id']?>">
+                                <input type="hidden" name="uid" value="<?= $data['id'] ?>">
+                                <input type="hidden" name="info_id" value="<?= $data['info_id'] ?>">
                                 <div class="form-group text-end mt-2">
                                     <input type="submit" value="Save" name="btn-bio" class="btn btn-primary ">
-                                    <input type="button"  id="btn-cancel-bio" value="cancel" class="btn btn-secondary ">
+                                    <input type="button" id="btn-cancel-bio" value="cancel" class="btn btn-secondary ">
                                 </div>
                             </form>
                         </div>
@@ -83,7 +82,7 @@ switch (isset($_SESSION)) {
 
     let bioCancel = document.getElementById("btn-cancel-bio");
 
-    bioCancel.addEventListener('click',(e)=>{
+    bioCancel.addEventListener('click', (e) => {
         bioView.style.display = 'block';
         bioEdit.style.display = 'none';
     });
@@ -105,8 +104,6 @@ if (isset($_SESSION['edit_bio'])) {
 ?>
 
 <script type="text/javascript">
-   
-
     // validation message 
     console.log(<?= json_encode($alert_status) ?>);
     alertStatus = <?= json_encode($alert_status ?? null) ?>;

@@ -12,8 +12,11 @@ include_once "./admin-layouts/nav.php";
     if (isset($_SESSION['admin'])) {
 
         include_once "./admin-layouts/aside.php";
-    } elseif (isset($_SESSION['doctor']) || isset($_SESSION['councilor'])) {
+    } elseif (isset($_SESSION['doctor'])) {
         $dashboard = "./experts_dashboard.php";
+        include_once "./admin-layouts/experts_aside.php";
+    }elseif(isset($_SESSION['councilor'])){
+        $dashboard = "./councilor_dashboard.php";
         include_once "./admin-layouts/experts_aside.php";
     }
 
@@ -86,7 +89,7 @@ include_once "./admin-layouts/nav.php";
                                     <form action="../backend/create_post.php" method="POST" class="mb-2">
 
 
-                                        <h6 class="p-des__reply-author py-2"> <a href="#" class="text-secondary"><?= $_SESSION[$user_role]['f_name'] ?></a> </h6>
+                                        <h6 class="p-des__reply-author py-2"> <a href="#" class="text-secondary"><?=ucwords( $_SESSION[$user_role]['f_name'] )?></a> </h6>
                                         <input type="hidden" name="user_id" value="<?= $_SESSION[$user_role]['id'] ?>">
                                         <input type="hidden" name="post_id" value="<?= $row['id'] ?>">
                                         <div class="">
@@ -102,7 +105,7 @@ include_once "./admin-layouts/nav.php";
                                         if ($comment['forum_id'] == $row['id']) {
                                     ?>
                                             <div class="p-des__reply">
-                                                <h5 class="p-des__reply-author"> <a href="#" class="text-secondary"><?= $comment['f_name'] . ' ' . $comment['l_name'] ?></a> </h5>
+                                                <h5 class="p-des__reply-author"> <a href="#" class="text-secondary"><?=ucwords($comment['f_name'] . ' ' . $comment['l_name'])  ?></a> </h5>
                                                 <h6 class="p-des__reply-author fw-lighter replied_by"> <a href="#"><?= ucwords($comment['role']) ?></a> | <span><?= $comment['comment_date'] ?></span> </h6>
                                                 <p><?= $comment['comment'] ?></p>
                                                 <div class="p-des__reply-info">

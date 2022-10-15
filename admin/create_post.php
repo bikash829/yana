@@ -11,8 +11,11 @@ include_once "./admin-layouts/nav.php";
     <?php
     if (isset($_SESSION['admin'])) {
         include_once "./admin-layouts/aside.php";
-    } elseif (isset($_SESSION['doctor']) || isset($_SESSION['councilor'])) {
+    } elseif (isset($_SESSION['doctor'])) {
         $dashboard = "./experts_dashboard.php";
+        include_once "./admin-layouts/experts_aside.php";
+    }elseif(isset($_SESSION['councilor'])){
+        $dashboard = "./councilor_dashboard.php";
         include_once "./admin-layouts/experts_aside.php";
     }
 

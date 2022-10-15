@@ -4,6 +4,7 @@ $validation = true;
 $validation_message = array();
 
 
+
 if(isset($_SESSION['admin'])){
     $user = 'admin';
 }elseif(isset($_SESSION['doctor'])){
@@ -31,7 +32,6 @@ function password_verification($data)
         $con = db_connection();
         $hassed_pass = md5($new_pass);
         $sql = "SELECT * FROM `users` WHERE `id` = $user_id AND `pass` = '$current_pass'";
-
 
         if ($con->query($sql)) {
 

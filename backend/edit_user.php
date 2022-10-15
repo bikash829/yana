@@ -5,12 +5,12 @@ include "../functionalities/data_control.php";
 include "../config/db_connection.php";
 
 
-
-
-
-
 if (isset($_SESSION['user'])) {
     $user_id = $_SESSION['user']['id'];
+} elseif (isset($_SESSION['doctor'])) {
+    $user_id = $_SESSION['doctor']['id'];
+} elseif (isset($_SESSION['councilor'])) {
+    $user_id = $_SESSION['councilor']['id'];
 }
 
 // start block for edit doc 
@@ -45,6 +45,7 @@ if (isset($_POST['btn-edit_user'])) {  //edit user info
             if ($user_id != "") {
                 $validation_report['id'] = $user_id;
             }
+
             if ($updated_info = update_user($validation_report)) {
 
                 $validation_message['success'] = "your information has been updated successfully.";
@@ -257,8 +258,16 @@ if (isset($_POST['btn-edit_user'])) {  //edit user info
                         move_uploaded_file($pp_temp_location, $new_location);
                         $validation_message['chaged_pp'] = "Your profile photo has been changed successfully";
                         $validation = true;
-                        $_SESSION['user']['profile_location'] = $pp_dir;
-                        $_SESSION['user']['profile_photo'] = $pp_new_name;
+                        if (isset($_SESSION['user'])) {
+                            $_SESSION['user']['profile_location'] = $pp_dir;
+                            $_SESSION['user']['profile_photo'] = $pp_new_name;
+                        } elseif (isset($_SESSION['doctor'])) {
+                            $_SESSION['doctor']['profile_location'] = $pp_dir;
+                            $_SESSION['doctor']['profile_photo'] = $pp_new_name;
+                        } elseif (isset($_SESSION['councilor'])) {
+                            $_SESSION['councilor']['profile_location'] = $pp_dir;
+                            $_SESSION['councilor']['profile_photo'] = $pp_new_name;
+                        }
                     } else {
                         $validation = false;
                         $validation_message['pp_technical_error'] = "Technical error";

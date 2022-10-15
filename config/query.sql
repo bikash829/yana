@@ -22,7 +22,7 @@ CREATE TABLE users(
     profile_photo VARCHAR(256),
     profile_location VARCHAR(256),
     role_id INT(2) NOT NULL,
-    `status` INT(2) COMMENT 'Active=1,Block=2,Pending=NULL'
+    `status` INT(2) COMMENT 'Active=1,Block=2,Pending=NULL,Deactivate=3'
 );
 -- user additional info 
 CREATE TABLE additional_info(
