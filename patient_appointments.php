@@ -16,10 +16,16 @@ function my_appointments($uid)
     //1 -> active 
     //3 -> past
 
-    $sql = "SELECT appointment.*,user_appointment.appointment_status FROM `user_appointment`
-            JOIN appointment ON user_appointment.appointment_id = appointment.id 
-            WHERE `user_appointment`.`patient_id` = $uid 
-            ;";
+    $sql = "SELECT
+        appointment.*,
+        user_appointment.appointment_status,
+        CONCAT(DOC.f_name,' ',DOC.l_name) AS doc_name,
+        DOC.email
+        FROM `user_appointment`
+            JOIN appointment ON user_appointment.appointment_id = appointment.id
+            JOIN users DOC ON appointment.doctor_id = DOC.id
+        WHERE
+            `user_appointment`.`patient_id` = $uid;";
 
 
 
@@ -39,6 +45,8 @@ function my_appointments($uid)
 
         <table class="table table-striped" id="my_appointments">
             <thead>
+                <th>Doctor</th>
+                <th>Email</th>
                 <th>Date</th>
                 <th>Start At</th>
                 <th>End In</th>
@@ -47,6 +55,8 @@ function my_appointments($uid)
                 <th>Description</th>
             </thead>
             <tfoot>
+                <th>Doctor</th>
+                <th>Email</th>
                 <th>Date</th>
                 <th>Start At</th>
                 <th>End In</th>
@@ -63,6 +73,8 @@ function my_appointments($uid)
                 ?>
 
                     <tr>
+                        <td><?= ucwords($row['doc_name'])  ?></td>
+                        <td><?= $row['email'] ?></td>
                         <td><?= $row['ap_date'] ?></td>
                         <td><?= $row['start_time'] ?></td>
                         <td><?= $row['end_time'] ?></td>
