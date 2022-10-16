@@ -19,7 +19,9 @@ function upcomming_appointments()
 {
     $sql = "SELECT `appointment`.*, `users`.id as doctor_id , concat(`users`.f_name,' ',`users`.l_name) AS full_name  
     FROM appointment 
-    JOIN users ON appointment.doctor_id = users.id ORDER BY appointment.ap_date";
+    JOIN users ON appointment.doctor_id = users.id 
+    WHERE `users`.`status` = 1
+    ORDER BY appointment.ap_date";
     $upcomming_appointments = [];
 
 

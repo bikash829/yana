@@ -17,7 +17,8 @@ include "./config/db_connection.php";
 $sql = "SELECT `users`.* ,`country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code`, `additional_info`.`bio`, `additional_info`.`education`, `additional_info`.`working_info`
         FROM `users`
         INNER JOIN `country` ON `users`.`country_id` = `country`.`id`
-        INNER JOIN `additional_info` ON `additional_info`.`user_id` = `users`.`id`;
+        INNER JOIN `additional_info` ON `additional_info`.`user_id` = `users`.`id`
+        WHERE `users`.`status` = 1;
         ";
 if ($special_user_set = db_connection()->query($sql)) {
     $special_user = $special_user_set->fetch_all(MYSQLI_ASSOC);
@@ -72,8 +73,8 @@ if ($special_user_set = db_connection()->query($sql)) {
                                     } else {
                                         $validation  = "Technical error contact with developer";
                                     }
-
                             ?>
+
                                     <div class="specialist__card">
                                         <div class="specialist__img-con">
                                             <img class="specialist__img" src="./images/specialist/sp_1.jpg" alt="">
