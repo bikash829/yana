@@ -13,13 +13,13 @@ include_once "./layout/navigation_bar.php";
 include "./config/db_connection.php";
 
 // database operator 
-function db_result($sql){
-    if(db_connection()->query($sql)){
+function db_result($sql)
+{
+    if (db_connection()->query($sql)) {
         return db_connection()->query($sql);
-    }else{
+    } else {
         return false;
     }
-    
 }
 
 
@@ -113,18 +113,8 @@ if (isset($_GET['id_'])) {
 
         <!-- appointment for doctor  -->
         <?php
-        // rating verifying 
-        $ser_provider_id = $data['id'];
-        $rating_info = db_result("SELECT * FROM feedbacK WHERE `patient_id` = $patient_id AND `ser_provider_id` = $ser_provider_id");
-        
-        if($rating_info->num_rows > 0){
-            $display  = "style='display:none;'";
-        }else{
-            $btn_rate_text = "Rate The Councilor";
-            $display  = "style='display:block;'";
-        }
 
-        
+
         if ($data['role'] == 'doctor') { ?>
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-10 col-12 d-grid gap-2">
@@ -132,17 +122,30 @@ if (isset($_GET['id_'])) {
 
                 </div>
             </div>
-        <?php }else{  if(isset($_SESSION['user'])){
-            
-            
-            ?>
-            <div class="row justify-content-center mb-4">
-                <div class="col-lg-10 col-12 d-grid gap-2">
-                    <button type="button" data-bs-toggle="modal" <?=$display?> data-bs-target="#councilor_feedback" class="btn btn-warning">Rate the councilor</button>
+            <?php } else {
+            if (isset($_SESSION['user'])) {
 
+                // rating verifying 
+                $ser_provider_id = $data['id'];
+                $rating_info = db_result("SELECT * FROM feedbacK WHERE `patient_id` = $patient_id AND `ser_provider_id` = $ser_provider_id");
+
+                if ($rating_info->num_rows > 0) {
+                    $display  = "style='display:none;'";
+                } else {
+                    $btn_rate_text = "Rate The Councilor";
+                    $display  = "style='display:block;'";
+                }
+
+
+            ?>
+                <div class="row justify-content-center mb-4">
+                    <div class="col-lg-10 col-12 d-grid gap-2">
+                        <button type="button" data-bs-toggle="modal" <?= $display ?> data-bs-target="#councilor_feedback" class="btn btn-warning">Rate the councilor</button>
+
+                    </div>
                 </div>
-            </div>
-            <?php } }?>
+        <?php }
+        } ?>
 
         <div class="row justify-content-center">
             <div class="col-lg-10 col-12">
@@ -155,18 +158,18 @@ if (isset($_GET['id_'])) {
 
                         <div class=" px-3">
                             <div class="row  justify-content-center">
-                                
+
                                 <div class="col-lg-10">
                                     <div class="card-body profile-details">
-                                    <div class="col-12 my-4">
-                                    <div style="width: 15rem;" class="">
-                                        <img src="<?= $data['profile_location'] . $data['profile_photo'] ?>" class="img-fluid rounded" alt="There is no photo uploaded yet">
+                                        <div class="col-12 my-4">
+                                            <div style="width: 15rem;" class="">
+                                                <img src="<?= $data['profile_location'] . $data['profile_photo'] ?>" class="img-fluid rounded" alt="There is no photo uploaded yet">
 
-                                    </div>
+                                            </div>
 
 
-                                    <!-- <p class="text-center"><a href="#" data-bs-toggle="modal" data-bs-target="#change_pp">Change Photo</a></p> -->
-                                </div>
+                                            <!-- <p class="text-center"><a href="#" data-bs-toggle="modal" data-bs-target="#change_pp">Change Photo</a></p> -->
+                                        </div>
 
                                         <div class="personal_info row my-2 ">
 
@@ -185,7 +188,7 @@ if (isset($_GET['id_'])) {
                                             </div>
 
                                             <div class="form-group py-1 col-md-6 col-lg-6">
-                                                <span><i class="fa-solid fa-cake-candles"></i> <?= $data['gender'] ?></span>
+                                                <span><i class="fa-solid fa-person-half-dress"></i> <?= ucwords($data['gender'])  ?></span>
 
                                             </div>
 
@@ -240,7 +243,7 @@ if (isset($_GET['id_'])) {
                                                 }
                                                 ?>
                                             </div>
-                                            
+
 
                                         </div>
 

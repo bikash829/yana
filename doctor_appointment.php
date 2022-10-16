@@ -13,6 +13,26 @@ include_once "./layout/navigation_bar.php";
 include "./config/db_connection.php";
 
 
+function rating_calculator($id){
+    $councilor_id= $id ;
+
+    $sql = "SELECT AVG(rating_count) AS rating  FROM feedback WHERE ser_provider_id = $councilor_id;";
+
+    if($rating_set = db_connection()->query($sql)){
+        if($rating_set->num_rows > 0){
+            return number_format(($rating_set->fetch_assoc())['rating'],1);
+        }else{
+            return 0;
+        }
+    }else{
+        return false;
+    }
+}
+
+
+
+
+
 // experts information 
 $sql = "SELECT `users`.* ,`country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code`, `additional_info`.`bio`, 
         `additional_info`.`education`, `additional_info`.`working_info`,`additional_info`.`professional_skills`
@@ -132,6 +152,7 @@ if ($special_user_set = db_connection()->query($sql)) {
                                                 }
                                                 ?>
                                             </div>
+                                            <div class="text-warning">Rating : <?=rating_calculator($row['id'])?></div>
                                         </div>
                                         <button name="btn-councilor" value="" class="specialist_view">View Info</button>
                                     </div>

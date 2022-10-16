@@ -20,7 +20,41 @@ include "../config/db_connection.php";
 $user_id = $_SESSION[$user_role]['id'];
 
 
+function db_result($sql)
+{
+    if (db_connection()->query($sql)) {
+        return (db_connection()->query($sql))->fetch_all(MYSQLI_ASSOC);
+    } else {
+        return false;
+    }
+}
 
+function rating_calculator($data){
+    $rating_count = 0;
+    $count_user = 0;
+    foreach($data as $row){
+        $rating_count+= $row['rating_count'];
+        ++$count_user;
+    }
+
+    if($rating_count > 0){
+        return $rating_count / $count_user;
+    }
+
+}
+$councilor_id = $_SESSION['councilor']['id'];
+
+
+$feedback_sql = "SELECT feedback.rating_count,`feedback`.`feedback`,CONCAT(users.f_name,' ',users.l_name) AS patient_name,users.email as patient_email,users.date_of_birth
+                FROM feedback 
+                JOIN users ON feedback.patient_id = users.id 
+                WHERE ser_provider_id = $councilor_id ORDER BY feedback.id DESC;";
+
+
+
+
+$feedback_info = db_result($feedback_sql);
+$rating_count = rating_calculator($feedback_info);
 
 //active status 
 if ($_SESSION['councilor']['status'] == 1) {
@@ -64,14 +98,15 @@ if ($_SESSION['councilor']['status'] == 1) {
                     </div>
                     <div class="col-lg-6 col-xl-6 col-md-6">
                         <div class="card bg-secondary text-white mb-4">
-                            <h4 class="card-header">Total Feedback</h4>
+                            <h4 class="card-header">Profile Rating</h4>
                             <div class="card-body">
                                 <p class="text-center fs-2">
-                                    0
-                                </p>
+                                    <?=number_format($rating_count,1)?>
+                                </p
+                                >
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="#">View Details</a>
+                                <a class="small text-white stretched-link" href="./user_feedback.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -109,65 +144,41 @@ if ($_SESSION['councilor']['status'] == 1) {
                             <thead>
                                 <tr>
                                     <th>Sr No.</th>
-                                    <th>Date</th>
-                                    <th>Start At</th>
-                                    <th>End In</th>
-                                    <th>Patient Capacity</th>
-                                    <th>Seat Left</th>
-                                    <th>Fees</th>
-                                    <th>Action</th>
+                                    <th>Patient Name</th>
+                                    <th>Email</th>
+                                    <th>Age</th>
+                                    <th>Rate</th>
+                                    <th>Feedback</th>
+
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Sr No.</th>
-                                    <th>Date</th>
-                                    <th>Start At</th>
-                                    <th>End In</th>
-                                    <th>Patient Capacity</th>
-                                    <th>Seat Left</th>
-                                    <th>Fees</th>
-                                    <th>Action</th>
+                                    <th>Patient Name</th>
+                                    <th>Email</th>
+                                    <th>Age</th>
+                                    <th>Rate</th>
+                                    <th>Feedback</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 <?php $count = 1;
 
-                                foreach ($appointment_list as $row) {
+                                foreach ($feedback_info as $row) {
 
 
-                                    if (!empty($appointment_list)) {;
+                                    if (!empty($feedback_info)) {;
                                 ?>
 
 
                                         <tr>
                                             <td><?= $count ?></td>
-                                            <td><?= $row['ap_date'] ?></td>
-                                            <td><?= $row['start_time'] ?></td>
-                                            <td><?= $row['end_time'] ?></td>
-                                            <td><?= $row['patient_capacity'] ?></td>
-                                            <td><?= $row['total_patients'] ?></td>
-                                            <td><?= $row['fees'] ?></td>
-
-                                            <td>
-                                                <!-- <a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view</a> -->
-
-                                                <div class="dropdown  overflow-visible">
-                                                    <div class="action">
-                                                        <div class="btn-group">
-                                                            <button class="action dropdown-toggle action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                                                            </button>
-                                                            <ul class="dropdown-menu">
-                                                                <li><a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $row['id'] ?>"><i class="fa-solid fa-eye text-success"></i> View Appintment</a></li>
-                                                                <li><a class="dropdown-item" href="./appointed_patients.php?appointment_id=<?= $row['id'] ?>&view_patients=true"><i class="fa-solid fa-eye text-success"></i> view Patients</a></li>
-
-                                                                <!-- <li><a class="dropdown-item" href="./backend/manage_appointment.php?del_appointment=true&appointment_id=<?= $row['id'] ?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li> -->
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            <td><?= $row['patient_name'] ?></td>
+                                            <td><?= $row['patient_email'] ?></td>
+                                            <td><?= date('Y')- date('Y',strtotime($row['date_of_birth'])) ?></td>
+                                            <td><?= $row['rating_count'] ?></td>
+                                            <td><?= $row['feedback'] ?></td>
                                         </tr>
 
                                 <?php $count++;
