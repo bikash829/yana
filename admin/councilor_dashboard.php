@@ -1,4 +1,7 @@
 <?php
+
+use Faker\Provider\ar_SA\Color;
+
 include_once "./admin-layouts/head.php";
 if (isset($_SESSION['doctor'])) {
     $user_role = $_SESSION['doctor']['role'];
@@ -17,6 +20,20 @@ include "../config/db_connection.php";
 $user_id = $_SESSION[$user_role]['id'];
 
 
+
+
+//active status 
+if ($_SESSION['councilor']['status'] == 1) {
+    $active_status = "Activated";
+    $bg_color = "bg-primary";
+    $btn_bg = "bg-danger";
+    $btn_txt = "Deactive";
+} elseif ($_SESSION['councilor']['status'] == 3) {
+    $active_status = "Deactivated";
+    $bg_color = "bg-danger";
+    $btn_bg = "bg-primary";
+    $btn_txt = "Active";
+}
 ?>
 
 <div id="layoutSidenav">
@@ -32,15 +49,15 @@ $user_id = $_SESSION[$user_role]['id'];
                 </ol>
                 <div class="row">
                     <div class="col-lg-6 col-xl-6 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
+                        <div class="card <?= $bg_color ?> text-white mb-4">
                             <h4 class="card-header">Account Status</h4>
                             <div class="card-body">
                                 <p class="text-center fs-2">
-                                    Active
+                                    <?= $active_status ?>
                                 </p>
                             </div>
-                            <div class="card-footer bg-danger d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="./my_patients.php">Deactivate</a>
+                            <div class="card-footer <?= $btn_bg ?> d-flex align-items-center justify-content-between">
+                                <a id="btn-active" class="small text-white stretched-link" href="#"><?= $btn_txt ?></a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -54,13 +71,13 @@ $user_id = $_SESSION[$user_role]['id'];
                                 </p>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="./total_appointments.php">View Details</a>
+                                <a class="small text-white stretched-link" href="#">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
                     </div>
-                   
-                  
+
+
                 </div>
                 <div class="row">
                     <div class="col-xl-6">
@@ -115,46 +132,47 @@ $user_id = $_SESSION[$user_role]['id'];
                             </tfoot>
                             <tbody>
                                 <?php $count = 1;
-                               
-                                foreach ($appointment_list as $row) { 
-                                    
 
-                                   if(!empty($appointment_list)){;
-                                   ?>
-                                    
+                                foreach ($appointment_list as $row) {
 
-                                    <tr>
-                                        <td><?= $count ?></td>
-                                        <td><?= $row['ap_date'] ?></td>
-                                        <td><?= $row['start_time'] ?></td>
-                                        <td><?= $row['end_time'] ?></td>
-                                        <td><?=$row['patient_capacity']?></td>
-                                        <td><?=$row['total_patients']?></td>
-                                        <td><?= $row['fees'] ?></td>
 
-                                        <td>
-                                            <!-- <a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view</a> -->
+                                    if (!empty($appointment_list)) {;
+                                ?>
 
-                                            <div class="dropdown  overflow-visible">
-                                                <div class="action">
-                                                    <div class="btn-group">
-                                                        <button class="action dropdown-toggle action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $row['id'] ?>"><i class="fa-solid fa-eye text-success"></i> View Appintment</a></li>
-                                                            <li><a class="dropdown-item" href="./appointed_patients.php?appointment_id=<?= $row['id'] ?>&view_patients=true"><i class="fa-solid fa-eye text-success"></i> view Patients</a></li>
+                                        <tr>
+                                            <td><?= $count ?></td>
+                                            <td><?= $row['ap_date'] ?></td>
+                                            <td><?= $row['start_time'] ?></td>
+                                            <td><?= $row['end_time'] ?></td>
+                                            <td><?= $row['patient_capacity'] ?></td>
+                                            <td><?= $row['total_patients'] ?></td>
+                                            <td><?= $row['fees'] ?></td>
 
-                                                            <!-- <li><a class="dropdown-item" href="./backend/manage_appointment.php?del_appointment=true&appointment_id=<?= $row['id'] ?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li> -->
-                                                        </ul>
+                                            <td>
+                                                <!-- <a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $value['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view</a> -->
+
+                                                <div class="dropdown  overflow-visible">
+                                                    <div class="action">
+                                                        <div class="btn-group">
+                                                            <button class="action dropdown-toggle action-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a class="dropdown-item" href="./view_appointment.php?appointment_id=<?= $row['id'] ?>"><i class="fa-solid fa-eye text-success"></i> View Appintment</a></li>
+                                                                <li><a class="dropdown-item" href="./appointed_patients.php?appointment_id=<?= $row['id'] ?>&view_patients=true"><i class="fa-solid fa-eye text-success"></i> view Patients</a></li>
+
+                                                                <!-- <li><a class="dropdown-item" href="./backend/manage_appointment.php?del_appointment=true&appointment_id=<?= $row['id'] ?>"><i class="fa-solid fa-trash-can text-danger"></i> Delete</a></li> -->
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
 
                                 <?php $count++;
-                                } }?>
+                                    }
+                                } ?>
 
                             </tbody>
                         </table>
@@ -168,3 +186,54 @@ $user_id = $_SESSION[$user_role]['id'];
 </div>
 <!-- script -->
 <?php include_once "./admin-layouts/closer.php"; ?>
+<!-- alert notification -->
+<?php
+include_once "../functionalities/alert.php";
+if (isset($_SESSION['status_report'])) {
+    $alert_status = alert($_SESSION['status_report']);
+    unset($_SESSION['status_report']);
+} else {
+    $alert_status = false;
+}
+?>
+
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+</script>
+
+
+<script type="text/javascript">
+    let btnActive = document.getElementById('btn-active');
+    let userId = <?= json_encode($_SESSION['councilor']['id']) ?>;
+    let currentStatus = <?= json_encode($_SESSION['councilor']['status']) ?>;
+    console.log(btnActive);
+    console.log(userId);
+    console.log(currentStatus);
+
+    btnActive.addEventListener('click', e => {
+
+        Swal.fire({
+            title: 'Are you sure want to <?= json_encode($btn_txt) ?> your account?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Confirm!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `../backend/manage_councilor.php?uid=${userId}&current_status=${currentStatus}&active=true`;
+            }
+        })
+    })
+</script>

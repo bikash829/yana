@@ -55,6 +55,7 @@ if ($validation) {
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Gender</th>
+                                    <th>email</th>
                                     <th>Efficiency</th>
                                     <th>Age</th>
                                     <th>Experience</th>
@@ -68,6 +69,7 @@ if ($validation) {
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Gender</th>
+                                    <th>email</th>
                                     <th>Efficiency</th>
                                     <th>Age</th>
                                     <th>Experience</th>
@@ -106,6 +108,7 @@ if ($validation) {
                                         <td><?= $value['id'] ?></td>
                                         <td><?= $value['f_name'] . ' ' . $value['l_name'] ?></td>
                                         <td><?= $value['gender'] ?></td>
+                                        <td><?= $value['email'] ?></td>
                                         <td><?= $value['education_info'] ?></td>
                                         <td><?= date('Y') - date('Y', strtotime($value['date_of_birth'])) ?></td>
                                         <td><?= $value['working_info'] ?></td>
