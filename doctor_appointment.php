@@ -14,7 +14,8 @@ include "./config/db_connection.php";
 
 
 // experts information 
-$sql = "SELECT `users`.* ,`country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code`, `additional_info`.`bio`, `additional_info`.`education`, `additional_info`.`working_info`
+$sql = "SELECT `users`.* ,`country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code`, `additional_info`.`bio`, 
+        `additional_info`.`education`, `additional_info`.`working_info`,`additional_info`.`professional_skills`
         FROM `users`
         INNER JOIN `country` ON `users`.`country_id` = `country`.`id`
         INNER JOIN `additional_info` ON `additional_info`.`user_id` = `users`.`id`
@@ -38,16 +39,11 @@ if ($special_user_set = db_connection()->query($sql)) {
             <h3 class="section-heading__title">
                 Experts And Councilors
             </h3>
-            <!-- <p class="section-heading__para">
-                Green above he cattle god saw day multiply under fill in the cattle fowl a all, living, tree word link available in the service for subdue fruit.
-            </p> -->
         </div>
 
         <div class="accordion" id="accordionPanelsStayOpenExample">
-            <!-- councilor list  -->
+            <!--\\\\\\\\\\\\\\\\\\ councilor list  ////////////////-->
             <div class="accordion-item">
-
-
                 <h2 class="accordion-header " id="panelsStayOpen-headingTwo">
                     <button class="accordion-button collapsed accordion-button--custom" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
                         Councilors
@@ -90,7 +86,7 @@ if ($special_user_set = db_connection()->query($sql)) {
                                             <input type="hidden" id='user_id' value="<?= $row['id'] ?>">
                                             <div class="person">
                                                 <h3 class="person__name"><?= $row['f_name'] . ' ' . $row['l_name'] ?></h3>
-                                                <h3 class="person__occu">Proffesion Skills</h3>
+                                                <h3 class="person__occu"><?= $row['professional_skills'] ?></h3>
                                             </div>
                                             <p class="person__description">
                                                 <?= $row['bio'] ?>
@@ -273,6 +269,7 @@ include_once "./layout/footer.php"
     let specialistCard = document.querySelectorAll(".specialist__card");
     let btnCouncilor = document.querySelectorAll("[name='btn-councilor']");
 
+    // login checker 
     let loginCheck = <?= json_encode(isset($_SESSION['user'])) ?> ?? false;
 
 
@@ -306,9 +303,35 @@ include_once "./layout/footer.php"
             }
 
         });
+    }
+</script>
 
-        // let councilor_link = document.getElementById('councilor_link');
 
 
+<!-- alert notification -->
+<?php
+include "./functionalities/alert.php";
+
+
+if (isset($_SESSION['user_feedback'])) {
+    $alert_status = alert($_SESSION['user_feedback']);
+    unset($_SESSION['user_feedback']);
+} else {
+    $alert_status = false;
+}
+?>
+
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
     }
 </script>

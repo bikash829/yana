@@ -3,6 +3,7 @@ $title = "Profile";
 
 include_once "./layout/head.php";
 
+
 // $banner_title = "Hi, " . ucwords($_SESSION['user']['f_name']);
 $banner_poster = "./images/banner/banner3.jpg";
 
@@ -11,11 +12,18 @@ $banner = "./layout/banner.php";
 include_once "./layout/navigation_bar.php";
 include "./config/db_connection.php";
 
+// database operator 
+function db_result($sql){
+    if(db_connection()->query($sql)){
+        return db_connection()->query($sql);
+    }else{
+        return false;
+    }
+    
+}
+
 
 $patient_id = $_SESSION['user']['id'];
-
-
-
 //user data 
 
 if (isset($_GET['id_'])) {
@@ -97,9 +105,6 @@ if (isset($_GET['id_'])) {
     exit();
 }
 
-
-// appointment data 
-
 ?>
 
 
@@ -107,14 +112,37 @@ if (isset($_GET['id_'])) {
     <section class="profile my-5">
 
         <!-- appointment for doctor  -->
-        <?php if ($data['role'] == 'doctor') { ?>
+        <?php
+        // rating verifying 
+        $ser_provider_id = $data['id'];
+        $rating_info = db_result("SELECT * FROM feedbacK WHERE `patient_id` = $patient_id AND `ser_provider_id` = $ser_provider_id");
+        
+        if($rating_info->num_rows > 0){
+            $display  = "style='display:none;'";
+        }else{
+            $btn_rate_text = "Rate The Councilor";
+            $display  = "style='display:block;'";
+        }
+
+        
+        if ($data['role'] == 'doctor') { ?>
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-10 col-12 d-grid gap-2">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#make_appointment" class="btn btn-primary">Make An Appointment</button>
 
                 </div>
             </div>
-        <?php } ?>
+        <?php }else{  if(isset($_SESSION['user'])){
+            
+            
+            ?>
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10 col-12 d-grid gap-2">
+                    <button type="button" data-bs-toggle="modal" <?=$display?> data-bs-target="#councilor_feedback" class="btn btn-warning">Rate the councilor</button>
+
+                </div>
+            </div>
+            <?php } }?>
 
         <div class="row justify-content-center">
             <div class="col-lg-10 col-12">
@@ -259,6 +287,7 @@ if (isset($_GET['id_'])) {
 include "./functionalities/form-validation.php";
 include_once "./layout/footer.php";
 include_once "./modals/appointment_modal.php";
+include_once "./modals/raiting.php";
 ?>
 <script type="text/javascript">
     $(document).ready(function() {

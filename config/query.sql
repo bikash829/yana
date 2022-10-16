@@ -32,7 +32,18 @@ CREATE TABLE additional_info(
     working_info TEXT,
     document_name VARCHAR(256),
     document_location VARCHAR(256),
+    professional_skills VARCHAR(255),
     bio TEXT
+);
+
+-- rating table 
+
+CREATE TABLE feedback(
+    id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    rating_count INT(2),
+    feedback TEXT,
+    patient_id INT(10),
+    ser_provider_id INT(10)
 );
 -- social app and website  information 
 CREATE TABLE social_medium(
@@ -188,6 +199,13 @@ ADD FOREIGN KEY (user_id) REFERENCES users(id);
 -- user id
 ALTER TABLE forum
 ADD FOREIGN KEY (user_id) REFERENCES users(id);
+
+-- | -- feedback tables foreign keys
+ALTER TABLE feedback
+ADD FOREIGN KEY (patient_id) REFERENCES users(id);
+
+ALTER TABLE  feedback
+ADD FOREIGN KEY (ser_provider_id) REFERENCES users(id);
 
 -- |-- table react 
 

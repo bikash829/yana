@@ -201,14 +201,6 @@ if (isset($_SESSION['post_alert'])) {
 }
 
 
-// if (isset($_SESSION['comment_alert'])) {
-//     $alert_status = alert($_SESSION['comment_alert']);
-//     unset($_SESSION['comment_alert']);
-// } else {
-//     $alert_status = false;
-// }
-
-
 
 ?>
 
