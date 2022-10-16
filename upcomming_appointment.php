@@ -17,7 +17,9 @@ $user_id = $_SESSION['user']['id'] ?? null;
 //upcomming appointments
 function upcomming_appointments()
 {
-    $sql = "SELECT `appointment`.*, `users`.id as doctor_id , concat(`users`.f_name,' ',`users`.l_name) AS full_name  
+    $sql = "SELECT `appointment`.*, `users`.id as doctor_id , concat(`users`.f_name,' ',`users`.l_name) AS full_name,
+    (SELECT count(*) FROM user_appointment WHERE user_appointment.appointment_id = appointment.id AND user_appointment.appointment_status = 1) 
+    AS total_patients  
     FROM appointment 
     JOIN users ON appointment.doctor_id = users.id 
     WHERE `users`.`status` = 1
@@ -83,6 +85,8 @@ function appointment_status($uid, $ap_id)
                 <th>Start At</th>
                 <th>End In</th>
                 <th>Fee</th>
+                <th>Capacity</th>
+                <th>Seat left</th>
                 <th>Status</th>
                 <th>Description</th>
             </thead>
@@ -93,6 +97,8 @@ function appointment_status($uid, $ap_id)
                 <th>Start At</th>
                 <th>End In</th>
                 <th>Fee</th>
+                <th>Capacity</th>
+                <th>Seat Left</th>
                 <th>Status</th>
                 <th>Description</th>
 
@@ -111,41 +117,52 @@ function appointment_status($uid, $ap_id)
                         <td><?= $row['start_time'] ?></td>
                         <td><?= $row['end_time'] ?></td>
                         <td><?= $row['fees'] ?></td>
+                        <td><?= $row['patient_capacity'] ?></td>
+                        <td><?= $row['total_patients'] ?></td>
                         <?php
-                        if (isset($_SESSION['user'])) {
+                        if ($row['total_patients'] >= $row['patient_capacity']) { ?>
+                            <td>
+                                <p class="text-danger">All Booked</p>
+                            </td>
 
-                            $appointment_status = appointment_status($_SESSION['user']['id'], $row['id']);
 
-                            if (empty($appointment_status)) {
-                                $appointment_status['appointment_status'] = "";
-                            }
-                        ?>
-                            <?php if ($appointment_status['appointment_status'] == 2) { ?>
-                                <td>
-                                    <p class="">Pending</p>
-                                </td>
+                            <?php    } else {
+                            if (isset($_SESSION['user'])) {
+                               
+                                    $appointment_status = appointment_status($_SESSION['user']['id'], $row['id']);
 
-                            <?php } elseif ($appointment_status['appointment_status'] == 4) { ?>
+                                    if (empty($appointment_status)) {
+                                        $appointment_status['appointment_status'] = "";
+                                    }
+                                ?>
+                                    <?php if ($appointment_status['appointment_status'] == 2) { ?>
+                                        <td>
+                                            <p class="">Pending</p>
+                                        </td>
 
-                                <td>
-                                    <p class="text-danger">Canceled</p>
-                                </td>
-                            <?php } elseif ($appointment_status['appointment_status'] == 1) { ?>
-                                <td><span class="text-success"><i class="fa-solid fa-user-check"></i>Booked</span></td>
-                            <?php } elseif ($appointment_status['appointment_status'] == 3) { ?>
-                                <td>
-                                    <p class="text-secondar">Past</p>
-                                </td>
-                            <?php  } else { ?>
+                                    <?php } elseif ($appointment_status['appointment_status'] == 4) { ?>
+
+                                        <td>
+                                            <p class="text-danger">Canceled</p>
+                                        </td>
+                                    <?php } elseif ($appointment_status['appointment_status'] == 1) { ?>
+                                        <td><span class="text-success"><i class="fa-solid fa-user-check"></i>Booked</span></td>
+                                    <?php } elseif ($appointment_status['appointment_status'] == 3) { ?>
+                                        <td>
+                                            <p class="text-secondar">Past</p>
+                                        </td>
+                                    <?php  } else { ?>
+                                        <td><button value="<?= $row['id'] ?>" class="btn btn-sm btn-primary booking" href="#">Booking</button></td>
+                                <?php 
+                                } ?>
+
+                            <?php
+                            } else {
+                            ?>
                                 <td><button value="<?= $row['id'] ?>" class="btn btn-sm btn-primary booking" href="#">Booking</button></td>
-                            <?php } ?>
 
                         <?php
-                        } else {
-                        ?>
-                            <td><button value="<?= $row['id'] ?>" class="btn btn-sm btn-primary booking" href="#">Booking</button></td>
-
-                        <?php
+                            }
                         }
                         ?>
 
@@ -184,7 +201,7 @@ if (isset($_SESSION['booking_status'])) {
 
             title: alertStatus.status,
             text: alertStatus.message,
-            icon:  alertStatus.status
+            icon: alertStatus.status
 
         })
     }

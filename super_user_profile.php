@@ -32,7 +32,9 @@ if (isset($_GET['id_'])) {
     function next_appointment($uid)
     {
         $user_id = $uid;
-        $sql = "SELECT * FROM appointment WHERE doctor_id = $user_id";
+        $sql = "SELECT appointment.*,(SELECT count(*) FROM user_appointment WHERE user_appointment.appointment_id = appointment.id AND user_appointment.appointment_status = 1) 
+        AS total_patients   FROM appointment WHERE doctor_id = 4;";
+
         $next_appointment = [];
 
 

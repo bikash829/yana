@@ -15,8 +15,7 @@ function appointment_status($uid, $ap_id)
             AND user_appointment.appointment_id = $ap_id
             ;";
 
-    // print_r($sql);
-    // exit();
+
 
 
 
@@ -44,6 +43,7 @@ function appointment_status($uid, $ap_id)
                         <th>Date</th>
                         <th>Start At</th>
                         <th>End In</th>
+                        <th>Capacity</th>
                         <th>Seat left</th>
                         <th>Fee</th>
                         <th>Action</th>
@@ -53,6 +53,7 @@ function appointment_status($uid, $ap_id)
                         <th>Date</th>
                         <th>Start At</th>
                         <th>End In</th>
+                        <th>Capacity</th>
                         <th>Seat left</th>
                         <th>Fee</th>
                         <th>Action</th>
@@ -62,6 +63,8 @@ function appointment_status($uid, $ap_id)
                     </tfoot>
                     <tbody>
                         <?php
+                        // print_r($next_appointment);
+                        // exit();
                         foreach ($next_appointment as $row) {
                             $appointment_id = $row['id'];
 
@@ -73,42 +76,50 @@ function appointment_status($uid, $ap_id)
                                 <td><?= $row['start_time'] ?></td>
                                 <td><?= $row['end_time'] ?></td>
                                 <td><?= $row['patient_capacity'] ?></td>
+                                <td><?= $row['patient_capacity'] - $row['total_patients'] ?></td>
                                 <td><?= $row['fees'] ?></td>
                                 <?php
-                                if (isset($_SESSION['user'])) {
-                                    $appointment_status = appointment_status($_SESSION['user']['id'], $row['id']);
-                                    if (empty($appointment_status)) {
-                                        $appointment_status['appointment_status'] = "";
-                                    }
-                                ?>
-                                    <?php if ($appointment_status['appointment_status'] == 2) { ?>
-                                        <td>
-                                            <p class="">Pending</p>
-                                        </td>
+                                if ($row['total_patients'] >= $row['patient_capacity']) { ?>
+                                    <td>
+                                        <p class="">All booked</p>
+                                    </td>
 
-                                    <?php } elseif ($appointment_status['appointment_status'] == 4) { ?>
+                                    <?php  } else {
+                                    if (isset($_SESSION['user'])) {
+                                        $appointment_status = appointment_status($_SESSION['user']['id'], $row['id']);
 
-                                        <td>
-                                            <p class="text-danger">Canceled</p>
-                                        </td>
-                                    <?php } elseif ($appointment_status['appointment_status'] == 1) { ?>
-                                        <td><span class="text-success"><i class="fa-solid fa-user-check"></i>Booked</span></td>
-                                    <?php } elseif ($appointment_status['appointment_status'] == 3) { ?>
-                                        <td>
-                                            <p class="text-secondar">Past</p>
-                                        </td>
-                                    <?php  } else { ?>
-                                        <td><button value="<?=$row['id']?>" class="btn btn-sm btn-primary booking"  href="#">Booking</button></td>
-                                    <?php } ?>
 
-                                <?php
-                                } else {
-                                ?>
-                                    <td><button value="<?=$row['id']?>" class="btn btn-sm btn-primary booking" href="#">Booking</button></td>
+                                        if (empty($appointment_status)) {
+                                            $appointment_status['appointment_status'] = "";
+                                        }
 
-                                <?php
-                                }
-                                ?>
+                                    ?>
+                                        <?php if ($appointment_status['appointment_status'] == 2) { ?>
+                                            <td>
+                                                <p class="">Pending</p>
+                                            </td>
+
+                                        <?php } elseif ($appointment_status['appointment_status'] == 4) { ?>
+
+                                            <td>
+                                                <p class="text-danger">Canceled</p>
+                                            </td>
+                                        <?php } elseif ($appointment_status['appointment_status'] == 1) { ?>
+                                            <td><span class="text-success"><i class="fa-solid fa-user-check"></i>Booked</span></td>
+                                        <?php } elseif ($appointment_status['appointment_status'] == 3) { ?>
+                                            <td>
+                                                <p class="text-secondar">Past</p>
+                                            </td>
+                                        <?php  } else { ?>
+                                            <td><button value="<?= $row['id'] ?>" class="btn btn-sm btn-primary booking" href="#">Booking</button></td>
+                                        <?php }
+                                        ?>
+
+                                    <?php } else { ?>
+                                        <td><button value="<?= $row['id'] ?>" class="btn btn-sm btn-primary booking" href="#">Booking</button></td>
+
+                                <?php }
+                                } ?>
 
                                 <td><?= $row['description'] ?></td>
                             </tr>
