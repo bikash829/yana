@@ -42,7 +42,7 @@ if ($special_user_set = db_connection()->query($sql)) {
                 Green above he cattle god saw day multiply under fill in the cattle fowl a all, living, tree word link available in the service for subdue fruit.
             </p> -->
         </div>
-        
+
         <div class="accordion" id="accordionPanelsStayOpenExample">
             <!-- councilor list  -->
             <div class="accordion-item">
@@ -59,6 +59,12 @@ if ($special_user_set = db_connection()->query($sql)) {
 
                             <?php foreach ($special_user as $row) {
                                 if ($row['role_id'] == 2 && $row['status'] == 1) {
+
+                                    if (!empty($row['profile_photo'])) {
+                                        $pp_location = $row['profile_location'] . $row['profile_photo'];
+                                    } else {
+                                        $pp_location = "./images/profile_pic/blank-profile-picturepng.png";
+                                    }
 
                                     $user_id = $row['id'];
                                     $sql = "SELECT  `social_medium`.`id` AS `medium_id`, `social_medium`.`medium`,`social_user_link`.`link` AS `social_link` 
@@ -77,11 +83,11 @@ if ($special_user_set = db_connection()->query($sql)) {
 
                                     <div class="specialist__card">
                                         <div class="specialist__img-con">
-                                            <img class="specialist__img" src="./images/specialist/sp_1.jpg" alt="">
+                                            <img class="specialist__img" src="<?= $pp_location ?>" alt="">
                                         </div>
 
                                         <div class="specialist__info ">
-                                        <input type="hidden" id='user_id' value="<?= $row['id'] ?>">
+                                            <input type="hidden" id='user_id' value="<?= $row['id'] ?>">
                                             <div class="person">
                                                 <h3 class="person__name"><?= $row['f_name'] . ' ' . $row['l_name'] ?></h3>
                                                 <h3 class="person__occu">Proffesion Skills</h3>
@@ -131,7 +137,7 @@ if ($special_user_set = db_connection()->query($sql)) {
                                                 ?>
                                             </div>
                                         </div>
-                                        <button id="specialist_view" id="councilor_link" class="specialist_view">View Info</button>
+                                        <button name="btn-councilor" value="" class="specialist_view">View Info</button>
                                     </div>
 
                             <?php }
@@ -158,6 +164,13 @@ if ($special_user_set = db_connection()->query($sql)) {
                         <div class="specialist__card-container">
 
                             <?php foreach ($special_user as $row) {
+
+                                if (!empty($row['profile_photo'])) {
+                                    $pp_location = $row['profile_location'] . $row['profile_photo'];
+                                } else {
+                                    $pp_location = "./images/profile_pic/blank-profile-picturepng.png";
+                                }
+
                                 // print_r($row);
                                 if ($row['role_id'] == 3 && $row['status'] == 1) {
                                     $user_id = $row['id'];
@@ -176,7 +189,7 @@ if ($special_user_set = db_connection()->query($sql)) {
                             ?>
                                     <div class="specialist__card">
                                         <div class="specialist__img-con">
-                                            <img class="specialist__img" src="./images/specialist/sp_1.jpg" alt="">
+                                            <img class="specialist__img" src="<?= $pp_location ?>" alt="">
                                         </div>
 
                                         <div class="specialist__info ">
@@ -258,7 +271,13 @@ include_once "./layout/footer.php"
 
 <script type="text/javascript">
     let specialistCard = document.querySelectorAll(".specialist__card");
+    let btnCouncilor = document.querySelectorAll("[name='btn-councilor']");
 
+    let loginCheck = <?= json_encode(isset($_SESSION['user'])) ?> ?? false;
+
+
+
+    // cards for specialist 
     for (let card of specialistCard) {
         let viewSpecialist = card.lastElementChild;
         let user_id = card.getElementsByTagName('input').user_id;
@@ -269,12 +288,27 @@ include_once "./layout/footer.php"
             viewSpecialist.style.display = 'none';
         });
 
+
         viewSpecialist.addEventListener('click', (e) => {
-            window.location = './super_user_profile.php?id =' + user_id.value;
+            if ((e.target).name == 'btn-councilor') {
+                if (loginCheck) {
+                    window.location = './super_user_profile.php?id =' + user_id.value;
+                } else {
+                    Swal.fire(
+                        'Login?',
+                        'Please login first to contact with councilor free',
+                        'warning'
+                    )
+                }
+
+            } else {
+                window.location = './super_user_profile.php?id =' + user_id.value;
+            }
+
         });
 
-    // let councilor_link = document.getElementById('councilor_link');
+        // let councilor_link = document.getElementById('councilor_link');
 
-    
+
     }
 </script>

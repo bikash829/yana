@@ -127,19 +127,20 @@ if (isset($_GET['id_'])) {
 
                         <div class=" px-3">
                             <div class="row  justify-content-center">
-                                <div class="col-12 ">
-                                    <div style="width: 15rem;" class="text-center m-auto">
-                                        <img src="<?= $data['profile_location'] . $data['profile_photo'] ?>" class="img-fluid rounded-start" alt="There is no photo uploaded yet">
+                                
+                                <div class="col-lg-10">
+                                    <div class="card-body profile-details">
+                                    <div class="col-12 my-4">
+                                    <div style="width: 15rem;" class="">
+                                        <img src="<?= $data['profile_location'] . $data['profile_photo'] ?>" class="img-fluid rounded" alt="There is no photo uploaded yet">
 
                                     </div>
 
 
                                     <!-- <p class="text-center"><a href="#" data-bs-toggle="modal" data-bs-target="#change_pp">Change Photo</a></p> -->
                                 </div>
-                                <div class="col-12">
-                                    <div class="card-body profile-details">
 
-                                        <div class="personal_info row my-2">
+                                        <div class="personal_info row my-2 ">
 
                                             <div class="form-group col-md-6 col-lg-6">
                                                 <h4 class="mb-0"><?= ucwords($data['f_name'] . ' ' . $data['l_name'])  ?></h4>
@@ -180,7 +181,7 @@ if (isset($_GET['id_'])) {
 
                                         <div class="row">
                                             <!-- contact info  -->
-                                            <div class="contact-info col-md-4 col-lg-4 row my-4">
+                                            <div class="contact-info col-md-6 col-lg-6 row my-4">
                                                 <h5>Contact Info</h5>
                                                 <div class="form-group py-1 col-12">
 
@@ -193,7 +194,7 @@ if (isset($_GET['id_'])) {
 
                                             </div>
                                             <!-- social link  -->
-                                            <div class="contact-info col-md-8 col-lg-8 row my-4">
+                                            <div class="contact-info col-md-6 col-lg-6 row my-4">
                                                 <h5>Social & others</h5>
 
                                                 <?php

@@ -674,14 +674,15 @@
   /* width: var(--card-widht); */
   display: block;
   width: 100%;
-  padding: .8rem 0;
-  font-size: 1.2rem;
+  height: 100%;
+  /* padding: .8rem 0; */
+  font-size: 3rem;
   outline: none;
   border: none;
   border-radius: var(--card-radius) var(--card-radius) 0 0 ;
   position: absolute;
   top: 0;
-  background-color: rgba(0, 128, 0,.9);
+  background-color: rgba(0, 128, 0,.7);
   display: none;
 
 }
