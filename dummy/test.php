@@ -1,57 +1,79 @@
-<?php
+<?php 
+
+// $d=strtotime("15:30");
+// $e = strtotime("12:00");
+
+// $diff = $e - $d;
+
+// echo "$diff <br>";
+
+// echo date("h:m",$diff);
+
+
+// $time1 = strtotime('09:00');
+// $time2 = strtotime('10:30');
+// $difference = abs($time2 - $time1) /  60;
+
+// echo date('H:i',$time1) . '<br>' . $difference . '<br>';
+
+
+// $perTime  = 90 * 60;
+// $time1 = $perTime + $time1; 
+// $difference = abs($time2 - $time1) /  60;
+
+
+// echo date('H:i',$time1) . '<br>' . $difference;
+
+
+
 include "../config/db_connection.php";
-
-function active_appointment()
-{
-    $sql = "SELECT appointment.*,concat(users.f_name,' ',users.l_name) as full_name, users.email,users.phone_number 
-    FROM appointment
-    JOIN users ON appointment.doctor_id = users.id";
-    // $active_appointments = array();
-
-    // if ($all_appointments_set = db_connection()->query($sql)) {
-    //     $all_appointments = $all_appointments_set->fetch_all(MYSQLI_ASSOC);
-    //     foreach ($all_appointments as $row) {
-
-    //         $diff = floor((time() - strtotime($row['ap_date'])) / (60 * 60 * 24));
-
-    //         if ($diff < 0) {
-    //             array_push($active_appointments, $row);
-
-    //         }
-
-    //     }
-
-    //     return $active_appointments;
-    // } else {
-    //     return false;
-    // }
-}
+function my_time($ap_id,$p_id){
+    $sql = "SELECT user_appointment.*,appointment.start_time,appointment.end_time,appointment.patient_capacity FROM user_appointment
+    JOIN appointment ON appointment.id = user_appointment.appointment_id
+    WHERE user_appointment.appointment_id = $ap_id ORDER BY user_appointment.id";
 
 
-function patients_info($ap_id)
-{
-    $sql = "SELECT concat(users.f_name,' ',users.l_name) AS full_name, users.email, users.phone_code as phone_code_id,country.phonecode, users.phone_number,users.gender,users.date_of_birth,country.name as country_name, 
-            concat(users.addr,',',users.city,'-',users.zip_code) as `address`
-            FROM appointment
-            JOIN user_appointment ON appointment.id = user_appointment.appointment_id
-            JOIN users ON user_appointment.patient_id = users.id
-            JOIN country ON users.country_id = country.id
-            JOIN country con_ph ON users.phone_code = con_ph.id
-            WHERE appointment.id = $ap_id";
+    if($result = db_connection()->query($sql)){
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $start_time = $data[0]['start_time'];
+        $end_time =$data[0]['end_time'];
+        $capacity =$data[0]['patient_capacity'];
+
+        $total_minutes = abs(strtotime($end_time) - strtotime($start_time)) / 60 ;
+
+        $minutes_per_user = $total_minutes / $capacity;
+
+        $my_time = '';
+        $total_seconds_per   = $minutes_per_user * 60;
+        $total_seconds   = $total_minutes * 60;
+        $formed_start_time = strtotime($start_time);
+
+        foreach($data as $row){
 
 
-    if ($user_info_set = db_connection()->query($sql)) {
-        $user_info = $user_info_set->fetch_assoc();
-        return $user_info;
-        
+            $formed_start_time+= $total_seconds_per;
+            if($row['patient_id'] == $p_id){
+                // $row['patient_id'];
+                return  date('H:i',$formed_start_time);
+            }
+            
+        }
     }else{
         return false;
     }
+
 }
 
 
+print_r(my_time());
 
-print_r(patients_info(4));
 
 
-// (SELECT users.f_name as doc_f_name,users.l_name as doc_lname FROM appointment JOIN users ON appointment.doctor_id = users.id WHERE appointment.id = user_appointment.appointment_id)
+
+?>
+
+
+
+
+
+

@@ -45,6 +45,7 @@ function appointment_status($uid, $ap_id)
                         <th>End In</th>
                         <th>Capacity</th>
                         <th>Seat left</th>
+                        <th>Patient Time</th>
                         <th>Fee</th>
                         <th>Action</th>
                         <th>Description</th>
@@ -55,6 +56,7 @@ function appointment_status($uid, $ap_id)
                         <th>End In</th>
                         <th>Capacity</th>
                         <th>Seat left</th>
+                        <th>Patient Time</th>
                         <th>Fee</th>
                         <th>Action</th>
                         <th>Description</th>
@@ -67,6 +69,8 @@ function appointment_status($uid, $ap_id)
                         // exit();
                         foreach ($next_appointment as $row) {
                             $appointment_id = $row['id'];
+                            $total_minutes = (abs(strtotime($row['start_time']) - strtotime($row['end_time'])) / 60);
+                            $minutes_per_user = $total_minutes / $row['patient_capacity'];
 
                             $appointmnet_status = appointment_status($patient_id, $appointment_id);
                         ?>
@@ -77,6 +81,7 @@ function appointment_status($uid, $ap_id)
                                 <td><?= $row['end_time'] ?></td>
                                 <td><?= $row['patient_capacity'] ?></td>
                                 <td><?= $row['patient_capacity'] - $row['total_patients'] ?></td>
+                                <td><?= round($minutes_per_user)?> Minutes</td>
                                 <td><?= $row['fees'] ?></td>
                                 <?php
                                 if ($row['total_patients'] >= $row['patient_capacity']) { ?>
