@@ -65,7 +65,6 @@ function my_time($ap_id,$p_id){
 }
 
 
-print_r(my_time());
 
 
 

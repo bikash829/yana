@@ -149,7 +149,7 @@ if (isset($_SESSION['admin'])) {
                                     <th>Name</th>
                                     <th>Email Id</th>
                                     <th>Country</th>
-                                    <th>Born In</th>
+                                    <th>Age</th>
                                     <th>Role</th>
                                     <th>Action</th>
                                 </tr>
@@ -159,7 +159,7 @@ if (isset($_SESSION['admin'])) {
                                     <th>Name</th>
                                     <th>Email id</th>
                                     <th>Country</th>
-                                    <th>Born In</th>
+                                    <th>Age</th>
                                     <th>Role</th>
                                     <th>Action</th>
                                 </tr>
@@ -198,8 +198,8 @@ if (isset($_SESSION['admin'])) {
                                             <td><?= $row['f_name'] . ' ' . $row['l_name'] ?></td>
                                             <td><?= $row['email'] ?></td>
                                             <td><?= $row['country_name'] ?></td>
-                                            <td><?= $row['date_of_birth'] ?></td>
-                                            <td><?= $row['role'] ?></td>
+                                            <td><?= date('Y') - date('Y', strtotime($row['date_of_birth']) ) ?></td>
+                                            <td><?= ucwords($row['role'])  ?></td>
                                             <td>
                                                 <div class="dropdown  overflow-visible">
                                                     <div class="action">

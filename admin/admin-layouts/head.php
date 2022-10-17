@@ -15,7 +15,7 @@ if (!(isset($_SESSION['admin']) || isset($_SESSION['councilor']) || isset($_SESS
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Dashboard - SB Admin</title>
+    <title>Admin Dashboard</title>
 
     <!-- bootstrap link-->
     <!-- <link rel="stylesheet" href="../vendor/bootstrap-5.2.0-dist/css/bootstrap.min.css" type="text/css"> -->

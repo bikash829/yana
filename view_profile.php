@@ -50,7 +50,7 @@ if (isset($_SESSION['user'])) {
                                     <div class="card-body profile-details">
 
                                         <div class="form-group">
-                                            <h5 class="mb-0"><?= $_SESSION['user']['full_name'] ?></h5>
+                                            <h5 class="mb-0"><?= ucwords($_SESSION['user']['full_name'] ) ?></h5>
                                         </div>
                                         <div class="form-group pb-3 text-secondary">
                                             <?= ucwords($_SESSION['user']['role']) ?>
