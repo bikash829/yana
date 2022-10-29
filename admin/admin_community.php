@@ -10,10 +10,13 @@ include_once "./admin-layouts/nav.php";
 
     <?php
     if (isset($_SESSION['admin'])) {
-       
+
         include_once "./admin-layouts/aside.php";
-    } elseif (isset($_SESSION['doctor']) || isset($_SESSION['councilor'])) {
+    } elseif (isset($_SESSION['doctor'])) {
         $dashboard = "./experts_dashboard.php";
+        include_once "./admin-layouts/experts_aside.php";
+    }elseif(isset($_SESSION['councilor'])){
+        $dashboard = "./councilor_dashboard.php";
         include_once "./admin-layouts/experts_aside.php";
     }
 
@@ -27,7 +30,7 @@ include_once "./admin-layouts/nav.php";
 
         $sql = "SELECT `forum`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `forum`
         INNER JOIN `users` ON `forum`.`user_id` = `users`.`id`
-        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id` ORDER BY post_date DESC;";
+        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id` ORDER BY id DESC;";
 
         if ($forum_set = db_connection()->query($sql)) {
             $all_forum = $forum_set->fetch_all(MYSQLI_ASSOC);
@@ -42,7 +45,7 @@ include_once "./admin-layouts/nav.php";
             $sql = "SELECT `comments`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `comments`
                     INNER JOIN `users` ON `comments`.`user_id` = `users`.`id`
                     INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id`
-                    ORDER BY comment_date DESC;";
+                    ORDER BY id DESC;";
 
 
             if ($comment_set = db_connection()->query($sql)) {
@@ -86,13 +89,13 @@ include_once "./admin-layouts/nav.php";
                                     <form action="../backend/create_post.php" method="POST" class="mb-2">
 
 
-                                        <h6 class="p-des__reply-author py-2"> <a href="#" class="text-secondary"><?= $_SESSION[$user_role]['f_name'] ?></a> </h6>
+                                        <h6 class="p-des__reply-author py-2"> <a href="#" class="text-secondary"><?=ucwords( $_SESSION[$user_role]['f_name'] )?></a> </h6>
                                         <input type="hidden" name="user_id" value="<?= $_SESSION[$user_role]['id'] ?>">
                                         <input type="hidden" name="post_id" value="<?= $row['id'] ?>">
                                         <div class="">
                                             <textarea name="comment" required rows="2" class="form-control " placeholder="Leave a Comment"></textarea>
                                         </div>
-                                        <div class="text-end"><input class="btn btn-sm btn-secondary mt-1" type="submit" value="reply" name="btn-comment"></div>
+                                        <div class="text-end"><input class="btn btn-sm btn-secondary mt-1" type="submit" value="comment" name="btn-comment"></div>
 
                                     </form>
 
@@ -102,8 +105,8 @@ include_once "./admin-layouts/nav.php";
                                         if ($comment['forum_id'] == $row['id']) {
                                     ?>
                                             <div class="p-des__reply">
-                                                <h5 class="p-des__reply-author"> <a href="#" class="text-secondary"><?= $comment['f_name'] . ' ' . $comment['l_name'] ?></a> </h5>
-                                                <h6 class="p-des__reply-author fw-lighter replied_by"> <a href="#"><?= ucwords($comment['role']) ?></a> | <span><?=$comment['comment_date']?></span> </h6>
+                                                <h5 class="p-des__reply-author"> <a href="#" class="text-secondary"><?=ucwords($comment['f_name'] . ' ' . $comment['l_name'])  ?></a> </h5>
+                                                <h6 class="p-des__reply-author fw-lighter replied_by"> <a href="#"><?= ucwords($comment['role']) ?></a> | <span><?= $comment['comment_date'] ?></span> </h6>
                                                 <p><?= $comment['comment'] ?></p>
                                                 <div class="p-des__reply-info">
                                                     <p class="p-des__reply-time"><?= $comment['comment_date'] ?></p>
@@ -166,3 +169,33 @@ include_once "./admin-layouts/nav.php";
 </div>
 <!-- script -->
 <?php include_once "./admin-layouts/closer.php"; ?>
+
+
+
+<!-- popup alert  -->
+<?php
+include_once "../functionalities/alert.php";
+// alert defined on footer before 
+
+if (isset($_SESSION['comment_alert'])) {
+    $alert_status = alert($_SESSION['comment_alert']);
+    var_dump($alert_status);
+    unset($_SESSION['comment_alert']);
+} else {
+    $alert_status = false;
+}
+?>
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+</script>

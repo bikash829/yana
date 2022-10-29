@@ -15,7 +15,7 @@ if (!(isset($_SESSION['admin']) || isset($_SESSION['councilor']) || isset($_SESS
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Dashboard - SB Admin</title>
+    <title>Admin Dashboard</title>
 
     <!-- bootstrap link-->
     <!-- <link rel="stylesheet" href="../vendor/bootstrap-5.2.0-dist/css/bootstrap.min.css" type="text/css"> -->
@@ -27,18 +27,22 @@ if (!(isset($_SESSION['admin']) || isset($_SESSION['councilor']) || isset($_SESS
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/styles.css" type="text/css">
 
-    <!-- data table  -->
-    <link rel="stylesheet" type="text/css" href="../vendor/DataTables/datatables.min.css" />
-
-
+    
+    
     <script defer src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- <script src="../js/main.js" defer></script> -->
-    <?php if (isset($community)) { ?>
-        <!--custom css-->
-        <!-- <link rel="stylesheet" type="text/css" href="../css/style.css"> -->
-        <!--custom responsive css-->
-        <!-- <link rel="stylesheet" text="text/css" href="../css/responsive.css"> -->
-    <?php } ?>
+    
+    <!-- sweet alert  -->
+    <script src="../vendor/alert/dist/sweetalert2.all.min.js"></script>
+
+    <!-- data table  -->
+    <link rel="stylesheet" type="text/css" href="../vendor/DataTables/datatables.css"/>
+    <link rel="stylesheet" href="../vendor/DataTables/responsive.dataTables.min.css">
+
+    <!-- jquery  -->
+    <script src="../vendor/jquery/jquery-3.6.1.min.js"></script>
+
+
 </head>
 
 <body class="sb-nav-fixed">
@@ -46,5 +50,4 @@ if (!(isset($_SESSION['admin']) || isset($_SESSION['councilor']) || isset($_SESS
 
     <?php
     $dashboard = "./dashboard.php";
-
     ?>

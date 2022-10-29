@@ -8,7 +8,8 @@ include "../config/db_connection.php";
 function appointment_request()
 {
     $sql = "SELECT users.id as patient_id,concat(users.f_name,' ',users.l_name) AS patient_full_name,doctor.id as doc_id, concat(doctor.f_name,' ',doctor.l_name) 
-            AS doc_full_name , users.email,user_appointment.id AS user_appointment_id,users.phone_number,user_appointment.appointment_id,appointment.ap_date,appointment.patient_capacity,appointment.fees
+            AS doc_full_name , users.email,user_appointment.id AS user_appointment_id,users.phone_number,user_appointment.appointment_id,appointment.ap_date,appointment.patient_capacity,
+            appointment.fees
             FROM user_appointment 
             JOIN users ON user_appointment.patient_id = users.id
             JOIN appointment ON user_appointment.appointment_id = appointment.id
@@ -26,9 +27,22 @@ function appointment_request()
 // active appointments
 function active_appointment()
 {
-    $sql = "SELECT appointment.*,concat(users.f_name,' ',users.l_name) as full_name, users.email,users.phone_number 
-    FROM appointment
-    JOIN users ON appointment.doctor_id = users.id";
+    $sql = "SELECT
+    user_role.role,
+    appointment.*,
+    concat(
+        users.f_name,
+        ' ',
+        users.l_name
+    ) as full_name,
+    users.email,
+    users.phone_number
+    ,(SELECT count(*) FROM user_appointment WHERE user_appointment.appointment_id = appointment.id AND user_appointment.appointment_status = 1) 
+    AS total_patients 
+FROM appointment
+    JOIN users ON appointment.doctor_id = users.id
+    JOIN user_role ON `users`.`role_id` = `user_role`.`id`
+ORDER BY ap_date DESC";
     $active_appointments = array();
 
     if ($all_appointments_set = db_connection()->query($sql)) {
@@ -55,7 +69,7 @@ function active_appointment()
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">All user</h1>
+                <h1 class="mt-4">Active Appointments</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?= $dashboard ?>">Dashboard</a></li>
                     <li class="breadcrumb-item active">Tables</li>
@@ -64,13 +78,13 @@ function active_appointment()
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        User List
+                        Appointment List
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped" id="appointment_req">
+                        <table class="display nowrap" id="appointment_req">
                             <thead>
                                 <tr>
-                                <th>ID</th>
+                                    <th>ID</th>
                                     <th>Doctor Name</th>
                                     <th>Email</th>
                                     <th>Date</th>
@@ -103,15 +117,16 @@ function active_appointment()
 
                                     <tr>
                                         <td><?= $row['id'] ?></td>
-                                        <td><?= $row['full_name']  ?></td>
+                                        <td><?= ucwords($row['full_name'])?></td>
                                         <td><?= $row['email'] ?></td>
                                         <td><?= $row['ap_date'] ?></td>
                                         <td><?= $row['start_time'] ?></td>
 
                                         <td><?= $row['end_time'] ?></td>
                                         <td><?= $row['patient_capacity']  ?></td>
+                         
                                         <td><?= $row['fees'] ?></td>
-                                        <td><?= $row['role'] ?></td>
+                                        <td><?= $row['total_patients'] ?></td>
 
                                         <td>
                                             <div class="dropdown  overflow-visible">
@@ -122,7 +137,7 @@ function active_appointment()
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li><a class="dropdown-item" href="./appointed_patients.php?view_patients=true&appointment_id=<?= $row['id'] ?>"><i class="fa-solid fa-eye text-success"></i> view patients</a></li>
-                                                            
+
                                                             <li><a class="dropdown-item" href="./view_user.php?view_user=true&user_id=<?= $row['doctor_id'] ?>"><i class="fa-solid fa-eye text-socondary"></i> View Doctor</a></li>
                                                         </ul>
                                                     </div>
@@ -149,12 +164,17 @@ function active_appointment()
 <script src="js/scripts.js"></script>
 
 <!-- datatable & jquery js  -->
-<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script> -->
 <script type="text/javascript" src="../vendor/DataTables/datatables.min.js"></script>
+<script type="text/javascript" src="../vendor/DataTables/dataTables.responsive.min.js"></script>
+
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#appointment_req').DataTable();
+        $('#appointment_req').DataTable({
+            responsive: true
+        });
+        
     });
 </script>
 </body>

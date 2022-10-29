@@ -6,6 +6,9 @@ $state = "home";
 include_once "./layout/head.php";
 $banner = "./layout/hero.php";
 include_once "./layout/navigation_bar.php";
+
+
+
 ?>
 
 <!-- =========main============== -->
@@ -16,34 +19,34 @@ include_once "./layout/navigation_bar.php";
     <div class="service__card-container ">
       <div class="service__card s-card">
         <div class="s-card__icon-container">
-          <img class="s-card__icon" src="./images/icon/pet-friendly.png" alt="Loading">
+          <img class="s-card__icon" src="./images/divpics/doctor.png" alt="Loading">
         </div>
-        <h3 class="s-card__heading">ADVANCE TECHNOLOGY</h3>
-        <p class="s-card__para">Creeping for female light years that lesser can't evening heaven isn't bearing tree appear</p>
+        <h3 class="s-card__heading">Talk to Doctors</h3>
+        <p class="s-card__para">Need to talk to a psychiatrist? Make an appointment and get treatment from home!</p>
       </div>
 
       <div class="service__card s-card">
         <div class="s-card__icon-container">
-          <img class="s-card__icon" src="./images/icon/pet-friendly.png" alt="Loading">
+          <img class="s-card__icon" src="./images/divpics/counselor.png" alt="Loading">
         </div>
-        <h3 class="s-card__heading">ADVANCE TECHNOLOGY</h3>
-        <p class="s-card__para">Creeping for female light years that lesser can't evening heaven isn't bearing tree appear</p>
+        <h3 class="s-card__heading">Talk to Counselors</h3>
+        <p class="s-card__para">Feeling alone, depreesed or anxious? Don't worry we're available for you 24/7</p>
       </div>
 
       <div class="service__card s-card">
         <div class="s-card__icon-container">
-          <img class="s-card__icon" src="./images/icon/pet-friendly.png" alt="Loading">
+          <img class="s-card__icon" src="./images/divpics/comfortable.jpg" alt="Loading">
         </div>
-        <h3 class="s-card__heading">comfortable place</h3>
-        <p class="s-card__para">Creeping for female light years that lesser can't evening heaven isn't bearing tree appear</p>
+        <h3 class="s-card__heading">Comfortable Place</h3>
+        <p class="s-card__para">There's no shame in getting help. We're here to welcome you anytime</p>
       </div>
 
       <div class="service__card s-card">
         <div class="s-card__icon-container">
-          <img class="s-card__icon" src="./images/icon/pet-friendly.png" alt="Loading">
+          <img class="s-card__icon" src="./images/divpics/safe.png" alt="Loading">
         </div>
-        <h3 class="s-card__heading">friendly staff</h3>
-        <p class="s-card__para">Creeping for female light years that lesser can't evening heaven isn't bearing tree appear</p>
+        <h3 class="s-card__heading">Safe Space</h3>
+        <p class="s-card__para">Share your problems in a safe space with full confidentiality</p>
       </div>
 
 
@@ -56,28 +59,28 @@ include_once "./layout/navigation_bar.php";
       </div>
 
       <div class="welcome__article">
-        <h2 class="welcome__header">Welcome To Our Clinic</h2>
+        <h2 class="welcome__header">Welcome To Our Vicinity</h2>
         <div class="welcome__para-container">
           <p class="welcome__para">
-            &Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum perferendis earum sint labore laboriosam, aliquam nobis vero consequuntur eius corrupti perspiciatis assumenda qui fuga dicta. Fugiat velit perspiciatis odit voluptas!
+            We welcome you to join us anytime. We're here to help whenever you need.
           </p>
           <p class="welcome__para">
-            &Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nostrum repudiandae neque deleniti id quo rem voluptas vero sint excepturi, veniam architecto, fugit magni vitae nam iste aliquid blanditiis eum culpa?
+            We provide professional mental health care service and general counseling. Become a member of our community and let us grow together.
           </p>
         </div>
 
-        <button class="welcome__button button button-large">Learn More</button>
+        <!-- <button class="welcome__button button button-large">Learn More</button> -->
       </div>
     </div>
   </section>
   <!-- ---------------service end ----------- -->
- 
+
   <!-- ------------patient review------------ -->
   <section class="patient-review segment-margin">
     <div class="patient-review__heading-container section-heading ">
-      <h2 class="section-heading__title">Patient are saying</h2>
+      <h2 class="section-heading__title">Patients are saying</h2>
       <p class="section-heading__para">
-        Green above he cattle god saw day multiply under fill in the cattle fowl a all, living, tree word link available in the service for subdue fruit.
+        We're a family and we grow by helping each other
       </p>
     </div>
 
@@ -115,7 +118,7 @@ include_once "./layout/navigation_bar.php";
       <div class="appointment__background-border"></div>
 
       <div class="appointment__form-container">
-        <form action="#" method="POST" class="appointment__form">
+        <form action="./upcomming_appointment.php" method="POST" class="appointment__form">
           <h3 class="appointment__title">Appointment Now</h3>
           <div class="form-col">
             <input class="appointment__input input" type="text" name="name" placeholder="Your Name">
@@ -144,110 +147,73 @@ include_once "./layout/navigation_bar.php";
   <!-- ------------end patient review------------- -->
 
   <!-- -------------our specialist--------------- -->
+  <?php
+  include_once "./config/db_connection.php";
+
+  function doctors()
+  {
+    $sql = "SELECT users.*, CONCAT(users.f_name,' ',users.l_name) as full_name,country.name AS country_name, phone_info.phonecode AS user_phone_code, additional_info.* 
+            FROM users 
+            JOIN country ON users.country_id = country.id 
+            JOIN country phone_info ON users.phone_code = phone_info.id 
+            JOIN additional_info ON users.id = additional_info.user_id 
+            WHERE role_id = 3 
+            AND users.status = 1;";
+
+    if ($result = db_connection()->query($sql)) {
+      $fetechd_data = $result->fetch_all(MYSQLI_ASSOC);
+      return $fetechd_data;
+    } else {
+      return false;
+    }
+  }
+
+  $doctors = doctors();
+
+  ?>
+
+
   <section class="specialist segment-margin">
     <div class="section-heading">
       <h3 class="section-heading__title">
-        Our Specialist
+        Our Specialists
       </h3>
       <p class="section-heading__para">
-        Green above he cattle god saw day multiply under fill in the cattle fowl a all, living, tree word link available in the service for subdue fruit.
+        Book an Appointment and Meet Our Specialists Online
       </p>
     </div>
 
     <div class="specialist__card-container">
-      <div class="specialist__card">
-        <div class="specialist__img-con">
-          <img class="specialist__img" src="./images/specialist/sp_1.jpg" alt="">
-        </div>
-
-        <div class="specialist__info ">
-          <div class="person">
-            <h3 class="person__name">Specialist Name</h3>
-            <h3 class="person__occu">Proffesion Skills</h3>
+      <?php foreach ($doctors as $doctor) { ?>
+        <div class="specialist__card">
+          <div class="specialist__img-con">
+            <img class="specialist__img" src="<?php if (empty($doctor['profile_location'])) {
+                                                echo "./images/profile_pic/blank-profile-picturepng.png";
+                                              } else {
+                                                echo $doctor['profile_location'] . $doctor['profile_photo'];
+                                              } ?>" alt="">
           </div>
-          <p class="person__description">
-            If you are looking at blank cassettes on the web, you may be very confused at the.
-          </p>
 
-          <div class="specialist__links">
-            <a href="#" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
-            <a href="#" title="click to visit web site" class="specialist__icon"><i class="fa-solid fa-globe"></i></a>
-            <a href="#" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
-          </div>
-        </div>
-      </div>
+          <div class="specialist__info ">
+            <div class="person">
+              <h3 class="person__name"><?= ucwords($doctor['full_name']) ?></h3>
+              <h3 class="person__occu"><?= $doctor['education'] ?></h3>
+            </div>
+            <p class="person__description">
+              <?= $doctor['bio'] ?>
+            </p>
 
-      <div class="specialist__card">
-        <div class="specialist__img-con">
-          <img class="specialist__img" src="./images/specialist/sp_1.jpg" alt="">
-        </div>
-
-        <div class="specialist__info ">
-          <div class="person">
-            <h3 class="person__name">Specialist Name</h3>
-            <h3 class="person__occu">Proffesion Skills</h3>
-          </div>
-          <p class="person__description">
-            If you are looking at blank cassettes on the web, you may be very confused at the.
-
-          </p>
-
-          <div class="specialist__links">
-            <a href="#" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
-            <a href="#" title="click to visit web site" class="specialist__icon"><i class="fa-solid fa-globe"></i></a>
-            <a href="#" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            <div class="specialist__links">
+              <a href="#" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="#" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
+              <a href="#" title="click to visit web site" class="specialist__icon"><i class="fa-solid fa-globe"></i></a>
+              <a href="#" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="specialist__card">
-        <div class="specialist__img-con">
-          <img class="specialist__img" src="./images/specialist/sp_1.jpg" alt="">
-        </div>
+      <?php } ?>
 
-        <div class="specialist__info ">
-          <div class="person">
-            <h3 class="person__name">Specialist Name</h3>
-            <h3 class="person__occu">Proffesion Skills</h3>
-          </div>
-          <p class="person__description">
-            If you are looking at blank cassettes on the web, you may be very confused at the.
-          </p>
-
-          <div class="specialist__links">
-            <a href="#" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
-            <a href="#" title="click to visit web site" class="specialist__icon"><i class="fa-solid fa-globe"></i></a>
-            <a href="#" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="specialist__card">
-        <div class="specialist__img-con">
-          <img class="specialist__img" src="./images/specialist/sp_1.jpg" alt="">
-        </div>
-
-        <div class="specialist__info ">
-          <div class="person">
-            <h3 class="person__name">Specialist Name</h3>
-            <h3 class="person__occu">Proffesion Skills</h3>
-          </div>
-          <p class="person__description">
-            If you are looking at blank cassettes on the web, you may be very confused at the.
-
-          </p>
-
-          <div class="specialist__links">
-            <a href="#" title="click here to visit my facebook wall" class="specialist__icon"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" title="click to follow twitter" class="specialist__icon"><i class="fa-brands fa-twitter"></i></a>
-            <a href="#" title="click to visit web site" class="specialist__icon"><i class="fa-solid fa-globe"></i></a>
-            <a href="#" title="click to visit linkdin profile" class="specialist__icon"><i class="fa-brands fa-linkedin-in"></i></a>
-          </div>
-        </div>
-      </div>
 
 
     </div>
@@ -347,5 +313,4 @@ include_once "./layout/navigation_bar.php";
 
 <?php
 include_once "./layout/footer.php"
-
 ?>

@@ -20,7 +20,10 @@ $user_id = $_SESSION[$user_role]['id'];
 
 function appointment_history($user_id)
 {
-    $sql = "SELECT *, count(*) AS total_appointment FROM `appointment` WHERE `doctor_id` = $user_id";
+    $sql = "SELECT *,(
+        SELECT count(*) FROM user_appointment WHERE user_appointment.appointment_id = appointment.id) 
+        as total_patients FROM `appointment` WHERE `doctor_id` = $user_id ORDER BY ap_date DESC;";
+    
     
     if ($apointment_set = db_connection()->query($sql)) {
         $appointment_list = $apointment_set->fetch_all(MYSQLI_ASSOC);
@@ -41,12 +44,20 @@ function db_result($query){
 
 }
 
-$total_patient = "SELECT count(*) AS total_patients FROM user_appointment 
-        JOIN appointment ON user_appointment.appointment_id = appointment.id
-        WHERE doctor_id = $user_id  AND appointment_status = 1 GROUP BY user_appointment.patient_id;";
+$doc_id = $_SESSION['doctor']['id'];
+
+$total_patient = "SELECT count(*) as my_patients FROM
+(SELECT count(*) FROM user_appointment 
+JOIN appointment ON appointment.id = user_appointment.appointment_id
+JOIN users doc ON doc.id = appointment.doctor_id
+WHERE doc.id = $doc_id AND user_appointment.appointment_status = 1 GROUP BY user_appointment.patient_id) AS total_patients
+";
 
 $appointment_list = appointment_history($user_id);
-$total_patient = db_result($total_patient)['total_patients'];
+
+$total_appointment = count($appointment_list);
+
+$total_patient = db_result($total_patient)['my_patients'];
 
 
 
@@ -64,11 +75,11 @@ $total_patient = db_result($total_patient)['total_patients'];
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
                 <div class="row">
-                    <div class="col-xl-4 col-md-6">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="card bg-primary text-white mb-4">
                             <h4 class="card-header">My Patients</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2"><?= $total_patient ?></p>
+                                <p class="text-center fs-2"><?php if($total_patient < 1){ echo 0;}else{ echo $total_patient;} ?></p>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="./my_patients.php">View Details</a>
@@ -76,24 +87,24 @@ $total_patient = db_result($total_patient)['total_patients'];
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-md-6">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="card bg-warning text-white mb-4">
                             <h4 class="card-header">Total Appointments</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2"><?= $appointment_list[0]['total_appointment'] ?></p>
+                                <p class="text-center fs-2"><?= $total_appointment ?></p>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="./councilors.php">View Details</a>
+                                <a class="small text-white stretched-link" href="./total_appointments.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
                     </div>
                    
-                    <div class="col-xl-4 col-md-6">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="card bg-danger text-white mb-4">
                             <h4 class="card-header">Past Appointments</h4>
                             <div class="card-body">
-                                <p class="text-center fs-2">10</p>
+                                <p class="text-center fs-2">0</p>
                             </div>
 
                             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -156,15 +167,21 @@ $total_patient = db_result($total_patient)['total_patients'];
                             </tfoot>
                             <tbody>
                                 <?php $count = 1;
-                                foreach ($appointment_list as $row) { ?>
+                               
+                                foreach ($appointment_list as $row) { 
+                                    
+
+                                   if(!empty($appointment_list)){;
+                                   ?>
+                                    
 
                                     <tr>
                                         <td><?= $count ?></td>
                                         <td><?= $row['ap_date'] ?></td>
                                         <td><?= $row['start_time'] ?></td>
                                         <td><?= $row['end_time'] ?></td>
-                                        <td><?= $row['patient_capacity'] ?></td>
-                                        <td><?= $row[''] ?></td>
+                                        <td><?=$row['patient_capacity']?></td>
+                                        <td><?=$row['total_patients']?></td>
                                         <td><?= $row['fees'] ?></td>
 
                                         <td>
@@ -189,7 +206,7 @@ $total_patient = db_result($total_patient)['total_patients'];
                                     </tr>
 
                                 <?php $count++;
-                                } ?>
+                                } }?>
 
                             </tbody>
                         </table>

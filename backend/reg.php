@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "../config/db_connection.php";
 include "../functionalities/validation_function.php";
 include "../functionalities/essential_function.php";
@@ -10,6 +11,9 @@ include "../functionalities/data_control.php";
 $validation = true;
 $validation_message = [];
 
+
+
+
 // =====================================empty registration session =================
 
 if (isset($_POST['btn-create-user'])) {
@@ -19,12 +23,15 @@ if (isset($_POST['btn-create-user'])) {
     switch ($role) {
         case 'doctor':
             $_POST['btn-doctor'] = true;
+            $create_doctor = true;
             break;
         case 'councilor':
             $_POST['btn-councilor'] = true;
+            $create_councilor = true;
             break;
         case 'patient':
             $_POST['btn_patient'] = true;
+            $create_patient = true;
             break;
         default:
             break;
@@ -41,6 +48,8 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
 
 
 
+
+
     if (empty_data_validation($_POST)) { //empty value guard
 
         //data validation 
@@ -53,13 +62,12 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
 
 
             if (save_councilor($validation_report)) {
-                $validation_message['success'] = "Doc Your account has been created successfully.";
+                $validation_message['success'] = "Your request has  been sent for review";
             } else {
                 $validation_message['technical_error'] = "technical problem";
                 $validation = false;
             }
         } else {
-            echo "Data validation : *************";
             $validation = false;
             $validation_message = data_validation($_POST);
         }
@@ -77,6 +85,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
     $working_info  = $_POST['working_info'];
     unset($_POST['working_info']);
     unset($_POST['pp']);
+    $expert_success = "Your request has been sent for review";
 
     // data filtering 
     if (empty_data_validation($_POST)) { //empty value guard
@@ -89,7 +98,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
             $validation_report['role'] = 2;
 
             if (save_councilor($validation_report)) {
-                $validation_message['success'] = "Your account has been created successfully.";
+                $validation_message['success'] = "Your request has  been sent for review.";
             } else {
                 $validation_message['technical_error'] = "technical problem";
                 $validation = false;
@@ -124,7 +133,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
         unset($_POST['education_info']);
     }
 
-    if(isset($_FILES['xp_info_doc'])){
+    if (isset($_FILES['xp_info_doc'])) {
         unset($_FILES['xp_info_doc']);
     }
 
@@ -139,6 +148,9 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
         $_POST['city'] = $city;
         $_POST['zip_code'] = $zip_code;
 
+
+
+
         //data validation 
         $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
@@ -146,7 +158,7 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
             $validation_report['patient_status'] = 1;
 
             if (save_councilor($validation_report)) {
-                $validation_message['success'] = "Your account has been created successfully.";
+                $validation_message['success'] = "Account has been created successfully.";
             } else {
                 $validation_message['technical_error'] = "technical problem";
                 $validation = false;
@@ -170,11 +182,18 @@ if (isset($_POST['btn-doctor'])) { // Doctor validation
 }
 
 // =====================================empty registration session =================
-
-
 // validation checkup 
 if ($validation) {
-    print_r($validation_message);
+    // print_r($validation_message);
+    $validation_message['status'] = true;
+    $_SESSION['registration_status'] = $validation_message;
+    // var_dump($validation_message);
+    // exit();
+    header("Location: " . $_SERVER["HTTP_REFERER"]);
+    exit();
 } else {
-    print_r($validation_message);
+    // print_r($validation_message);
+    $validation_message['status'] = false;
+    $_SESSION['registration_status'] = $validation_message;
+    header("Location: " . $_SERVER["HTTP_REFERER"]);
 }

@@ -10,12 +10,13 @@ include "../config/db_connection.php";
 function appointment_request()
 {
     $sql = "SELECT users.id as patient_id,concat(users.f_name,' ',users.l_name) AS patient_full_name,users.email as patient_mail,doctor.id as doc_id, concat(doctor.f_name,' ',doctor.l_name) 
-            AS doc_full_name , doctor.email as doc_mail ,user_appointment.id AS user_appointment_id,users.phone_number,user_appointment.appointment_id,appointment.ap_date,appointment.patient_capacity,appointment.fees
+            AS doc_full_name , doctor.email as doc_mail ,user_appointment.id AS user_appointment_id,users.phone_number,user_appointment.appointment_id,appointment.ap_date,
+            appointment.id as appointment_id,appointment.patient_capacity,appointment.fees
             FROM user_appointment 
             JOIN users ON user_appointment.patient_id = users.id
             JOIN appointment ON user_appointment.appointment_id = appointment.id
             JOIN users doctor ON appointment.doctor_id = doctor.id
-            WHERE appointment_status = 2";
+            WHERE appointment_status = 2 ORDER BY appointment.ap_date";
 
 
     if ($appointmnet_data = db_connection()->query($sql)) {
@@ -55,11 +56,11 @@ function appointment_request()
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Patient Name</th>
-                                    <th>Patient Email</th>
-                                    <!-- <th>Patient Contact</th> -->
+                                    <th>Ap ID </th>
                                     <th>Doctor Name</th>
                                     <th>Doctor email</th>
+                                    <th>Patient Name</th>
+                                    <th>Patient Email</th>
                                     <!-- <th>Experience</th> -->
                                     <th>Date</th>
                                     <th>Capacity</th>
@@ -70,11 +71,12 @@ function appointment_request()
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Patient Name</th>
+                                    <th>Ap ID </th>
                                     <th>Doctor Name</th>
-                                    <th>Patient Email</th>
-                                    <!-- <th>Patient Contact</th> -->
                                     <th>Doctor email</th>
+                                    <th>Patient Name</th>
+
+                                    <th>Patient Email</th>
                                     <!-- <th>Experience</th> -->
                                     <th>Date</th>
                                     <th>Capacity</th>
@@ -90,10 +92,11 @@ function appointment_request()
 
                                     <tr>
                                         <td><?= $row['user_appointment_id'] ?></td>
-                                        <td><?= $row['patient_full_name'] ?></td>
-                                        <td><?= $row['patient_mail'] ?></td>
-                                        <td><?= $row['doc_full_name'] ?></td>
+                                        <td><?= $row['appointment_id'] ?></td>
+                                        <td><?= ucwords($row['doc_full_name'])  ?></td>
                                         <td><?= $row['doc_mail'] ?></td>
+                                        <td><?= ucwords($row['patient_full_name'])  ?></td>
+                                        <td><?= $row['patient_mail'] ?></td>
                                         <td><?= $row['ap_date'] ?></td>
                                         <td><?= $row['patient_capacity'] ?></td>
                                         <td><?= $row['fees'] ?></td>
@@ -107,9 +110,9 @@ function appointment_request()
 
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="../backend//manage_usr_apointment.php?user_ap=1&user_ap_id=<?= $row['user_appointment_id'] ?>"><i class="fa-solid fa-eye text-success"></i> Accept</a></li>
-                                                          
-                                                            <li><a class="dropdown-item" href="../backend/manage_usr_apointment.php?user_ap=2&user_ap_id=<?= $row['user_appointment_id'] ?>"><i class="fa-solid fa-ban text-danger"></i> Cancel</a></li>
+                                                            <li><button name="btn-accept" class="dropdown-item" value="../backend//manage_usr_apointment.php?user_ap=1&user_ap_id=<?= $row['user_appointment_id'] ?>"><i class="fa-solid fa-eye text-success"></i> Accept</button></li>
+
+                                                            <li><button name="btn-cancel" class="dropdown-item" value="../backend/manage_usr_apointment.php?user_ap=2&user_ap_id=<?= $row['user_appointment_id'] ?>"><i class="fa-solid fa-ban text-danger"></i> Cancel</button></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -134,14 +137,87 @@ function appointment_request()
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
 
-<!-- datatable & jquery js  -->
-<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
 <script type="text/javascript" src="../vendor/DataTables/datatables.min.js"></script>
 
+<!-- alert notification -->
+<?php
+include "../functionalities/alert.php";
+
+
+if (isset($_SESSION['appointmnet_request'])) {
+    $alert_status = alert($_SESSION['appointmnet_request']);
+    unset($_SESSION['appointmnet_request']);
+} else {
+    $alert_status = false;
+}
+?>
+
+
 <script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+
+
+    // datatables 
     $(document).ready(function() {
         $('#appointment_req').DataTable();
     });
+
+
+    // confrimation popup alert 
+    let btnCancel, btnAccept;
+    btnAccept = document.querySelectorAll("[name='btn-accept']");
+    btnCancel = document.querySelectorAll("[name='btn-cancel']");
+
+
+
+    // block user 
+    for (let item of btnAccept) {
+        item.addEventListener('click', e => {
+            Swal.fire({
+                title: 'Are you sure want to accept the request?',
+                text: "You won't be able to revert this!",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Confirm!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = (e.target).value;
+                }
+            })
+        })
+    }
+
+    //delete user 
+    for (let item of btnCancel) {
+        item.addEventListener('click', e => {
+            Swal.fire({
+                title: 'Are you sure want to cancel the request?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Confirm!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = (e.target).value;
+                }
+            })
+        })
+    }
 </script>
 
 </body>

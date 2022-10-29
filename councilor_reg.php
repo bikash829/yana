@@ -1,5 +1,5 @@
 <?php
-
+// session_start();
 $title = "Councilor Register";
 $state = "register";
 $banner_title = "Register Now";
@@ -7,15 +7,17 @@ $banner_poster = "./images/banner/banner3.jpg";
 
 
 include_once "./layout/head.php";
-if(isset($_SESSION['user'])){
+if (isset($_SESSION['user'])) {
     header("Location: ./view_profile.php");
-
 }
 
 $banner = "./layout/banner.php";
 include_once "./layout/navigation_bar.php";
 include "./config/db_connection.php";
 
+if(isset($_SESSION['user'])){
+    header("Location: ./index.php");
+}
 ?>
 
 <main class="main">
@@ -95,7 +97,7 @@ include "./config/db_connection.php";
                 <!-- date of birth  -->
                 <div class="col-md-6">
                     <label for="councilor_dob" class="form-label">Date Of Birth<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
-                    <input name="date-of-birth" type="date"  class="form-control" id="councilor_dob" required>
+                    <input name="date-of-birth" type="date" class="form-control" id="councilor_dob" required>
                     <div class="invalid-feedback">
                         Please provide a valid date of birth.
                     </div>
@@ -273,7 +275,6 @@ include "./config/db_connection.php";
 
     let minYear = `${currentYear-18}-${currentMonth}-${currentDay}`;
     ageGuard.max = minYear;
-   
 </script>
 
 <?php
@@ -284,3 +285,33 @@ include_once "./functionalities/form-validation.php";
 include_once "./layout/footer.php";
 ?>
 
+
+<?php
+include_once "./functionalities/alert.php";
+
+if (isset($_SESSION['registration_status'])) {
+    var_dump($_SESSION['registration_status']);
+    $alert_status = alert($_SESSION['registration_status']);
+    unset($_SESSION['registration_status']);
+} else {
+    $alert_status = false;
+}
+
+
+?>
+
+<script type="text/javascript">
+    // validation message 
+    console.log(<?= json_encode($alert_status) ?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 4000
+        })
+    }
+</script>

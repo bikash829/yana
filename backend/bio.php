@@ -24,7 +24,7 @@ if(isset($_POST['btn-bio'])){
             $_SESSION['councilor']['bio'] = $bio;
         }
 
-        $bio_update_success = "Your bio has updated successfully.";
+        $validation_message['success'] = "Your bio has updated successfully.";
 
     }else{
         $validation = false;
@@ -39,9 +39,13 @@ if(isset($_POST['btn-bio'])){
 
 
 if($validation){
-    header("Location: " . $_SERVER["HTTP_REFERER"] . "?bio_update_success=$bio_update_sucess&bio=$bio");
+    $validation_message['status'] = true;
+    $_SESSION['edit_bio'] = $validation_message;
+    header("Location: " . $_SERVER["HTTP_REFERER"]);
 }else{
-    print_r($validation_message);
+    $validation_message['status'] = false;
+    $_SESSION['edit_bio'] = $validation_message;
+    header("Location: " . $_SERVER["HTTP_REFERER"]);
 }
 
 ?>

@@ -50,7 +50,7 @@ if (isset($_SESSION['user'])) {
                                     <div class="card-body profile-details">
 
                                         <div class="form-group">
-                                            <h5 class="mb-0"><?= $_SESSION['user']['full_name'] ?></h5>
+                                            <h5 class="mb-0"><?= ucwords($_SESSION['user']['full_name'] ) ?></h5>
                                         </div>
                                         <div class="form-group pb-3 text-secondary">
                                             <?= ucwords($_SESSION['user']['role']) ?>
@@ -119,7 +119,38 @@ include_once "./modals/view_profile_modal.php";
 include "./functionalities/form-validation.php";
 include_once "./layout/footer.php";
 
+?>
+
+
+<?php 
+include_once "./functionalities/alert.php";
+
+
+if (isset($_SESSION['edit_info'])) {
+    // var_dump($_SESSION['edit_info']);
+    $alert_status = alert($_SESSION['edit_info']);
+    unset($_SESSION['edit_info']);
+} else {
+    $alert_status = false;
+}
 
 
 ?>
 
+<script type="text/javascript">
+    // validation message 
+    console.log(<?=json_encode($alert_status)?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 4000
+        })
+    }
+
+
+</script>

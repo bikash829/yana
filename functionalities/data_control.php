@@ -123,7 +123,7 @@ function data_validation($data)
                     );
                 } else {
                     $validation = false;
-                    $validation_message['pp_error'] =  "The profile picture type is not valid. Please Select an image file.";
+                    $validation_message['pp_error'] =  "The profile picture type is not valid. The image must be png, jpg, jpeg or gif format ";
                 }
             } else {
                 $validation = false;
@@ -277,6 +277,7 @@ function save_councilor($data)
         '$f_name', '$l_name', '$email', '$gender', '$date_of_birth', '$pass', '$country_id', '$phone_code', '$phone_number', '$addr', '$city', '$zip_code', '$profile_photo', '$profile_location',$user_role,$patient_status 
     );";
 
+    var_dump($sql);
 
 
     if (db_connection()->query($sql)) {
@@ -375,7 +376,7 @@ function update_user($data)
                     COMMIT;";
 
 
-          
+
             if (db_connection()->multi_query($sql)) {
                 return $data;
             }

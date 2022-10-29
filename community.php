@@ -20,7 +20,7 @@ include "./config/db_connection.php";
 
 $sql = "SELECT `forum`.*, `users`.`f_name`,`user_role`.`role`, `users`.`l_name` FROM `forum` 
         INNER JOIN `users` ON `forum`.`user_id` = `users`.`id`
-        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id`  ORDER BY `post_date` DESC;";
+        INNER JOIN `user_role` ON `users`.`role_id` = `user_role`.`id`  ORDER BY id DESC;";
 
 if ($forum_set = db_connection()->query($sql)) {
     $all_forum = $forum_set->fetch_all(MYSQLI_ASSOC);
@@ -115,8 +115,8 @@ function comments()
                             <!-- comments form  -->
                             <form action="./backend/create_post.php" method="POST" class="mb-2">
 
-                                <h6 class="p-des__reply-author py-2"> <a href="#" class="text-secondary"><?= $_SESSION['user']['f_name'] ?></a> </h6>
-                                <?php if (empty($_SESSION['user']['id'])) { ?>
+                                <h6 class="p-des__reply-author py-2"> <a href="#" class="text-secondary"><?= ucwords($_SESSION['user']['f_name'] ?? null)   ?></a> </h6>
+                                <?php if (empty(($_SESSION['user']['id']) ?? null)) { ?>
                                     <p class="text-center fs-6 text-danger">Please Login to comment</p>
                                 <?php  } ?>
                                 <input type="hidden" name="user_id" value="<?= $_SESSION['user']['id'] ?>">
@@ -134,7 +134,8 @@ function comments()
                                 if ($comment['forum_id'] == $row['id']) {
                             ?>
                                     <div class="p-des__reply">
-                                        <h6 class="p-des__reply-author"> <a href="#" class="text-secondary"><?= $comment['f_name'] . ' ' . $comment['l_name'] ?></a> </h6>
+                                        <h6 class="p-des__reply-author"> <a href="#" class="text-secondary"><?= ucwords($comment['f_name'])  . ' ' . ucwords($comment['l_name'])  ?></a> </h6>
+                                        
                                         <p><?= $comment['comment'] ?></p>
                                         <div class="p-des__reply-info">
                                             <p class="p-des__reply-time"><?= $comment['comment_date'] ?></p>
@@ -178,7 +179,44 @@ function comments()
     </section>
 </main>
 
+<?php
+include_once "./layout/footer.php"
+?>
+
+
+
+
+
+<?php 
+include "./functionalities/alert.php";
+
+if (isset($_SESSION['post_alert'])) {
+    $alert_status = alert($_SESSION['post_alert']);
+    unset($_SESSION['post_alert']);
+}elseif (isset($_SESSION['comment_alert'])) {
+    $alert_status = alert($_SESSION['comment_alert']);
+    unset($_SESSION['comment_alert']);
+} else {
+    $alert_status = false;
+}
+
+
+
+?>
+
 <script>
+    // validation message 
+    let alertStatus = <?= json_encode($alert_status) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 3000
+        })
+    }
+
     let btnComment;
 
     btnComment = document.querySelectorAll('.btn-comment');
@@ -190,8 +228,3 @@ function comments()
         })
     }
 </script>
-
-<?php
-include_once "./layout/footer.php"
-
-?>

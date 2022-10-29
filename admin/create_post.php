@@ -11,8 +11,11 @@ include_once "./admin-layouts/nav.php";
     <?php
     if (isset($_SESSION['admin'])) {
         include_once "./admin-layouts/aside.php";
-    } elseif (isset($_SESSION['doctor']) || isset($_SESSION['councilor'])) {
+    } elseif (isset($_SESSION['doctor'])) {
         $dashboard = "./experts_dashboard.php";
+        include_once "./admin-layouts/experts_aside.php";
+    }elseif(isset($_SESSION['councilor'])){
+        $dashboard = "./councilor_dashboard.php";
         include_once "./admin-layouts/experts_aside.php";
     }
 
@@ -82,3 +85,32 @@ include_once "./admin-layouts/nav.php";
 </div>
 <!-- script -->
 <?php include_once "./admin-layouts/closer.php"; ?>
+
+<?php
+include_once "../functionalities/alert.php";
+// alert defined on footer before 
+
+if (isset($_SESSION['post_alert'])) {
+    $alert_status = alert($_SESSION['post_alert']);
+    var_dump($alert_status);
+    unset($_SESSION['post_alert']);
+} else {
+    $alert_status = false;
+}
+?>
+
+<script type="text/javascript">
+    // validation message 
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+</script>
+
+

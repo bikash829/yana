@@ -16,8 +16,9 @@ if (isset($_GET['view_user'])) {
 
 
 
-    $sql = "SELECT `users`.*,`users`.phone_code AS `phone_code_id`, `additional_info`.`working_info`,`additional_info`.`education` AS `education_info`, `additional_info`.`document_name` AS `education_proof`,`additional_info`.`document_location` AS `education_proof_location`, `country`.`name` AS `country_name`, `country`.`phonecode` AS `phone_code` FROM `users` 
+    $sql = "SELECT `users`.*,`users`.`phone_code` AS `phone_code_id`, `additional_info`.`working_info`,`additional_info`.`education` AS `education_info`, `additional_info`.`document_name` AS `education_proof`,`additional_info`.`document_location` AS `education_proof_location`, `country`.`name` AS `country_name`,`user_role`.`role`, `country`.`phonecode` AS `phone_code` FROM `users` 
     INNER JOIN `additional_info` ON `users`.`id` = `additional_info`.`user_id`
+    INNER JOIN user_role ON `user_role`.`id` = `users`.`role_id`
     INNER JOIN `country` ON `users`.`country_id` = `country`.`id`
     WHERE `users`.`id` = $user_id;";
 
@@ -64,7 +65,7 @@ if (isset($_GET['view_user'])) {
                         <div class="col-lg-8 col-10">
                             <div class="card">
                                 <div class="card-header">
-                                    <?= $data['f_name'] . $data['l_name'] ?>
+                                    <?= ucwords( $data['f_name'] .' '. $data['l_name']) ?>
 
                                 </div>
                                 <div class="card-body position-relative">

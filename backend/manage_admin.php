@@ -4,6 +4,7 @@ $validation = true;
 $validation_message = array();
 
 
+
 if(isset($_SESSION['admin'])){
     $user = 'admin';
 }elseif(isset($_SESSION['doctor'])){
@@ -32,12 +33,11 @@ function password_verification($data)
         $hassed_pass = md5($new_pass);
         $sql = "SELECT * FROM `users` WHERE `id` = $user_id AND `pass` = '$current_pass'";
 
-
         if ($con->query($sql)) {
 
             $verifying = $con->query($sql);
             if (($verifying->num_rows) > 0) {
-                $sql = "UPDATE users SET `pass` = '$hassed_pass'";
+                $sql = "UPDATE users SET `pass` = '$hassed_pass' WHERE id = $user_id";
                 if ($con->query($sql)) {
                     return array('status' => true, 'success' => "Your password has been updated successfully");
                 } else {
@@ -79,7 +79,7 @@ function email_change($data)
                 $sql = "UPDATE users SET `email` = '$email' WHERE id = $user_id;";
                 if($con->query($sql)){
                     
-                    return array('status' => true, 'sucess' => "Your email has been chnaged successfully.");
+                    return array('status' => true, 'sucess' => "Your primary email has been changed successfully. Login with you new email");
                 }else{
                     return array('status' => false, 'error' => "Technical error");
                 }
@@ -95,20 +95,26 @@ function email_change($data)
 
 
 //Data passing
-if (isset($_POST['btn_change_pass'])) {
-    if (password_verification($_POST)['status']) {
+if (isset($_POST['btn_change_pass'])) {  // password changing
+    $password_status = password_verification($_POST);
+    if ($password_status['status']) {
         session_unset();
-        echo password_verification($_POST)['success'];
+        $_SESSION['change_admin_pass'] =$password_status;
+        header("Location: ../admin/index.php");
     } else {
-        echo password_verification($_POST)['error'];
+        $_SESSION['change_admin_pass'] =$password_status;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
+
     }
-} elseif (isset($_POST['btn_change_email'])) {
+} elseif (isset($_POST['btn_change_email'])) { // email changing
     $email_report = email_change($_POST);
     if ($email_report['status']) {
-        $_SESSION[$user]['email']= $_POST['email'];
-        echo $email_report['success'];
+        session_unset();
+        $_SESSION['email_changed'] = $email_report;
+        header("Location: ../admin/index.php");
     } else {
-        echo $email_report['error'];
+        $_SESSION['email_changed'] =$email_report;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
     }
 } else {
     $validation = false;

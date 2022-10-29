@@ -7,9 +7,8 @@ $banner_poster = "./images/banner/banner3.jpg";
 
 include_once "./layout/head.php";
 // login check 
-if(isset($_SESSION['user'])){
+if (isset($_SESSION['user'])) {
     header("Location: ./view_profile.php");
-
 }
 
 $banner = "./layout/banner.php";
@@ -29,7 +28,7 @@ include "./config/db_connection.php";
     <section class="segment-margin register-container">
         <div class="reg-form-container">
             <h2 class="reg-form__title">Doctor Registration Form</h2>
-            <form name="frm_doc" action="./backend/reg.php" method="POST" enctype="multipart/form-data"  class="row g-3 needs-validation register" novalidate>
+            <form name="frm_doc" action="./backend/reg.php" method="POST" enctype="multipart/form-data" class="row g-3 needs-validation register" novalidate>
 
                 <!-- name  -->
                 <div class="col-md-6">
@@ -219,6 +218,14 @@ include "./config/db_connection.php";
                         </div>
                     </div>
                 </div>
+                <!-- 
+                <div class="col-md-6">
+                    <label for="documents" class="form-label">Cerificates and others<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
+                    <input name="xp_info_doc" type="file" class="form-control" id="documents" placeholder="upload pdf file only" required>
+                    <div class="invalid-feedback">
+                        Please provide your valid educational and other working doccuments in a single pdf.
+                    </div>
+                </div> -->
 
                 <div class="col-md-6">
                     <label for="documents" class="form-label">Cerificates and others<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
@@ -279,4 +286,36 @@ include "./functionalities/country_code_menupulation.php";
     let minYear = `${currentYear-30}-${currentMonth}-${currentDay}`;
 
     ageGuard.max = minYear;
+</script>
+
+
+
+<?php
+include_once "./functionalities/alert.php";
+
+if (isset($_SESSION['registration_status'])) {
+    var_dump($_SESSION['registration_status']);
+    $alert_status = alert($_SESSION['registration_status']);
+    unset($_SESSION['registration_status']);
+} else {
+    $alert_status = false;
+}
+
+
+?>
+
+<script type="text/javascript">
+    // validation message 
+    console.log(<?= json_encode($alert_status) ?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 4000
+        })
+    }
 </script>

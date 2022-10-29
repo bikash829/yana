@@ -2,16 +2,15 @@
 //session_start();
 $title = "Edit Information";
 $state = "edit";
-$banner_title = "write your won post here";
+// $banner_title = "write your won post here";
 $banner_poster = "./images/banner/banner3.jpg";
 
 include_once "./layout/head.php";
 
-if(isset($_SESSION['user'])){
+if (isset($_SESSION['user'])) {
     true;
-}else{
+} else {
     header("Location: ./index.php");
-
 }
 
 $banner = "./layout/banner.php";
@@ -30,7 +29,7 @@ include_once "./config/db_connection.php";
             <div class="col-md-10 col-xl-8">
                 <div class="card">
 
-                    <h2 class="reg-form__title card-header">User Form</h2>
+                    <h2 class="reg-form__title card-header">Edit Personal Info</h2>
                     <form action="./backend/edit_user.php" method="POST" class="row g-3 needs-validation register card-body" novalidate>
 
                         <!-- name  -->
@@ -191,7 +190,7 @@ include_once "./config/db_connection.php";
 
 
                         <div class="col-12 d-grid">
-                            <button name="btn-edit_user" class="btn btn-primary" type="submit">Register Now</button>
+                            <button name="btn-edit_user" class="btn btn-primary" type="submit">Edit Now</button>
                         </div>
                     </form>
 
@@ -241,17 +240,41 @@ include "./functionalities/country_code_menupulation.php";
     for (let row of userGenderList) {
 
         if ((row.children[0]).value == Usergender) {
-            (row.children[0]).setAttribute('checked','');
+            (row.children[0]).setAttribute('checked', '');
 
         }
-        
+
     }
+</script>
 
 
-    // date of birth validation 
+<?php
+include_once "./functionalities/alert.php";
 
-    // user data restriction 
-    // patients
-    // councilor 
-    // doctor 
+
+if (isset($_SESSION['edit_info'])) {
+    // var_dump($_SESSION['edit_info']);
+    $alert_status = alert($_SESSION['edit_info']);
+    unset($_SESSION['edit_info']);
+} else {
+    $alert_status = false;
+}
+
+
+?>
+
+<script type="text/javascript">
+    // validation message 
+    console.log(<?= json_encode($alert_status) ?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 4000
+        })
+    }
 </script>

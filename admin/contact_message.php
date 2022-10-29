@@ -8,7 +8,7 @@ include_once "./admin-layouts/nav.php";
 include "../config/db_connection.php";
 
 
-$sql = "SELECT * FROM `contact_us`;";
+$sql = "SELECT * FROM `contact_us` ORDER BY id DESC;";
 
 if($message_set = db_connection()->query($sql)){
     $messages = $message_set->fetch_all(MYSQLI_ASSOC);

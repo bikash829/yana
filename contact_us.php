@@ -15,17 +15,17 @@ include_once "./layout/navigation_bar.php";
         <div class="contact__card">
             <!-- <img src="" alt="" class="contact__icon"> -->
             <h2 class="contact__icon"><i class="fa-solid fa-map-location-dot"></i></h2>
-            <h3 class="contact__title">something is </h3>
+            <h3 class="contact__title">Address </h3>
             <p class="contact__info">Dhaka, Dhanmondi</p>
         </div>
         <div class="contact__card">
             <h2 class="contact__icon"><i class="fa-solid fa-phone-volume"></i></h2>
-            <h3 class="contact__title">something is </h3>
+            <h3 class="contact__title">Contact Number </h3>
             <p class="contact__info">0815454444</p>
         </div>
         <div class="contact__card">
             <h2 class="contact__icon"><i class="fa-solid fa-envelope"></i></h2>
-            <h3 class="contact__title">something is </h3>
+            <h3 class="contact__title">E-mail </h3>
             <p class="contact__info">mayeshafahmida@gmail.com</p>
         </div>
     </section>
@@ -34,11 +34,7 @@ include_once "./layout/navigation_bar.php";
     <section class="contact-frm segment-margin">
         <div class="contact-frm__artcle-con">
             <h2 class="contact-frm__artcle-title">Feel Free To Message Us</h2>
-            <p class="contact-frm__artcle">&Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam rem
-                dolorem magnam corrupti odit, at repudiandae cum labore alias reprehenderit
-                dolore esse, sint commodi fugit quod officia architecto perspiciatis officiis?
-                Sunt rem tempora ad, perspiciatis tempore, molestias
-                maxime iure autem, sint voluptatem quo odit aperiam est ut. Ab, aperiam a.</p>
+            <p class="contact-frm__artcle">Message us for any information and queries</p>
 
         </div>
         <div class="contact-form ">
@@ -76,32 +72,54 @@ include_once "./layout/footer.php"
 ?>
 
 
+<?php
+include "./functionalities/alert.php";
+
+if (isset($_SESSION['contact_us_status'])) {
+    $alert_status = alert($_SESSION['contact_us_status']);
+    unset($_SESSION['contact_us_status']);
+} else {
+    $alert_status = false;
+}
+
+
+?>
+
+<script type="text/javascript">
+    // validation message 
+    console.log(<?= json_encode($alert_status) ?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+</script>
 <script>
     let fristName, lastName, emailId;
     let elementNodes = document.querySelectorAll("input");
-    // lastName = document.querySelector("name='l_name'");
-    for (let value of elementNodes) {
-        // if (value.name == 'first_name') {
-        //     console.log(value);
 
-        // }
+    for (let value of elementNodes) {
+
         switch (value.name) {
             case 'first_name':
-                // console.log(value);
-                value.setAttribute("value","<?= $_SESSION['user']['f_name'] ?>");
-                // value.setAttribute("disabled","");
+
+                value.setAttribute("value", "<?= $_SESSION['user']['f_name'] ?>");
+
                 break;
             case 'last_name':
-                value.setAttribute("value","<?= $_SESSION['user']['l_name'] ?>");
+                value.setAttribute("value", "<?= $_SESSION['user']['l_name'] ?>");
                 break;
             case 'contact_email':
-                value.setAttribute("value","<?= $_SESSION['user']['email'] ?>");
+                value.setAttribute("value", "<?= $_SESSION['user']['email'] ?>");
             default:
                 break;
         }
-        // console.log(value);
-    }
 
-    // console.log(fristName);
-    // console.log(lastName);
+    }
 </script>

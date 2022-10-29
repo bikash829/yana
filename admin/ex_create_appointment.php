@@ -4,8 +4,10 @@ include_once "./admin-layouts/head.php";
 
 if (isset($_SESSION['doctor'])) {
     $user_role = ucwords($_SESSION['doctor']['role']);
+    $session_name  = 'doctor';
 } elseif (isset($_SESSION['councilor'])) {
     $user_role = ucwords($_SESSION['councilor']['role']);
+    $session_name  = 'councilor';
 } else {
     $user_role =  "Nothing to print";
 }
@@ -31,6 +33,20 @@ switch (isset($_SESSION)) {
 }
 
 
+include_once "../config/db_connection.php";
+function medium_list()
+{
+    $sql = "SELECT * FROM social_medium";
+
+    if ($medium_raw = db_connection()->query($sql)) {
+        $medium_list = $medium_raw->fetch_all(MYSQLI_ASSOC);
+        return $medium_list;
+    } else {
+        return false;
+    }
+}
+
+
 ?>
 <div id="layoutSidenav">
     <!-- aside  -->
@@ -43,7 +59,7 @@ switch (isset($_SESSION)) {
                     <div class="card ">
                         <h4 class="card-header">Create Appoingtment</h4>
                         <div class="card-body">
-                            <form method="POST" action="../backend/create_apointment.php" class="row g-3 needs-validation" novalidate>
+                            <form id='create_appointment' action="../backend/create_apointment.php" method="POST" class="row g-3 needs-validation" novalidate>
                                 <div class="col-12 text-center">
                                     <h3><label for="time" class="">Set Time</label></h3>
                                 </div>
@@ -55,8 +71,8 @@ switch (isset($_SESSION)) {
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="validationCustom02" class="form-label">Start At</label>
-                                    <input name="ap-start-at" type="time" class="form-control" id="validationCustom02" max="23:00" min="00:00" required>
+                                    <label for="start_at" class="form-label">Start At</label>
+                                    <input name="ap-start-at" type="time" class="form-control" id="start_at" max="23:00" min="00:00" required>
                                     <div class="valid-feedback">
                                         Looks good!
                                     </div>
@@ -64,7 +80,7 @@ switch (isset($_SESSION)) {
 
                                 <div class="col-md-4">
                                     <label for="validationCustom02" class="form-label">End In</label>
-                                    <input name="ap-end-in" type="time" class="form-control" id="validationCustom02" max="23:59:59" min="00:00" required>
+                                    <input name="ap-end-in" type="time" class="form-control" max="23:59:59" min="00:00" required>
                                     <div class="valid-feedback">
                                         Looks good!
                                     </div>
@@ -74,26 +90,33 @@ switch (isset($_SESSION)) {
 
 
                                 <div class="col-md-6">
-                                    <label for="validationCustom03" class="form-label">Capacity</label>
-                                    <input name="patient-capacity" type="number" class="form-control" id="validationCustom03" required>
+                                    <label for="capacity" class="form-label">Capacity</label>
+                                    <input name="patient-capacity" type="number" min="1" class="form-control" id="capacity" required>
                                     <div class="invalid-feedback">
-                                        Please provide a valid city.
+                                        Please set maximum capacity of your appointment
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="validationCustom03" class="form-label">Fee</label>
-                                    <input name="ap-fee" type="number" class="form-control" id="validationCustom03" required>
+                                    <label for="fee" class="form-label">Fee</label>
+                                    <input name="ap-fee" type="number" min="1" class="form-control" id="fee" required>
                                     <div class="invalid-feedback">
-                                        Please provide a valid city.
+                                        Assign your fee
                                     </div>
                                 </div>
 
+
+
+
+
+
+
+
                                 <div class="col-12">
                                     <label for="validationTextarea" class="form-label">Appoinment Description</label>
-                                    <textarea name="ap-description" class="form-control" id="validationTextarea" placeholder="Required example textarea" required></textarea>
+                                    <textarea name="ap-description" class="form-control" id="validationTextarea" placeholder="Required Description" required></textarea>
                                     <div class="invalid-feedback">
-                                        Please enter a message in the textarea.
+                                        Please enter the appointment description for the patients.
                                     </div>
                                 </div>
 
@@ -111,8 +134,9 @@ switch (isset($_SESSION)) {
                                 </div>
                                 <!-- //user id  -->
                                 <input type="hidden" name="user_id" value="<?= $data['id'] ?>">
+                                <input type="hidden" name="btn-create-apointment" ?>
                                 <div class="col-12">
-                                    <button name="btn-create-apointment" class="btn btn-primary" type="submit">Create</button>
+                                    <button id="btn-create-appointment" type="submit" class="btn btn-primary">Create</button>
                                 </div>
                             </form>
 
@@ -137,6 +161,7 @@ switch (isset($_SESSION)) {
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="./js/datatables-simple-demo.js"></script>
 
+
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {
@@ -148,13 +173,38 @@ switch (isset($_SESSION)) {
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
             .forEach(function(form) {
+
+
                 form.addEventListener('submit', function(event) {
+
                     if (!form.checkValidity()) {
                         event.preventDefault()
                         event.stopPropagation()
+
+                    } else {
+
+                        event.preventDefault();
+
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, Confrim!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+
+                                form.submit();
+                            }
+                        })
+
                     }
 
                     form.classList.add('was-validated')
+
                 }, false)
             })
     })()
@@ -164,20 +214,52 @@ switch (isset($_SESSION)) {
 
     let ageGuard = document.getElementById('apointment-date');
     let currentDate = new Date();
-
+    let initialMonth = currentDate.getMonth() + 1;
     let currentDay, currentMonth, currentYear;
     currentDay = currentDate.getDate() < 10 ? `0${currentDate.getDate()}` : currentDate.getDate();
-    currentMonth = currentDate.getMonth() < 10 ? `0${currentDate.getMonth()}` : currentDate.getMonth();
+    currentMonth = initialMonth < 10 ? `0${initialMonth}` : initialMonth;
     currentYear = currentDate.getFullYear();
 
     let minYear = `${currentYear-10}-${currentMonth}-${currentDay}`;
 
     let today = `${currentYear}-${currentMonth}-${currentDay}`;
-    console.log(today);
 
 
     ageGuard.min = today;
 </script>
+
+
+<!-- notification view  -->
+
+<?php
+include "../functionalities/alert.php";
+
+if (isset($_SESSION['appointment_create'])) {
+    $alert_status = alert($_SESSION['appointment_create']);
+    unset($_SESSION['appointment_create']);
+} else {
+    $alert_status = false;
+}
+
+
+?>
+
+<script type="text/javascript">
+    // validation message 
+    console.log(<?= json_encode($alert_status) ?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+</script>
+
 </body>
 
 </html>

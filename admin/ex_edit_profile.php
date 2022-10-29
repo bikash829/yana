@@ -9,24 +9,26 @@ if (isset($_SESSION['doctor'])) {
     $user_role =  "Nothing to print";
 }
 
-// link 
-$dashboard = "./experts_dashboard.php";
 
-include_once "./admin-layouts/nav.php";
 
 // data 
 switch (isset($_SESSION)) {
-    case 'doctor':
+    case isset($_SESSION['doctor']):
         $data = $_SESSION['doctor'];
+        $dashboard = "./experts_dashboard.php";
         break;
-    case 'councilor':
+    case isset($_SESSION['councilor']):
         $data = $_SESSION['councilor'];
+        $dashboard = "./councilor_dashboard.php";
         break;
 
     default:
         # code...
         break;
 }
+
+// link 
+include_once "./admin-layouts/nav.php";
 
 
 include "../functionalities/validation_function.php";
@@ -45,7 +47,7 @@ include "../functionalities/validation_function.php";
                     <div class="col-lg-8 col-10">
                         <div class="card">
                             <div class="card-header">
-                                <?= $data['f_name'] . $data['l_name'] ?>
+                                <?= ucwords( $data['f_name'] .' '. $data['l_name']) ?>
 
                             </div>
                             <div class="card-body position-relative">
@@ -58,14 +60,14 @@ include "../functionalities/validation_function.php";
                                                 <!-- name  -->
                                                 <div class="col-md-6">
                                                     <label for="first_name" class="form-label">First Name</label>
-                                                    <input name="first_name" value="<?= $data['f_name'] ?>" type="text" class="form-control" id="first_name" placeholder="First Name" required>
+                                                    <input name="first_name" value="<?=ucwords( $data['f_name']) ?>" type="text" class="form-control" id="first_name" placeholder="First Name" required>
                                                     <div class="invalid-feedback">
                                                         Please enter your first name.
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="last_name" class="form-label">Last name</label>
-                                                    <input name="last_name" value="<?= $data['l_name'] ?>" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
+                                                    <input name="last_name" value="<?= ucwords( $data['l_name']) ?>" type="text" class="form-control" id="last_name" placeholder="Last Name" required>
                                                     <div class="invalid-feedback">
                                                         Please enter your last name.
                                                     </div>
@@ -118,33 +120,6 @@ include "../functionalities/validation_function.php";
                                                         Please provide a valid date of birth.
                                                     </div>
                                                 </div>
-
-
-                                                <!-- Contact and country  -->
-                                                <!-- <div class="col-md-6">
-                                                    <label for="country" class="form-label">Country</label>
-                                                    <select name="country" class="form-select" id="country" required>
-                                                        <option selected disabled value="">Choose...</option>
-
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Please select country.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-2">
-                                                    <label for="phone-code" class="form-label">Code<span class="badge_ text-danger"><i class="fa-solid fa-star-of-life"></i></span></label>
-                                                    <select name="phone-code" class="form-select" id="phone-code" required>
-                                                        <option value="" selected disabled>Choose...</option>
-
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        lease select your valid phone code.
-                                                    </div>
-                                                </div> -->
-
-
-
                                                 <!-- address info  -->
                                                 <div class="col-md-12">
                                                     <label for="address_" class="form-label">Address</label>
@@ -219,12 +194,9 @@ include "../functionalities/validation_function.php";
 
 
                                                 <div class="col-12 d-grid">
-                                                    <button name="btn-edit_experts" class="btn btn-primary" type="submit">Register Now</button>
+                                                    <button name="btn-edit_experts" class="btn btn-primary" type="submit">Edit Now</button>
                                                 </div>
                                             </form>
-
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -244,8 +216,6 @@ include "../functionalities/validation_function.php";
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="./js/datatables-simple-demo.js"></script>
 
 <?php
 include "../functionalities/form-validation.php";
@@ -254,6 +224,37 @@ include "../config/db_connection.php";
 include "../functionalities/country_code_menupulation.php";
 
 ?>
+
+<?php
+include_once "../functionalities/alert.php";
+if (isset($_SESSION['edit_info'])) {
+
+    $alert_status = json_encode(alert($_SESSION['edit_info']));
+    var_dump($alert_status);
+    unset($_SESSION['edit_info']);
+}
+
+?>
+<script type="text/javascript">
+    const php_msg = <?php if (isset($alert_status)) {
+                        echo $alert_status;
+                    } ?>
+
+    let alertStatus = php_msg ? php_msg : null;
+
+    if (alertStatus != null) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus['status'],
+            title: alertStatus['message'],
+            showConfirmButton: false,
+            timer: 4000
+        })
+
+        console.log(alertStatus);
+    }
+</script>
+
 
 <script type="text/javascript">
     // console.log(country);
@@ -267,6 +268,41 @@ include "../functionalities/country_code_menupulation.php";
         }
     }
 
+</script>
+
+
+
+<?php
+include_once "../functionalities/alert.php";
+
+
+if (isset($_SESSION['edit_info'])) {
+    $alert_status = alert($_SESSION['edit_info']);
+
+    unset($_SESSION['edit_info']);
+} else {
+    $alert_status = false;
+}
+
+
+?>
+
+<script type="text/javascript">
+   
+
+    // validation message 
+    console.log(<?= json_encode($alert_status) ?>);
+    alertStatus = <?= json_encode($alert_status ?? null) ?>;
+    console.log(alertStatus)
+    if (alertStatus) {
+        Swal.fire({
+            position: 'top-end',
+            icon: alertStatus.status,
+            title: alertStatus.message,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
 </script>
 
 </body>

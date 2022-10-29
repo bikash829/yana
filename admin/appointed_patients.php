@@ -14,7 +14,7 @@ function patients_info($ap_id)
             JOIN users ON user_appointment.patient_id = users.id
             JOIN country ON users.country_id = country.id
             JOIN country con_ph ON users.phone_code = con_ph.id
-            WHERE appointment.id = $ap_id";
+            WHERE appointment.id = $ap_id AND user_appointment.appointment_status = 1";
 
 
     if ($user_info_set = db_connection()->query($sql)) {
@@ -52,7 +52,7 @@ if (isset($_GET['view_patients']) && isset($_GET['appointment_id'])) {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">All Patients</h1>
+                <h1 class="mt-4">Patients</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?= $dashboard ?>">Dashboard</a></li>
                     <li class="breadcrumb-item active">Patients</li>

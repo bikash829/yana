@@ -1,10 +1,13 @@
 <?php
+session_start();
 include "../functionalities/validation_function.php";
 include "../functionalities/data_control.php";
 include "../config/db_connection.php";
 
 $validation = true;
 $validation_message = [];
+
+
 
 if(isset($_POST['btn-contact'])){
     if(empty_data_validation($_POST)){
@@ -32,9 +35,11 @@ if(isset($_POST['btn-contact'])){
             $sql = "INSERT INTO `contact_us`(`f_name`,`l_name`,`comment`,`email`) VALUES 
                     ('$first_name', '$last_name', '$comment' ,'$email_id');";
 
+           
             
             if(db_connection()->query($sql)){
                 $validation_message['contact_success'] = "Your message has been sent successfully";
+               
             }else{
                 $validation = false;
                 $validation_message['technical_error'] = "Technical error please try with valid information";
@@ -52,10 +57,14 @@ if(isset($_POST['btn-contact'])){
 
     //final checker 
     if($validation){
-        print_r($validation_message);
+        $validation_message['status'] = true;
     }else{
-        print_r($validation_message);
+        $validation_message['status'] = false;
     }
+    $_SESSION['contact_us_status'] = $validation_message;
+   
+    header("Location: " . $_SERVER["HTTP_REFERER"]);
+    exit();
 
 }else{
     $validation_message = "Bad request please try again";

@@ -1,6 +1,7 @@
 <?php
 include_once "./admin-layouts/head.php";
 
+
 if (isset($_SESSION['doctor'])) {
     $user_role = $_SESSION['doctor']['role'];
 } elseif (isset($_SESSION['councilor'])) {
@@ -8,6 +9,7 @@ if (isset($_SESSION['doctor'])) {
 } else {
     $user_role =  "Nothing to print";
 }
+
 
 // link 
 $dashboard = "./experts_dashboard.php";
@@ -32,14 +34,17 @@ include "../config/db_connection.php";
 
 function my_patients($doc_id){
     $sql = "SELECT concat(p.f_name,' ',p.l_name) AS full_name,p.id AS patient_id, p.email, p.phone_code as phone_code_id, p.phone_number, 
-            country.name AS country_name, country.phonecode AS phone_code, appointment.id AS appointment_id, appointment.ap_date 
+            country.name AS country_name, country.phonecode AS phone_code, appointment.id AS appointment_id, appointment.ap_date,user_appointment.appointment_status
             FROM user_appointment 
             JOIN appointment ON user_appointment.appointment_id = appointment.id
             JOIN users p ON user_appointment.patient_id = p.id
             JOIN country ON p.country_id = country.id
             JOIN country phone ON p.phone_code = phone.id
-            WHERE doctor_id = 17 GROUP BY user_appointment.patient_id
+            WHERE doctor_id = $doc_id 
+            AND user_appointment.appointment_status = 1
+            GROUP BY user_appointment.patient_id
             ORDER BY ap_date DESC;";
+
     
     if($patients_set = db_connection()->query($sql)){
         $patient_list = $patients_set->fetch_all(MYSQLI_ASSOC);
@@ -49,6 +54,7 @@ function my_patients($doc_id){
     }
 
 }
+
 
 $patient_list = my_patients($_SESSION[$user_role]['id']);
 
@@ -113,7 +119,7 @@ $patient_list = my_patients($_SESSION[$user_role]['id']);
                                     <tr>
                                         <td><?= $count ?></td>
                                         <td><?= $value['appointment_id'] ?></td>
-                                        <td><?= $value['full_name'] ?></td>
+                                        <td><?= ucwords($value['full_name'])  ?></td>
                                         <td><?= $value['email'] ?></td>
                                         <td><?= $value['phone_code'] . $value['phone_number'] ?></td>
                                         <td><?= $value['ap_date'] ?></td>
@@ -140,7 +146,7 @@ $patient_list = my_patients($_SESSION[$user_role]['id']);
                                             </div>
                                         </td>
                                     </tr>
-                                <?php $count = 1; } ?>
+                                <?php $count += 1; } ?>
                             </tbody>
                         </table>
                     </div>
@@ -156,9 +162,6 @@ $patient_list = my_patients($_SESSION[$user_role]['id']);
 <script src="js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="./js/datatables-simple-demo.js"></script>
-
-
-
 </body>
 
 </html>

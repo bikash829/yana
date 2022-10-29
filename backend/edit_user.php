@@ -5,52 +5,46 @@ include "../functionalities/data_control.php";
 include "../config/db_connection.php";
 
 
-
-
-
-
 if (isset($_SESSION['user'])) {
     $user_id = $_SESSION['user']['id'];
+} elseif (isset($_SESSION['doctor'])) {
+    $user_id = $_SESSION['doctor']['id'];
+} elseif (isset($_SESSION['councilor'])) {
+    $user_id = $_SESSION['councilor']['id'];
 }
 
 // start block for edit doc 
-
 if (isset($_POST['btn-edit_experts'])) {
 
     unset($_POST['btn-edit_experts']);
     $_POST['btn-edit_user'] = true;
 }
 
-
-
-
-
 // end block for edit doc 
-
-
-
-
-$validaiton = true;
+$validation = true;
 $validation_message = [];
 
 
-if (isset($_POST['btn-edit_user'])) {
+if (isset($_POST['btn-edit_user'])) {  //edit user info
     unset($_POST['btn-edit_user']);
 
 
+    $education = $_POST['education_info'];
+    $work = $_POST['working_info'];
+
+    unset($_POST['education_info']);
+    unset($_POST['working_info']);
+
     // empty data validation 
     if (empty_data_validation($_POST)) {
+        $_POST['education_info'] = $education;
+        $_POST['working_info'] = $work;
         //data validation 
         $validation_report = data_validation($_POST);
         if (isset($validation_report['status']) && $validation_report['status']) {
-
             if ($user_id != "") {
                 $validation_report['id'] = $user_id;
             }
-
-
-
-
 
             if ($updated_info = update_user($validation_report)) {
 
@@ -69,7 +63,12 @@ if (isset($_POST['btn-edit_user'])) {
                         $_SESSION['councilor']['phone_number'] = $updated_info['number'];
                         $_SESSION['councilor']['education_info'] = $updated_info['education_info'];
                         $_SESSION['councilor']['working_info'] = $updated_info['working_info'];
+
+                        //report 
+                        $_SESSION['edit_info'] = $validation_message;
+                        $_SESSION['edit_info']['status'] = true;
                         header("Location: ../admin/my_profile.php");
+                        exit();
                     } elseif ($updated_info['role_id'] == 3) {
                         $_SESSION['doctor']['f_name'] = $updated_info['first_name'];
                         $_SESSION['doctor']['l_name'] = $updated_info['last_name'];
@@ -81,7 +80,13 @@ if (isset($_POST['btn-edit_user'])) {
                         $_SESSION['doctor']['phone_number'] = $updated_info['number'];
                         $_SESSION['doctor']['education_info'] = $updated_info['education_info'];
                         $_SESSION['doctor']['working_info'] = $updated_info['working_info'];
+
+                        //report 
+                        print_r($validation_message);
+                        $_SESSION['edit_info'] = $validation_message;
+                        $_SESSION['edit_info']['status'] = true;
                         header("Location: ../admin/my_profile.php");
+                        exit();
                     }
                 }
 
@@ -105,16 +110,13 @@ if (isset($_POST['btn-edit_user'])) {
                 }
             } else {
 
-                print_r($updated_info);
-                exit();
 
                 $validation_message['technical_error'] = "technical problem";
                 $validation = false;
             }
         } else {
-            echo "Data validation : *************";
-            $validation = false;
             $validation_message = data_validation($_POST);
+            $validation = false;
         }
     } else {
         $validation = false;
@@ -123,10 +125,17 @@ if (isset($_POST['btn-edit_user'])) {
 
 
     // checker 
-    if ($validaiton) {
-        print_r($validation_message);
+    if ($validation) {
+        $validation_message['status'] = true;
+        $_SESSION['edit_info'] = $validation_message;
+        header("Location: ../view_profile.php");
+        exit();
     } else {
-        print_r($validation_message);
+
+        $_SESSION['edit_info'] = $validation_message;
+        $_SESSION['edit_info']['status'] = false;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
+        exit();
     }
 } elseif (isset($_POST['btn_change_pass'])) { //password changing 
     if ($_POST['password'] == $_POST['confirm_pass']) {
@@ -142,7 +151,7 @@ if (isset($_POST['btn-edit_user'])) {
                     $validation_message['success_pass'] = "Your passwrod has been changed successfully";
                     $_SESSION['user']['pass'] = $pass;
                 } else {
-                    $validaiton = false;
+                    $validation = false;
                     $validation_message['technical_error_change_pass'] = "Technical error";
                 }
             } else {
@@ -150,21 +159,25 @@ if (isset($_POST['btn-edit_user'])) {
                 $validation_message['same_pass'] = "You are using same password please try with new password";
             }
         } else {
-            $validaiton = false;
+            $validation = false;
             $validation_message['wrong_pass'] = "Please insert your valid current password";
         }
     } else {
-        $validaiton = false;
+        $validation = false;
         $validation_message['unmatch_pass'] = "Password didn't match try again.";
     }
 
 
     // final result 
-    if ($validaiton) {
-        print_r($validation_message);
+    if ($validation) {
+        $validation_message['status'] = true;
+        $_SESSION['edit_info'] = $validation_message;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
         exit();
     } else {
-        print_r($validation_message);
+        $validation_message['status'] = false;
+        $_SESSION['edit_info'] = $validation_message;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
         exit();
     }
 } elseif (isset($_POST['btn_change_email'])) {  //email change 
@@ -187,24 +200,29 @@ if (isset($_POST['btn-edit_user'])) {
                 $validation_message['email_change_technical_error'] = "Technical error";
             }
         } else {
-            $validaiton = false;
+            $validation = false;
             $validation_message['wrong_pass'] = "Please insert your valid current password";
         }
     } else {
-        $validaiton = false;
+        $validation = false;
         $validation_message['duplicate_email'] = "you are using existed email id please use different email id";
     }
 
 
     // final result 
-    if ($validaiton) {
-        print_r($validation_message);
+    if ($validation) {
+        $validation_message['status'] = true;
+        $_SESSION['edit_info'] = $validation_message;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
         exit();
     } else {
-        print_r($validation_message);
+        $validation_message['status'] = false;
+        $_SESSION['edit_info'] = $validation_message;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
         exit();
     }
 } elseif (isset($_POST['btn_change_doc'])) {
+    echo "doesn't work";
 } elseif (isset($_POST['btn_change_pp'])) { //change profile picture
 
     if (isset($_FILES['new_pp'])) {
@@ -227,11 +245,11 @@ if (isset($_POST['btn-edit_user'])) {
             if ($pp_error == 0) {
                 if (in_array($pp_type, $allowed_pp_Ext)) {
                     // new directory and name 
-                    $pp_dir = './uploads/profile_photo/';
+                    $pp_dir = './uploads/';
                     $pp_new_name = $_SESSION['user']['f_name'] . "_pp" . time() . mt_rand() . ".$pp_type";
 
-                    $new_location = '.'.$pp_dir . $pp_new_name;
-                    
+                    $new_location = '.' . $pp_dir . $pp_new_name;
+
 
                     // database query 
                     $sql = "UPDATE `users` SET `users`.`profile_location` = '$pp_dir', `users`.`profile_photo` = '$pp_new_name' WHERE `users`.`id` = $user_id";
@@ -239,8 +257,17 @@ if (isset($_POST['btn-edit_user'])) {
                     if (db_connection()->query($sql)) {
                         move_uploaded_file($pp_temp_location, $new_location);
                         $validation_message['chaged_pp'] = "Your profile photo has been changed successfully";
-                        $_SESSION['user']['profile_location'] = $pp_dir;
-                        $_SESSION['user']['profile_photo'] = $pp_new_name;
+                        $validation = true;
+                        if (isset($_SESSION['user'])) {
+                            $_SESSION['user']['profile_location'] = $pp_dir;
+                            $_SESSION['user']['profile_photo'] = $pp_new_name;
+                        } elseif (isset($_SESSION['doctor'])) {
+                            $_SESSION['doctor']['profile_location'] = $pp_dir;
+                            $_SESSION['doctor']['profile_photo'] = $pp_new_name;
+                        } elseif (isset($_SESSION['councilor'])) {
+                            $_SESSION['councilor']['profile_location'] = $pp_dir;
+                            $_SESSION['councilor']['profile_photo'] = $pp_new_name;
+                        }
                     } else {
                         $validation = false;
                         $validation_message['pp_technical_error'] = "Technical error";
@@ -254,25 +281,23 @@ if (isset($_POST['btn-edit_user'])) {
                 $validation_message['pp_error'] =  "There is an error by uploading your profile picture.";
             }
         }
-
-        if ($validaiton) {
-            true;
-        } else {
-            print_r($validation_message);
-            exit();
-        }
     } else {
-        $validaiton = false;
+        $validation = false;
         $validation_message['empty_file'] = "There is no file has been selected yet";
     }
 
 
     // final result 
-    if ($validaiton) {
-        print_r($validation_message);
+    if ($validation) {
+        $validation_message['status'] = true;
+        $_SESSION['edit_info'] = $validation_message;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
         exit();
     } else {
-        print_r($validation_message);
+
+        $validation_message['status'] = false;
+        $_SESSION['edit_info'] = $validation_message;
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
         exit();
     }
 } else {

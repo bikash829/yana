@@ -3,6 +3,7 @@ $title = "Profile";
 
 include_once "./layout/head.php";
 
+
 // $banner_title = "Hi, " . ucwords($_SESSION['user']['f_name']);
 $banner_poster = "./images/banner/banner3.jpg";
 
@@ -11,11 +12,18 @@ $banner = "./layout/banner.php";
 include_once "./layout/navigation_bar.php";
 include "./config/db_connection.php";
 
+// database operator 
+function db_result($sql)
+{
+    if (db_connection()->query($sql)) {
+        return db_connection()->query($sql);
+    } else {
+        return false;
+    }
+}
+
 
 $patient_id = $_SESSION['user']['id'];
-
-
-
 //user data 
 
 if (isset($_GET['id_'])) {
@@ -24,7 +32,9 @@ if (isset($_GET['id_'])) {
     function next_appointment($uid)
     {
         $user_id = $uid;
-        $sql = "SELECT * FROM appointment WHERE doctor_id = $user_id";
+        $sql = "SELECT appointment.*,(SELECT count(*) FROM user_appointment WHERE user_appointment.appointment_id = appointment.id AND user_appointment.appointment_status = 1) 
+        AS total_patients   FROM appointment WHERE doctor_id = $uid;";
+
         $next_appointment = [];
 
 
@@ -97,48 +107,76 @@ if (isset($_GET['id_'])) {
     exit();
 }
 
-
-// appointment data 
-
 ?>
 
 
 <main class="main">
     <section class="profile my-5">
-        
 
-    <?php if($data['role'] == 'doctor'){ ?>
-        <div class="row justify-content-center mb-4">
-            <div class="col-lg-10 col-12 d-grid gap-2">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#make_appointment" class="btn btn-primary">Make An Appointment</button>
+        <!-- appointment for doctor  -->
+        <?php
 
+
+        if ($data['role'] == 'doctor') { ?>
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10 col-12 d-grid gap-2">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#make_appointment" class="btn btn-primary">Make An Appointment</button>
+
+                </div>
             </div>
-        </div>
-    <?php } ?>
+            <?php } else {
+            if (isset($_SESSION['user'])) {
+
+                // rating verifying 
+                $ser_provider_id = $data['id'];
+                $rating_info = db_result("SELECT * FROM feedbacK WHERE `patient_id` = $patient_id AND `ser_provider_id` = $ser_provider_id");
+
+                if ($rating_info->num_rows > 0) {
+                    $display  = "style='display:none;'";
+                } else {
+                    $btn_rate_text = "Rate The Councilor";
+                    $display  = "style='display:block;'";
+                }
+
+
+            ?>
+                <div class="row justify-content-center mb-4">
+                    <div class="col-lg-10 col-12 d-grid gap-2">
+                        <button type="button" data-bs-toggle="modal" <?= $display ?> data-bs-target="#councilor_feedback" class="btn btn-warning">Rate the councilor</button>
+
+                    </div>
+                </div>
+        <?php }
+        } ?>
 
         <div class="row justify-content-center">
             <div class="col-lg-10 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <?= $data['f_name'] . $data['l_name'] ?>
+                        <?= ucwords($data['f_name'] . ' ' . $data['l_name']) ?>
 
                     </div>
                     <div class="card-body position-relative">
 
                         <div class=" px-3">
                             <div class="row  justify-content-center">
-                                <div class="col-12 text-center">
 
-                                    <img src=".<?= $data['profile_location'] . $data['profile_photo'] ?>" class="img-fluid rounded-start" alt="There is no photo uploaded yet">
-                                    <!-- <p class="text-center"><a href="#" data-bs-toggle="modal" data-bs-target="#change_pp">Change Photo</a></p> -->
-                                </div>
-                                <div class="col-12">
+                                <div class="col-lg-10">
                                     <div class="card-body profile-details">
+                                        <div class="col-12 my-4">
+                                            <div style="width: 15rem;" class="">
+                                                <img src="<?= $data['profile_location'] . $data['profile_photo'] ?>" class="img-fluid rounded" alt="There is no photo uploaded yet">
 
-                                        <div class="personal_info row my-2">
+                                            </div>
+
+
+                                            <!-- <p class="text-center"><a href="#" data-bs-toggle="modal" data-bs-target="#change_pp">Change Photo</a></p> -->
+                                        </div>
+
+                                        <div class="personal_info row my-2 ">
 
                                             <div class="form-group col-md-6 col-lg-6">
-                                                <h4 class="mb-0"><?= $data['f_name'] . ' ' . $data['l_name'] ?></h4>
+                                                <h4 class="mb-0"><?= ucwords($data['f_name'] . ' ' . $data['l_name'])  ?></h4>
                                             </div>
                                             <div class="form-group pb-3 text-secondary ">
                                                 <?= ucwords($data['role']) ?>
@@ -152,13 +190,13 @@ if (isset($_GET['id_'])) {
                                             </div>
 
                                             <div class="form-group py-1 col-md-6 col-lg-6">
-                                                <span><i class="fa-solid fa-cake-candles"></i> <?= $data['gender'] ?></span>
+                                                <span><i class="fa-solid fa-person-half-dress"></i> <?= ucwords($data['gender'])  ?></span>
 
                                             </div>
 
                                             <div class="form-group py-1 col-md-6 col-lg-6">
                                                 <span> <i class="fa-solid fa-graduation-cap"></i> <?= $data['education_info'] ?></span><br>
-                                                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a data-bs-toggle="modal" data-bs-target="#education_certificates" href="#">View Document</a></span>
+                                                <!-- <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a data-bs-toggle="modal" data-bs-target="#education_certificates" href="#">View Document</a></span> -->
                                             </div>
 
 
@@ -175,8 +213,21 @@ if (isset($_GET['id_'])) {
                                         </div>
 
                                         <div class="row">
+                                            <!-- contact info  -->
+                                            <div class="contact-info col-md-6 col-lg-6 row my-4">
+                                                <h5>Contact Info</h5>
+                                                <div class="form-group py-1 col-12">
+
+                                                    <span><i class="fa-solid fa-envelope"></i><a href="mailto:<?= $data['email'] ?>"><?= $data['email'] ?></a> </span>
+                                                    <!-- <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a data-bs-toggle="modal" data-bs-target="#change_email" href="#">change email</a> -->
+                                                </div>
+                                                <div class="form-group py-1 col-12">
+                                                    <span><i class="fa-brands fa-whatsapp"></i> <?= $data['phone_code'] . ' ' .  $data['phone_number'] ?></span>
+                                                </div>
+
+                                            </div>
                                             <!-- social link  -->
-                                            <div class="contact-info col-md-8 col-lg-8 row my-4">
+                                            <div class="contact-info col-md-6 col-lg-6 row my-4">
                                                 <h5>Social & others</h5>
 
                                                 <?php
@@ -186,7 +237,7 @@ if (isset($_GET['id_'])) {
 
                                                     <div class="form-group py-1 col-12">
 
-                                                        <span><?= $value['medium'] ?>: <a href="#"><?= $value['social_link'] ?></a> </span>
+                                                        <!-- <span><?= $value['medium'] ?>: <a href="<?= $value['social_link'] ?>"><?= $value['social_link'] ?></a> </span> -->
 
                                                     </div>
 
@@ -194,19 +245,7 @@ if (isset($_GET['id_'])) {
                                                 }
                                                 ?>
                                             </div>
-                                            <!-- contact info  -->
-                                            <div class="contact-info col-md-4 col-lg-4 row my-4">
-                                                <h5>Contact Info</h5>
-                                                <div class="form-group py-1 col-12">
 
-                                                    <span><i class="fa-solid fa-envelope"></i><a href="mailto:<?= $data['email'] ?>"><?= $data['email'] ?></a> </span>
-                                                    <!-- <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a data-bs-toggle="modal" data-bs-target="#change_email" href="#">change email</a> -->
-                                                </div>
-                                                <div class="form-group py-1 col-12">
-                                                    <span><i class="fa-solid fa-address-book"></i> <?= $data['phone_code'] . ' ' .  $data['phone_number'] ?></span>
-                                                </div>
-
-                                            </div>
 
                                         </div>
 
@@ -232,13 +271,13 @@ if (isset($_GET['id_'])) {
 
         </div>
 
-        <?php if($data['role'] == 'doctor'){ ?>
-        <div class="row justify-content-center mt-4">
-            <div class="col-lg-10 col-12 d-grid gap-2">
-                <button type="button"  data-bs-toggle="modal" data-bs-target="#make_appointment"  class="btn btn-primary">Make An Appointment</button>
+        <?php if ($data['role'] == 'doctor') { ?>
+            <div class="row justify-content-center mt-4">
+                <div class="col-lg-10 col-12 d-grid gap-2">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#make_appointment" class="btn btn-primary">Make An Appointment</button>
 
+                </div>
             </div>
-        </div>
         <?php } ?>
 
 
@@ -253,9 +292,12 @@ if (isset($_GET['id_'])) {
 include "./functionalities/form-validation.php";
 include_once "./layout/footer.php";
 include_once "./modals/appointment_modal.php";
+include_once "./modals/raiting.php";
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#appointment_table').DataTable();
+        $('#appointment_table').DataTable({
+            responsive: true
+        });
     });
 </script>
